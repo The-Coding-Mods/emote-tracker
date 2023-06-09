@@ -18,11 +18,11 @@ jobs:
         cache: maven
 
     - name: Package
-      run: mvn package --file backend/pom.xml
+      run: mvn package --no-transfer-progress --file backend/pom.xml
 
   checkstyle:
     name: Checkstyle
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v3
-      - run: mvn checkstyle:check --file backend/pom.xml
+      - run: mvn checkstyle:check --no-transfer-progress --file backend/pom.xml
