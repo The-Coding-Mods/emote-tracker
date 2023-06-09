@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: Emote Tracker API
+  description: The Rest API for the Emote Tracker
+  version: 1.0.0
+paths:
+  /user/register:
+    get:
+      tags:
+        - registration
+      summary: Register a new user to track the emote usage
+      operationId: registerNewUser
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          description: Twitch User ID
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully registered new user
+          content:
+            'application/json':
+              schema:
+                type: string
+        304:
+          description: Nothing was changed. User already registered
+          content:
+            'application/json':
+              schema:
+                type: string
+
+  /user/unregister:
+    get:
+      tags:
+        - registration
+      operationId: unregisterUser
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          description: Twitch User ID
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully unregistered user
+          content:
+            'application/json':
+              schema:
+                type: string
+        304:
+          description: Nothing was changed. User already unregistered/ never registered
+          content:
+            'application/json':
+              schema:
+                type: string
+
+  /user/overview:
+    get:
+      tags:
+        - user
+      operationId: getUserOverview
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully got user overview
+          content:
+            'application/json':
+              schema:
+                type: string

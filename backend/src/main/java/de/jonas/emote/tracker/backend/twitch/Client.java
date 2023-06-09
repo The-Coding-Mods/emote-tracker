@@ -1,25 +1,24 @@
 package de.jonas.emote.tracker.backend.twitch;
 
 
-import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
+import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import de.jonas.emote.tracker.backend.configuration.OAuthConfiguration;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Client {
-    private TwitchClient twitchClient;
+    private final TwitchClient twitchClient;
+    private final MessageHandler messageHandler;
 
-    @Value("${access.token}")
-    private String accessToken;
+    public Client(OAuthConfiguration oauthConfig, MessageHandler messageHandler) {
+        this.twitchClient = TwitchClientBuilder.builder().withEnableChat(true)
+                .withEnableHelix(true).withChatAccount(oauthConfig.getCredential()).build();
+        this.messageHandler = messageHandler;
 
-    @PostConstruct
-    public void construct() {
-        OAuth2Credential credential = new OAuth2Credential("twitch", accessToken);
-        twitchClient = TwitchClientBuilder.builder().withEnableChat(true)
-                .withEnableHelix(true).withChatAccount(credential).build();
+        this.twitchClient.getEventManager().onEvent(ChannelMessageEvent.class, messageHandler);
+
     }
 
     public TwitchClient getTwitchClient() {

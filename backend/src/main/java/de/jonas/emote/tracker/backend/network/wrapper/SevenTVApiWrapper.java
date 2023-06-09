@@ -1,6 +1,6 @@
 package de.jonas.emote.tracker.backend.network.wrapper;
 
-import de.jonas.emote.tracker.backend.model.origin.User;
+import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.SevenTVApi;
 import feign.hystrix.HystrixFeign;
 import feign.jackson.JacksonDecoder;
@@ -20,7 +20,7 @@ public class SevenTVApiWrapper {
                 .target(SevenTVApi.class, OFFICIAL_BASE_URL);
     }
 
-    public User getUserByTwitchId(String userId) {
+    public UserOverview7TV getUserByTwitchId(String userId) {
         return sevenTVApi.getUserByTwitchId(userId).execute();
     }
 
