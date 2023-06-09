@@ -2,11 +2,10 @@ package de.jonas.emote.tracker.backend.emotes;
 
 import de.jonas.emote.tracker.backend.model.database.Emote;
 import de.jonas.emote.tracker.backend.model.database.User;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service

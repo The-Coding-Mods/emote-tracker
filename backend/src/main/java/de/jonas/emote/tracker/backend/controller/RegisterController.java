@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class RegisterController implements UserApi {
 
@@ -24,13 +23,17 @@ public class RegisterController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> registerNewUser(@RequestParam(value = "user") @NotNull String user) {
-        return registrationService.register(user) ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+    public ResponseEntity<String> registerNewUser(
+        @RequestParam(value = "user") @NotNull String user) {
+        return registrationService.register(user)
+            ? ResponseEntity.ok().build()
+            : ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
     }
 
     @Override
     public ResponseEntity<String> unregisterUser(@RequestParam(value = "user") @NotNull String user) {
-        return registrationService.unregister(user) ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        return registrationService.unregister(user)
+            ? ResponseEntity.ok().build()
+            : ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
     }
-
 }

@@ -1,10 +1,10 @@
 package de.jonas.emote.tracker.backend.model.database;
 
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public class User {
@@ -24,4 +24,3 @@ public class User {
         emoteCounts.merge(emote, 1, Integer::sum);
     }
 }
-

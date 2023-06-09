@@ -1,9 +1,8 @@
 package de.jonas.emote.tracker.backend.model.origin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-
 import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class EmoteSet {

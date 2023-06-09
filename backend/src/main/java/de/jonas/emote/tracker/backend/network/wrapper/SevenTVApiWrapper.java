@@ -14,7 +14,8 @@ public class SevenTVApiWrapper {
     private final SevenTVApi sevenTVApi;
 
     public SevenTVApiWrapper() {
-        sevenTVApi = HystrixFeign.builder()
+        sevenTVApi =
+            HystrixFeign.builder()
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .target(SevenTVApi.class, OFFICIAL_BASE_URL);
@@ -23,5 +24,4 @@ public class SevenTVApiWrapper {
     public UserOverview7TV getUserByTwitchId(String userId) {
         return sevenTVApi.getUserByTwitchId(userId).execute();
     }
-
 }

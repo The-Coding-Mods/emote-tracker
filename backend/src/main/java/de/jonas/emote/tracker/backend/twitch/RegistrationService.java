@@ -9,10 +9,9 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import jakarta.annotation.PreDestroy;
-import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationService {
@@ -22,7 +21,11 @@ public class RegistrationService {
 
     private final SevenTVEmotes sevenTVEmotes;
 
-    public RegistrationService(SevenTVApiWrapper sevenTVApi, TwitchApiWrapper twitchApi, Client client, SevenTVEmotes sevenTVEmotes) {
+    public RegistrationService(
+        SevenTVApiWrapper sevenTVApi,
+        TwitchApiWrapper twitchApi,
+        Client client,
+        SevenTVEmotes sevenTVEmotes) {
         this.sevenTVApi = sevenTVApi;
         this.twitchApi = twitchApi;
         this.chat = client.getTwitchClient().getChat();
@@ -34,7 +37,8 @@ public class RegistrationService {
             return false;
         }
         this.chat.joinChannel(username);
-        List<User> users = this.twitchApi.getUsers(null, Collections.singletonList(username)).getUsers();
+        List<User> users =
+            this.twitchApi.getUsers(null, Collections.singletonList(username)).getUsers();
         if (users.isEmpty() || !getSevenTVEmotes(username, users.get(0).getId())) {
             unregister(username);
             return false;
@@ -59,12 +63,13 @@ public class RegistrationService {
             return false;
         }
         UserOverview7TV overview = sevenTVApi.getUserByTwitchId(userId);
-        List<Emote> emotes = overview.getEmoteSet()
-                .getEmotes()
-                .stream()
+        List<Emote> emotes =
+            overview.getEmoteSet().getEmotes().stream()
                 .map(emote -> new Emote(emote.getId(), emote.getName(), Source.SEVENTV))
                 .toList();
-        sevenTVEmotes.insertUser(new de.jonas.emote.tracker.backend.model.database.User(userId, username, overview.getId(), emotes));
+        sevenTVEmotes.insertUser(
+            new de.jonas.emote.tracker.backend.model.database.User(
+                userId, username, overview.getId(), emotes));
         return true;
     }
 }
