@@ -1,10 +1,13 @@
-name: CI
+name: Backend CI
 
 on:
   - push
 
 jobs:
   maven:
+    defaults:
+        run:
+          working-directory: ./backend
     name: Maven
     runs-on: ubuntu-latest
 
@@ -18,11 +21,14 @@ jobs:
         cache: maven
 
     - name: Package
-      run: mvn package --no-transfer-progress --file backend/pom.xml
+      run: mvn package --no-transfer-progress
 
   checkstyle:
+    defaults:
+      run:
+        working-directory: ./backend
     name: Checkstyle
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v3
-      - run: mvn checkstyle:check --no-transfer-progress --file backend/pom.xml
+      - run: mvn checkstyle:check --no-transfer-progress
