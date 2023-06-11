@@ -2,12 +2,13 @@ package de.jonas.emote.tracker.backend.twitch;
 
 import com.github.twitch4j.chat.TwitchChat;
 import com.github.twitch4j.helix.domain.User;
-import de.jonas.emote.tracker.backend.emotes.SevenTVEmotes;
 import de.jonas.emote.tracker.backend.model.database.Emote;
+import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.Source;
 import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
+import de.jonas.emote.tracker.backend.repository.UserRepository;
 import jakarta.annotation.PreDestroy;
 import java.util.Collections;
 import java.util.List;
@@ -18,18 +19,17 @@ public class RegistrationService {
     private final SevenTVApiWrapper sevenTVApi;
     private final TwitchApiWrapper twitchApi;
     private final TwitchChat chat;
-
-    private final SevenTVEmotes sevenTVEmotes;
+    private final UserRepository userRepository;
 
     public RegistrationService(
         SevenTVApiWrapper sevenTVApi,
         TwitchApiWrapper twitchApi,
         Client client,
-        SevenTVEmotes sevenTVEmotes) {
+        UserRepository userRepository) {
         this.sevenTVApi = sevenTVApi;
         this.twitchApi = twitchApi;
         this.chat = client.getTwitchClient().getChat();
-        this.sevenTVEmotes = sevenTVEmotes;
+        this.userRepository = userRepository;
     }
 
     public boolean register(String username) {
@@ -65,11 +65,25 @@ public class RegistrationService {
         UserOverview7TV overview = sevenTVApi.getUserByTwitchId(userId);
         List<Emote> emotes =
             overview.getEmoteSet().getEmotes().stream()
-                .map(emote -> new Emote(emote.getId(), emote.getName(), Source.SEVENTV))
+                .map(emote -> new Emote()
+                    .setId(emote.getId())
+                    .setName(emote.getName())
+                    .setSource(Source.SEVENTV))
                 .toList();
-        sevenTVEmotes.insertUser(
-            new de.jonas.emote.tracker.backend.model.database.User(
-                userId, username, overview.getId(), emotes));
+
+        de.jonas.emote.tracker.backend.model.database.User dbUser =
+            new de.jonas.emote.tracker.backend.model.database.User()
+                .setTwitchUserId(userId)
+                .setUsername(username)
+                .setSevenTVUserId(overview.getUser().getId());
+        // Save user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
+        dbUser = userRepository.saveAndFlush(dbUser);
+
+        List<EmoteCountMap> emoteCountMaps = EmoteCountMap.fromEmoteList(emotes, dbUser);
+        dbUser.setEmoteCounts(emoteCountMaps);
+
+        userRepository.saveAndFlush(dbUser);
+
         return true;
     }
 }

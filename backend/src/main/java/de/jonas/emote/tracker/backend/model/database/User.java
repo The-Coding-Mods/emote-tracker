@@ -1,26 +1,32 @@
 package de.jonas.emote.tracker.backend.model.database;
 
-
-import java.util.HashMap;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Setter
 @Getter
+@Entity(name = "my_user")
+@Accessors(chain = true)
 public class User {
-    private final String twitchUserId;
-    private final String username;
-    private final String sevenTVUserId;
-    private final Map<Emote, Integer> emoteCounts = new HashMap<>();
+    @Id
+    private String twitchUserId;
+    private String sevenTVUserId;
+    private String username;
 
-    public User(String twitchUserId, String username, String sevenTVUserId, List<Emote> emotes) {
-        this.twitchUserId = twitchUserId;
-        this.username = username;
-        this.sevenTVUserId = sevenTVUserId;
-        emotes.forEach(e -> emoteCounts.put(e, 0));
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<EmoteCountMap> emoteCounts;
 
     public void increaseEmoteCount(Emote emote) {
-        emoteCounts.merge(emote, 1, Integer::sum);
+        emoteCounts
+            .stream()
+            .filter(emoteCountMap -> emoteCountMap.getEmote().equals(emote))
+            .findFirst()
+            .ifPresent(EmoteCountMap::increaseCount);
     }
 }

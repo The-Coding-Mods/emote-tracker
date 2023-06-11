@@ -1,12 +1,19 @@
 package de.jonas.emote.tracker.backend.model.database;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Entity
 @Getter
-@AllArgsConstructor
+@Setter
+@Accessors(chain = true)
 public class Emote {
+
+    @Id
     private String id;
     private String name;
     private Source source;
