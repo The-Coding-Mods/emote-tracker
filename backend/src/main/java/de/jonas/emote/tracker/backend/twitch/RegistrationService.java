@@ -12,6 +12,8 @@ import de.jonas.emote.tracker.backend.repository.UserRepository;
 import jakarta.annotation.PreDestroy;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,7 +41,14 @@ public class RegistrationService {
         this.chat.joinChannel(username);
         List<User> users =
             this.twitchApi.getUsers(null, Collections.singletonList(username)).getUsers();
-        if (users.isEmpty() || !getSevenTVEmotes(username, users.get(0).getId())) {
+        if (users.isEmpty()) {
+            unregister(username);
+            return false;
+        }
+        if (userRepository.existsUserByTwitchUserId(users.get(0).getId())) {
+            return false;
+        }
+        if (!getSevenTVEmotes(username, users.get(0).getId())) {
             unregister(username);
             return false;
         }
@@ -79,9 +88,12 @@ public class RegistrationService {
         // Save user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
         dbUser = userRepository.saveAndFlush(dbUser);
 
-        List<EmoteCountMap> emoteCountMaps = EmoteCountMap.fromEmoteList(emotes, dbUser);
+        Set<EmoteCountMap> emoteCountMaps = EmoteCountMap.fromEmoteList(emotes, dbUser);
         dbUser.setEmoteCounts(emoteCountMaps);
-
+        String regex = "(?:^|(?<=\\\\s))(";
+        regex += String.join("|", emotes.stream().map(Emote::getName).collect(Collectors.toSet()));
+        regex += ")(?:$|(?=\\\\s))";
+        dbUser.setEmoteRegex(regex);
         userRepository.saveAndFlush(dbUser);
 
         return true;
