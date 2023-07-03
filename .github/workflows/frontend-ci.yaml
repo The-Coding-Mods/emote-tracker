@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  maven:
+  node:
     defaults:
       run:
         working-directory: ./frontend
@@ -18,11 +18,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Java
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
           cache: npm
+          cache-dependency-path: ./frontend
 
       - name: Install
         run: npm install
