@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@sveltejs/kit": "^1.22.3",
-    "svelte": "^4.0.3"
+    "svelte": "^4.0.5"
   },
   "devDependencies": {
     "svelte-preprocess": "^5.0.4",
