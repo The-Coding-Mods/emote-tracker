@@ -11,7 +11,7 @@
     "fix": "gts fix"
   },
   "dependencies": {
-    "@sveltejs/kit": "^1.21.0",
+    "@sveltejs/kit": "^1.22.3",
     "svelte": "^4.0.3"
   },
   "devDependencies": {
