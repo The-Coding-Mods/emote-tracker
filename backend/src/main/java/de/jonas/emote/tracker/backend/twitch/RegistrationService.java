@@ -9,14 +9,17 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import de.jonas.emote.tracker.backend.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class RegistrationService {
     private final SevenTVApiWrapper sevenTVApi;
     private final TwitchApiWrapper twitchApi;
@@ -45,7 +48,7 @@ public class RegistrationService {
             unregister(username);
             return false;
         }
-        if (userRepository.existsUserByTwitchUserId(users.get(0).getId())) {
+        if (Boolean.TRUE.equals(userRepository.existsUserByTwitchUserId(users.get(0).getId()))) {
             return false;
         }
         if (!getSevenTVEmotes(username, users.get(0).getId())) {
@@ -97,5 +100,14 @@ public class RegistrationService {
         userRepository.saveAndFlush(dbUser);
 
         return true;
+    }
+
+    @PostConstruct
+    public void initializeUsersAfterStart() {
+        for (final var user : userRepository.findAll()) {
+            log.info("Subscribe to already registered users twitch channel: {}", user.getUsername());
+            register(user.getUsername());
+        }
+
     }
 }
