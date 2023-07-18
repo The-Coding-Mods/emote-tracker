@@ -43,6 +43,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.4.4
     version: 3.4.4(postcss-load-config@4.0.1)(postcss@8.4.26)(svelte@4.0.5)
+  svelte-loading-spinners:
+    specifier: ^0.3.4
+    version: 0.3.4
   svelte-preprocess:
     specifier: ^5.0.4
     version: 5.0.4(postcss-load-config@4.0.1)(postcss@8.4.26)(svelte@4.0.5)(typescript@5.1.6)
@@ -2515,6 +2518,10 @@ packages:
       svelte: ^3.19.0 || ^4.0.0-next.0
     dependencies:
       svelte: 4.0.5
+
+  /svelte-loading-spinners@0.3.4:
+    resolution: {integrity: sha512-vKaW71QMCBcTNijAGc0mUl8k3DQ66iYmp6MB8BMGCXyWk82bTrcLy8FOnSm9fE+8q6TwzD6PLUoYFHt0II93Xw==}
+    dev: true
 
   /svelte-preprocess@5.0.4(postcss-load-config@4.0.1)(postcss@8.4.26)(svelte@4.0.5)(typescript@5.1.6):
     resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}

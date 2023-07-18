@@ -1,7 +1,9 @@
-package de.jonas.emote.tracker.backend.controller;
+package user;
 
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
+import de.jonas.emote.tracker.backend.api.model.Emote;
 import de.jonas.emote.tracker.backend.twitch.RegistrationService;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController implements UserApi {
 
     private final RegistrationService registrationService;
+    private final UserService userService;
 
-    public RegisterController(RegistrationService registrationService) {
+    public RegisterController(RegistrationService registrationService, UserService userService) {
         this.registrationService = registrationService;
+        this.userService = userService;
+    }
+
+    @Override
+    public ResponseEntity<List<Emote>> getTopEmoteCount(String userId, Boolean isTop) {
+        if (Boolean.TRUE.equals(isTop)) {
+            userService.getTop5Emotes(userId);
+        } else {
+            userService.getBottom5Emotes(userId);
+        }
+        return null;
     }
 
     @Override
