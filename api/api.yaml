@@ -8,7 +8,7 @@ paths:
     get:
       tags:
         - registration
-      summary: Register a new de.jonas.emote.tracker.backend.user to track the emote usage
+      summary: Register a new user to track the emote usage
       operationId: registerNewUser
       parameters:
         - in: query
@@ -19,7 +19,7 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully registered new de.jonas.emote.tracker.backend.user
+          description: Successfully registered new user
           content:
             'application/json':
               schema:
@@ -45,7 +45,7 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully unregistered de.jonas.emote.tracker.backend.user
+          description: Successfully unregistered user
           content:
             'application/json':
               schema:
@@ -60,7 +60,7 @@ paths:
   /user/overview:
     get:
       tags:
-        - de.jonas.emote.tracker.backend.user
+        - user
       operationId: getUserOverview
       parameters:
         - in: query
@@ -69,7 +69,7 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully got de.jonas.emote.tracker.backend.user overview
+          description: Successfully got user overview
           content:
             'application/json':
               schema:
@@ -78,7 +78,7 @@ paths:
   /user/{userId}/emotes/count/top:
     get:
       tags:
-        - de.jonas.emote.tracker.backend.user
+        - user
       operationId: getTopEmoteCount
       parameters:
         - in: path
