@@ -8,7 +8,7 @@ paths:
     get:
       tags:
         - registration
-      summary: Register a new user to track the emote usage
+      summary: Register a new de.jonas.emote.tracker.backend.user to track the emote usage
       operationId: registerNewUser
       parameters:
         - in: query
@@ -19,7 +19,7 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully registered new user
+          description: Successfully registered new de.jonas.emote.tracker.backend.user
           content:
             'application/json':
               schema:
@@ -45,7 +45,7 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully unregistered user
+          description: Successfully unregistered de.jonas.emote.tracker.backend.user
           content:
             'application/json':
               schema:
@@ -60,7 +60,7 @@ paths:
   /user/overview:
     get:
       tags:
-        - user
+        - de.jonas.emote.tracker.backend.user
       operationId: getUserOverview
       parameters:
         - in: query
@@ -69,8 +69,45 @@ paths:
             type: string
       responses:
         200:
-          description: Successfully got user overview
+          description: Successfully got de.jonas.emote.tracker.backend.user overview
           content:
             'application/json':
               schema:
                 type: string
+
+  /user/{userId}/emotes/count/top:
+    get:
+      tags:
+        - de.jonas.emote.tracker.backend.user
+      operationId: getTopEmoteCount
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: isTop
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Successfully retrieved top/bottom 5 emotes based on their usage count
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emote'
+
+components:
+  schemas:
+    Emote:
+      type: object
+      properties:
+        id:
+          type: string
+        count:
+          type: integer
+          format: int32

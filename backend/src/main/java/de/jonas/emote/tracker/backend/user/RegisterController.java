@@ -1,4 +1,4 @@
-package user;
+package de.jonas.emote.tracker.backend.user;
 
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
@@ -24,11 +24,10 @@ public class RegisterController implements UserApi {
     @Override
     public ResponseEntity<List<Emote>> getTopEmoteCount(String userId, Boolean isTop) {
         if (Boolean.TRUE.equals(isTop)) {
-            userService.getTop5Emotes(userId);
+            return ResponseEntity.ok(userService.getTop5Emotes(userId));
         } else {
-            userService.getBottom5Emotes(userId);
+            return ResponseEntity.ok(userService.getBottom5Emotes(userId));
         }
-        return null;
     }
 
     @Override
