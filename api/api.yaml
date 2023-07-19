@@ -101,6 +101,27 @@ paths:
                 items:
                   $ref: '#/components/schemas/Emote'
 
+  /user/{userId}/emotes/count/no-usage:
+    get:
+      tags:
+        - user
+      operationId: getEmotesWitNoUsage
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Get all emotes without usage
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emote'
+
 components:
   schemas:
     Emote:

@@ -16,13 +16,24 @@ public class UserService {
     }
 
     public List<Emote> getTop5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, 5).stream()
-            .map(converter::convert).toList();
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, 5)
+            .stream()
+            .map(converter::convert)
+            .toList();
 
     }
 
     public List<Emote> getBottom5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, 5).stream()
-            .map(converter::convert).toList();
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, 5)
+            .stream()
+            .map(converter::convert)
+            .toList();
+    }
+
+    public List<Emote> getEmotesWithNrUsage(String userId, int count) {
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdAndCountIsLessThanEqual(userId, count)
+            .stream()
+            .map(converter::convert)
+            .toList();
     }
 }

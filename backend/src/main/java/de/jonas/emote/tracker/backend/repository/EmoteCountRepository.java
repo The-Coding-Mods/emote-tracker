@@ -12,4 +12,6 @@ public interface EmoteCountRepository extends JpaRepository<EmoteCountMap, Strin
     List<EmoteCountMap> getEmoteCountMapsByUserTwitchUserIdOrderByCount(String userId);
 
     List<EmoteCountMap> getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(String userId);
+
+    List<EmoteCountMap> getEmoteCountMapsByUserTwitchUserIdAndCountIsLessThanEqual(String userId, Integer count);
 }

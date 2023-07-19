@@ -30,6 +30,11 @@ public class RegisterController implements UserApi {
         }
     }
 
+
+    @Override
+    public ResponseEntity<List<Emote>> getEmotesWitNoUsage(String userId) {
+        return ResponseEntity.ok(userService.getEmotesWithNrUsage(userId, 0));
+    }
     @Override
     public ResponseEntity<String> getUserOverview(String userId) {
         return null;
