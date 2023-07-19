@@ -88,7 +88,7 @@ public class RegistrationService {
                 .setTwitchUserId(userId)
                 .setUsername(username)
                 .setSevenTVUserId(overview.getUser().getId());
-        // Save de.jonas.emote.tracker.backend.user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
+        // Save user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
         dbUser = userRepository.saveAndFlush(dbUser);
 
         Set<EmoteCountMap> emoteCountMaps = EmoteCountMap.fromEmoteList(emotes, dbUser);
