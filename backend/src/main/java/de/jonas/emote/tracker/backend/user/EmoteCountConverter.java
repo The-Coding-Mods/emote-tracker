@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public class EmoteCountConverter implements Converter<EmoteCountMap, Emote> {
     @Override
     public Emote convert(EmoteCountMap source) {
-        return new Emote().count(source.getCount()).id(source.getEmote().getId());
+        return new Emote().count(source.getCount()).id(source.getEmote().getId()).name(source.getEmote().getName());
     }
 }

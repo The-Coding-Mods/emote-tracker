@@ -1,12 +1,14 @@
 <script lang="ts">
 
     import {Shadow} from "svelte-loading-spinners";
+    import {Configuration, UserApi} from "../../api";
 
+    const userApi = new UserApi(new Configuration({basePath: "http://localhost:8080"}));
     export let isTop: boolean;
-    let promise = new Promise(() => true);
+    let promise = userApi.getTopEmoteCount({userId: "40646018", isTop: isTop});
 </script>
 
-<div class="flex flex-col mx-2 min-w-[20rem] rounded-2xl bg-zinc-700 drop-shadow-lg">
+<div class="flex flex-col justify-between mx-2 min-w-[20rem] rounded-2xl bg-zinc-700 drop-shadow-lg">
     <h1 class="text-3xl flex justify-center p-1.5">
         {#if isTop}
             Top
@@ -17,6 +19,29 @@
     {#await promise}
         <div class="flex justify-center my-5">
             <Shadow size="2" unit="rem" color="rgb(101 163 13)"/>
+        </div>
+    {:then emotes}
+        <div class="">
+            <table class="border-separate p-4 table-fixed">
+                <thead>
+                <th colspan="3" class="">Emote</th>
+                <th>Count</th>
+                </thead>
+                <tbody>
+                {#each emotes as emote, i (emote.id)}
+                    <tr class="">
+                        <td class="p-4">#{i + 1}</td>
+                        <td class="">{emote.name}</td>
+                        <td class="">
+                            <a href="https://7tv.app/emotes/{emote.id}" target="_blank" rel="noopener noreferrer">
+                                <img class="mx-1" src="https://cdn.7tv.app/emote/{emote.id}/2x.webp" width="64"/>
+                            </a>
+                        </td>
+                        <td class="">{emote.count}</td>
+                    </tr>
+                {/each}
+                </tbody>
+            </table>
         </div>
     {/await}
 </div>

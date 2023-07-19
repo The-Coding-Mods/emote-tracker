@@ -108,6 +108,8 @@ components:
       properties:
         id:
           type: string
+        name:
+          type: string
         count:
           type: integer
           format: int32

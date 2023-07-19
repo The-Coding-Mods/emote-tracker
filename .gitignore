@@ -64,3 +64,5 @@ build/
 */libpeerconnection.log
 */testem.log
 */typings
+
+frontend/src/api/

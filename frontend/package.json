@@ -8,9 +8,11 @@
     "dev": "vite dev",
     "lint": "gts lint && svelte-check",
     "clean": "gts clean",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "generate api": "openapi-generator-cli generate --generator-key all"
   },
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@sveltejs/kit": "^1.22.3",
     "svelte": "^4.0.5"
   },
