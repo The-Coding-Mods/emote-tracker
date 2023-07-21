@@ -11,16 +11,15 @@ import org.springframework.stereotype.Component;
 public class Client {
     private final TwitchClient twitchClient;
 
-    public Client(OAuthConfiguration oauthConfig, MessageHandler messageHandler) {
-        this.twitchClient =
-            TwitchClientBuilder.builder()
-                .withEnableChat(true)
-                .withEnableHelix(true)
-                .withChatAccount(oauthConfig.getCredential())
-                .build();
+    public Client(OAuthConfiguration oauthConfig, MessageHandler messageHandler, LiveEventHandler liveEventHandler) {
+        this.twitchClient = TwitchClientBuilder.builder()
+            .withEnableChat(true)
+            .withEnableHelix(true)
+            .withChatAccount(oauthConfig.getCredential())
+            .build();
 
         this.twitchClient.getEventManager().onEvent(ChannelMessageEvent.class, messageHandler);
-        //this.twitchClient.getEventManager().onEvent(ChannelGoLiveEvent.class, liveEventHandler)
+        this.twitchClient.getEventManager().onEvent(ChannelGoLiveEvent.class, liveEventHandler);
     }
 
     public TwitchClient getTwitchClient() {
