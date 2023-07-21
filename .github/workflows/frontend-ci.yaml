@@ -33,7 +33,7 @@ jobs:
           version: 8.6.*
 
       - name: Generate api code
-        run: pnpm generate api
+        run: pnpm "generate api"
 
       - name: Install dependencies
         run: pnpm install
