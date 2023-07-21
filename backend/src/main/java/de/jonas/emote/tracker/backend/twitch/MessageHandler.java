@@ -4,7 +4,7 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.User;
 import de.jonas.emote.tracker.backend.repository.EmoteCountRepository;
-import de.jonas.emote.tracker.backend.repository.UserRepository;
+import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.function.Consumer;

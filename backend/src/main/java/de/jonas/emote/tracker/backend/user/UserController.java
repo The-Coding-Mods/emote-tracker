@@ -2,7 +2,6 @@ package de.jonas.emote.tracker.backend.user;
 
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
-import de.jonas.emote.tracker.backend.twitch.RegistrationService;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -11,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RegisterController implements UserApi {
-
+public class UserController implements UserApi {
     private final RegistrationService registrationService;
     private final UserService userService;
 
-    public RegisterController(RegistrationService registrationService, UserService userService) {
+    public UserController(RegistrationService registrationService, UserService userService) {
         this.registrationService = registrationService;
         this.userService = userService;
     }
@@ -30,11 +28,11 @@ public class RegisterController implements UserApi {
         }
     }
 
-
     @Override
     public ResponseEntity<List<Emote>> getEmotesWitNoUsage(String userId) {
         return ResponseEntity.ok(userService.getEmotesWithNrUsage(userId, 0));
     }
+
     @Override
     public ResponseEntity<String> getUserOverview(String userId) {
         return null;

@@ -16,7 +16,7 @@ public class UserService {
     }
 
     public List<Emote> getTop5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, 5)
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, 10)
             .stream()
             .map(converter::convert)
             .toList();
@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public List<Emote> getBottom5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, 5)
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, 10)
             .stream()
             .map(converter::convert)
             .toList();

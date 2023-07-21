@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.repository;
+package de.jonas.emote.tracker.backend.user;
 
 import de.jonas.emote.tracker.backend.model.database.Emote;
 import de.jonas.emote.tracker.backend.model.database.User;
