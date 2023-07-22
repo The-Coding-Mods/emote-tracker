@@ -22,7 +22,7 @@ public class CorsConfiguration implements Filter {
         throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
         filterChain.doFilter(servletRequest, servletResponse);

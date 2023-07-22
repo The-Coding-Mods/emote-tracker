@@ -121,6 +121,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Emote'
+  /user/{userId}/emotes/update:
+    patch:
+      tags:
+        - user
+      operationId: updateEmotesForUser
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Updated emote set successfully
 
 components:
   schemas:

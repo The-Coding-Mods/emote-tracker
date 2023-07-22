@@ -20,9 +20,28 @@ public class SevenTVService {
         this.userRepository = userRepository;
     }
 
+    public static String buildRegexString(List<Emote> emotes) {
+        String regex = "(?:^|(?<=\\\\s))(";
+        regex += String.join("|", emotes.stream().map(Emote::getName).collect(Collectors.toSet()));
+        regex += ")(?:$|(?=\\\\s))";
+        return regex;
+    }
 
     public UserOverview7TV get7TvUserOverview(String userId) {
         return sevenTVApi.getUserByTwitchId(userId);
+    }
+
+    public List<Emote> getSevenTVEmotes(UserOverview7TV userOverview) {
+        if (userOverview == null) {
+            return new ArrayList<>();
+        }
+        return userOverview.getEmoteSet().getEmotes().stream()
+            .map(emote -> new Emote()
+                .setId(emote.getId())
+                .setName(emote.getName())
+                .setSource(Source.SEVENTV))
+            .toList();
+
     }
 
     public List<Emote> getSevenTVEmotes(String userId) {
@@ -39,10 +58,4 @@ public class SevenTVService {
 
     }
 
-    public static String buildRegexString(List<Emote> emotes) {
-        String regex = "(?:^|(?<=\\\\s))(";
-        regex += String.join("|", emotes.stream().map(Emote::getName).collect(Collectors.toSet()));
-        regex += ")(?:$|(?=\\\\s))";
-        return regex;
-    }
 }
