@@ -22,7 +22,7 @@
         {:else}
             Bottom
         {/if}
-        5 emotes</h1>
+        {count} emotes</h1>
     {#await promise}
         <div class="flex justify-center my-5">
             <Shadow size="2" unit="rem" color="rgb(101 163 13)"/>
@@ -38,9 +38,9 @@
                     <tr class="">
                         <td class="p-4">#{i + 1}</td>
                         <td class="">{truncate(emote.name, 14)}</td>
-                        <td class="h-[65px]">
+                        <td class="">
                             <a href="https://7tv.app/emotes/{emote.id}" target="_blank" rel="noopener noreferrer">
-                                <img class="mx-1" src="https://cdn.7tv.app/emote/{emote.id}/2x.webp" width="64" height="64" loading="lazy"
+                                <img class="mx-1 aspect-square object-contain" src="https://cdn.7tv.app/emote/{emote.id}/2x.webp" width="64"
                                      alt="Emote with the name {emote.name}"/>
                             </a>
                         </td>

@@ -36,12 +36,12 @@
             </button>
             <!-- Carousel -->
             <div bind:this={elemMovies}
-                 class="snap-x snap-mandatory scroll-smooth flex gap-2 pb-2 overflow-x-auto items-center">
+                 class="snap-x snap-mandatory scroll-smooth flex gap-2 pb-2 overflow-x-auto">
                 {#each emotes as emote}
                     <a href="https://7tv.app/emotes/{emote.id}" target="_blank" rel="noopener noreferrer"
-                       class="snap-start h-full shrink-0 w-[25%] hover:brightness-125">
-                        <img class="mx-1" src="https://cdn.7tv.app/emote/{emote.id}/4x.webp"
-                             alt="Emote with the name {emote.name}"/>
+                       class="snap-start shrink-0 w-[25%] hover:brightness-125">
+                        <img class="mx-1 aspect-square object-contain" src="https://cdn.7tv.app/emote/{emote.id}/4x.webp"
+                             alt="Emote with the name {emote.name}" width="128"/>
                     </a>
                 {/each}
             </div>

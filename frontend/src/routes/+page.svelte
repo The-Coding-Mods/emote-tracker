@@ -4,11 +4,10 @@
     import Usage from "$lib/components/Usage.svelte";
 </script>
 
-<Header/>
 <main class="">
     <div class="flex justify-evenly">
-        <TopList isTop={true} count={5}/>
-        <TopList isTop={false} count={5}/>
+        <TopList isTop={true} count={10}/>
+        <TopList isTop={false} count={10}/>
     </div>
     <Usage/>
 </main>
