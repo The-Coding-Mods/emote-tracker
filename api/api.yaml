@@ -79,7 +79,7 @@ paths:
     get:
       tags:
         - user
-      operationId: getTopEmoteCount
+      operationId: getTopEmotes
       parameters:
         - in: path
           name: userId
@@ -87,13 +87,41 @@ paths:
           schema:
             type: string
         - in: query
-          name: isTop
+          name: count
           required: true
           schema:
-            type: boolean
+            type: integer
+            format: int32
       responses:
         200:
-          description: Successfully retrieved top/bottom 5 emotes based on their usage count
+          description: Successfully retrieved top emotes based on their usage count
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emote'
+
+  /user/{userId}/emotes/count/bottom:
+    get:
+      tags:
+        - user
+      operationId: getBottomEmotes
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: count
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Successfully retrieved bottom emotes based on their usage count
           content:
             'application/json':
               schema:
@@ -121,6 +149,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Emote'
+
   /user/{userId}/emotes/update:
     patch:
       tags:

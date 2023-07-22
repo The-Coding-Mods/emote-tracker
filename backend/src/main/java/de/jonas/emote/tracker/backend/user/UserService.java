@@ -15,16 +15,16 @@ public class UserService {
         this.converter = converter;
     }
 
-    public List<Emote> getTop5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, 10)
+    public List<Emote> getTopEmotes(String userId, Integer count) {
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCountDesc(userId).subList(0, count)
             .stream()
             .map(converter::convert)
             .toList();
 
     }
 
-    public List<Emote> getBottom5Emotes(String userId) {
-        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, 10)
+    public List<Emote> getBottomEmotes(String userId, Integer count) {
+        return countRepository.getEmoteCountMapsByUserTwitchUserIdOrderByCount(userId).subList(0, count)
             .stream()
             .map(converter::convert)
             .toList();

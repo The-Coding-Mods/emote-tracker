@@ -7,8 +7,8 @@
 <Header/>
 <main class="">
     <div class="flex justify-evenly">
-        <TopList isTop={true}/>
-        <TopList isTop={false}/>
+        <TopList isTop={true} count={5}/>
+        <TopList isTop={false} count={5}/>
     </div>
     <Usage/>
 </main>

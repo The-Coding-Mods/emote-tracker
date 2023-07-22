@@ -22,12 +22,13 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<Emote>> getTopEmoteCount(String userId, Boolean isTop) {
-        if (Boolean.TRUE.equals(isTop)) {
-            return ResponseEntity.ok(userService.getTop5Emotes(userId));
-        } else {
-            return ResponseEntity.ok(userService.getBottom5Emotes(userId));
-        }
+    public ResponseEntity<List<Emote>> getBottomEmotes(String userId, Integer count) {
+        return ResponseEntity.ok(userService.getBottomEmotes(userId, count));
+    }
+
+    @Override
+    public ResponseEntity<List<Emote>> getTopEmotes(String userId, Integer count) {
+        return ResponseEntity.ok(userService.getTopEmotes(userId, count));
     }
 
     @Override

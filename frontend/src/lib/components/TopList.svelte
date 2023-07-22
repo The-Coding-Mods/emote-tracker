@@ -11,7 +11,8 @@
 
     const userApi = new UserApi(new Configuration({basePath: "http://localhost:8080"}));
     export let isTop!: boolean;
-    let promise = userApi.getTopEmoteCount({userId: "40646018", isTop});
+    export let count!: number;
+    let promise = isTop ? userApi.getTopEmotes({userId: "40646018", count}) : userApi.getBottomEmotes({userId: "40646018", count});
 </script>
 
 <div class="flex flex-col mx-2 min-w-[22rem] rounded-2xl bg-zinc-700 drop-shadow-lg">
