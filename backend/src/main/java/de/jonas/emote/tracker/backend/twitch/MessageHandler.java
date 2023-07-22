@@ -3,7 +3,7 @@ package de.jonas.emote.tracker.backend.twitch;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.User;
-import de.jonas.emote.tracker.backend.repository.EmoteCountRepository;
+import de.jonas.emote.tracker.backend.emote.EmoteCountRepository;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -36,8 +36,7 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         User dbUser = userRepository.getUserByTwitchUserId(userId);
         List<String> matches =
             Pattern.compile(dbUser.getEmoteRegex()).matcher(message).results().map(MatchResult::group).toList();
-        List<EmoteCountMap> emoteCounts =
-            countRepository.getEmoteCountMapsByUserTwitchUserId(event.getChannel().getId());
+        List<EmoteCountMap> emoteCounts = countRepository.getEmotesByUserId(event.getChannel().getId());
         for (var match : matches) {
             emoteCounts
                 .stream()
