@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
+
     export let title: string;
     export let learnMore: string;
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Header from "$lib/components/Header.svelte";
     import TopList from "$lib/components/TopList.svelte";
     import Usage from "$lib/components/Usage.svelte";
 </script>
