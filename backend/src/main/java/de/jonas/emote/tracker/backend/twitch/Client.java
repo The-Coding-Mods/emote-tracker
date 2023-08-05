@@ -5,6 +5,7 @@ import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
 import de.jonas.emote.tracker.backend.configuration.OAuthConfiguration;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,5 +25,25 @@ public class Client {
 
     public TwitchClient getTwitchClient() {
         return twitchClient;
+    }
+
+    public boolean leaveChannel(String username) {
+        return this.twitchClient.getChat().leaveChannel(username);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        for (String channel : this.twitchClient.getChat().getChannels()) {
+            this.twitchClient.getChat().leaveChannel(channel);
+        }
+        this.twitchClient.getChat().disconnect();
+    }
+
+    public boolean isChannelJoined(String username) {
+        return this.twitchClient.getChat().isChannelJoined(username);
+    }
+
+    public void joinChannel(String username) {
+        this.twitchClient.getChat().joinChannel(username);
     }
 }

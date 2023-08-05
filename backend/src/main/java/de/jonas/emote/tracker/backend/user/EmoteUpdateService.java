@@ -4,28 +4,33 @@ import de.jonas.emote.tracker.backend.emote.SevenTVService;
 import de.jonas.emote.tracker.backend.model.database.Emote;
 import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.User;
+import de.jonas.emote.tracker.backend.twitch.MessageHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmoteUpdateService {
     private final SevenTVService sevenTVService;
     private final UserRepository userRepository;
+    private final MessageHandler messageHandler;
 
-    public EmoteUpdateService(SevenTVService sevenTVService, UserRepository userRepository) {
+    public EmoteUpdateService(SevenTVService sevenTVService, UserRepository userRepository,
+                              MessageHandler messageHandler) {
         this.sevenTVService = sevenTVService;
         this.userRepository = userRepository;
+        this.messageHandler = messageHandler;
     }
 
     public void updateUserEmotes(String userId) {
+        messageHandler.pause(userId);
         User user = userRepository.getUserByTwitchUserId(userId);
         List<Emote> oldEmotes = user.getEmoteCounts()
             .stream()
             .filter(EmoteCountMap::isEnabled)
-            .map(EmoteCountMap::getEmote).toList();
+            .map(EmoteCountMap::getEmote)
+            .toList();
 
         List<Emote> newEmotes = sevenTVService.getSevenTVEmotes(userId);
 
@@ -45,16 +50,17 @@ public class EmoteUpdateService {
         }
 
         Set<EmoteCountMap> emoteCountMap = user.getEmoteCounts();
-        emoteCountMap = emoteCountMap
-            .stream()
-            .filter(e -> removed.contains(e.getEmote()))
-            .map(e -> e.setEnabled(false))
-            .collect(Collectors.toSet());
+        emoteCountMap.forEach(e -> {
+            if (removed.contains(e.getEmote())) {
+                e.setEnabled(false);
+            }
+        });
         emoteCountMap.addAll(EmoteCountMap.fromEmoteList(added, user));
 
         user.setEmoteCounts(emoteCountMap);
         user.setEmoteRegex(SevenTVService.buildRegexString(newEmotes));
 
         userRepository.saveAndFlush(user);
+        messageHandler.start(userId);
     }
 }

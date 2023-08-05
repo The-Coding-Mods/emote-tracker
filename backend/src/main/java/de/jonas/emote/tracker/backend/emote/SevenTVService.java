@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SevenTVService {
     private final SevenTVApiWrapper sevenTVApi;
-    private final UserRepository userRepository;
 
-    public SevenTVService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository) {
+    public SevenTVService(SevenTVApiWrapper sevenTVApi) {
         this.sevenTVApi = sevenTVApi;
-        this.userRepository = userRepository;
     }
 
     public static String buildRegexString(List<Emote> emotes) {

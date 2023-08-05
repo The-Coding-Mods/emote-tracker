@@ -6,7 +6,9 @@ import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.User;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -20,6 +22,8 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
     private final EmoteCountRepository countRepository;
     private final UserRepository userRepository;
 
+    private final Map<String, Boolean> isPaused = new HashMap<>();
+
     public MessageHandler(EmoteCountRepository countRepository, UserRepository userRepository) {
         this.countRepository = countRepository;
         this.userRepository = userRepository;
@@ -28,6 +32,9 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
     @Override
     @Transactional
     public void accept(ChannelMessageEvent event) {
+        if (isPaused.getOrDefault(event.getChannel().getId(), true)) {
+            return;
+        }
         final long startTime = System.currentTimeMillis();
         String userId = event.getChannel().getId();
         String message = event.getMessage();
@@ -47,5 +54,15 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         log.debug("Emote count: {}", emoteCounts.toString());
         countRepository.saveAllAndFlush(emoteCounts);
         log.info("Took {} ms to process message", System.currentTimeMillis() - startTime);
+    }
+
+    public void pause(String userId) {
+        log.info("Pause MessageHandler for {}", userId);
+        this.isPaused.put(userId, true);
+    }
+
+    public void start(String userId) {
+        log.info("Start MessageHandler for {}", userId);
+        this.isPaused.put(userId, false);
     }
 }
