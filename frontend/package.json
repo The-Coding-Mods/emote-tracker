@@ -15,7 +15,7 @@
     "@openapitools/openapi-generator-cli": "^2.7.0",
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.22.4",
-    "svelte": "^4.1.2"
+    "svelte": "^4.2.0"
   },
   "devDependencies": {
     "@skeletonlabs/skeleton": "^1.11.0",
