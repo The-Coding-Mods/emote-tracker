@@ -20,7 +20,7 @@
   "devDependencies": {
     "@skeletonlabs/skeleton": "^1.11.0",
     "@sveltejs/adapter-auto": "^2.1.0",
-    "@types/node": "^20.5.0",
+    "@types/node": "^20.5.1",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.46.0",
     "eslint-plugin-svelte": "^2.32.4",
