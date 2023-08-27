@@ -35,4 +35,18 @@ public class UserService {
             .map(converter::convert)
             .toList();
     }
+
+    public List<Emote> getEmotesAboveAverage(String userId) {
+        return countRepository.getEmotesAboveAverage(userId)
+            .stream()
+            .map(converter::convert)
+            .toList();
+    }
+
+    public List<Emote> getEmotesBelowAverage(String userId) {
+        return countRepository.getEmotesBelowAverage(userId)
+            .stream()
+            .map(converter::convert)
+            .toList();
+    }
 }

@@ -1,11 +1,14 @@
 package de.jonas.emote.tracker.backend.model.database;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.util.HashSet;
 import java.util.List;
@@ -29,12 +32,16 @@ public class EmoteCountMap {
     private Emote emote;
     private Integer count;
     @ManyToOne(cascade = CascadeType.ALL)
-    private User user;
+    private Streamer streamer;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "unique_users", joinColumns = @JoinColumn(name = "emotecount_id"))
+    private Set<String> uniqueUsers;
     private boolean enabled = true;
 
-    public static Set<EmoteCountMap> fromEmoteList(List<Emote> emotes, User user) {
+    public static Set<EmoteCountMap> fromEmoteList(List<Emote> emotes, Streamer user) {
         Set<EmoteCountMap> emoteCounts = new HashSet<>();
-        emotes.forEach(e -> emoteCounts.add(new EmoteCountMap().setEmote(e).setUser(user).setCount(0)));
+        emotes.forEach(e -> emoteCounts.add(new EmoteCountMap().setEmote(e).setStreamer(user).setCount(0)));
         return emoteCounts;
     }
 
@@ -56,11 +63,11 @@ public class EmoteCountMap {
             return false;
         }
         EmoteCountMap that = (EmoteCountMap) o;
-        return Objects.equals(emote, that.emote) && Objects.equals(user, that.user);
+        return Objects.equals(emote, that.emote) && Objects.equals(streamer, that.streamer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emote, user);
+        return Objects.hash(emote, streamer);
     }
 }

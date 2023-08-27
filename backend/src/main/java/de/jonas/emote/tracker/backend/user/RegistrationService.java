@@ -6,6 +6,7 @@ import com.github.twitch4j.helix.domain.User;
 import de.jonas.emote.tracker.backend.emote.SevenTVService;
 import de.jonas.emote.tracker.backend.model.database.Emote;
 import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
+import de.jonas.emote.tracker.backend.model.database.Streamer;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.Client;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
@@ -48,7 +49,7 @@ public class RegistrationService {
             return false;
         }
         String userId = users.get(0).getId();
-        if (Boolean.TRUE.equals(userRepository.existsUserByTwitchUserId(userId))) {
+        if (Boolean.TRUE.equals(userRepository.existsStreamerByTwitchUserId(userId))) {
             return false;
         }
         List<Emote> emotes = sevenTVService.getSevenTVEmotes(userId);
@@ -57,8 +58,8 @@ public class RegistrationService {
             return false;
         }
 
-        de.jonas.emote.tracker.backend.model.database.User
-            user = new de.jonas.emote.tracker.backend.model.database.User()
+        Streamer
+            user = new Streamer()
             .setTwitchUserId(userId)
             .setUsername(username)
             .setSevenTVUserId(sevenTVService.get7TvUserOverview(userId).getUser().getId());

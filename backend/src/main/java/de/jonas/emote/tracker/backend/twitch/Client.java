@@ -6,8 +6,10 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
 import de.jonas.emote.tracker.backend.configuration.OAuthConfiguration;
 import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class Client {
     private final TwitchClient twitchClient;
@@ -21,10 +23,6 @@ public class Client {
 
         this.twitchClient.getEventManager().onEvent(ChannelMessageEvent.class, messageHandler);
         this.twitchClient.getEventManager().onEvent(ChannelGoLiveEvent.class, liveEventHandler);
-    }
-
-    public TwitchClient getTwitchClient() {
-        return twitchClient;
     }
 
     public boolean leaveChannel(String username) {

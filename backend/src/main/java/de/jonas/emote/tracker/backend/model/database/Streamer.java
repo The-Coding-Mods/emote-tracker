@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
 
 @Setter
 @Getter
-@Entity(name = "my_user")
+@Entity
 @Accessors(chain = true)
-public class User {
+public class Streamer {
     @Id
     private String twitchUserId;
     private String sevenTVUserId;

@@ -37,6 +37,16 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public ResponseEntity<List<Emote>> getAboveAverageEmotes(String userId) {
+        return ResponseEntity.ok(userService.getEmotesAboveAverage(userId));
+    }
+
+    @Override
+    public ResponseEntity<List<Emote>> getBelowAverageEmotes(String userId) {
+        return ResponseEntity.ok(userService.getEmotesBelowAverage(userId));
+    }
+
+    @Override
     public ResponseEntity<String> getUserOverview(String userId) {
         return null;
     }

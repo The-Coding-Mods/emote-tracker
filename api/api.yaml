@@ -129,6 +129,48 @@ paths:
                 items:
                   $ref: '#/components/schemas/Emote'
 
+  /user/{userId}/emotes/count/above-average:
+    get:
+      tags:
+        - user
+      operationId: getAboveAverageEmotes
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully retrieved bottom emotes based on their usage count
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emote'
+
+  /user/{userId}/emotes/count/below-average:
+    get:
+      tags:
+        - user
+      operationId: getBelowAverageEmotes
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully retrieved bottom emotes based on their usage count
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Emote'
+
   /user/{userId}/emotes/count/no-usage:
     get:
       tags:

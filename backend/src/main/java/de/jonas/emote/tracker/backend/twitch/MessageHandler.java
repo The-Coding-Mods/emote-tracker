@@ -1,14 +1,15 @@
 package de.jonas.emote.tracker.backend.twitch;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import de.jonas.emote.tracker.backend.emote.EmoteCountRepository;
 import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
-import de.jonas.emote.tracker.backend.model.database.User;
+import de.jonas.emote.tracker.backend.model.database.Streamer;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -19,13 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageHandler implements Consumer<ChannelMessageEvent> {
 
-    private final EmoteCountRepository countRepository;
     private final UserRepository userRepository;
 
     private final Map<String, Boolean> isPaused = new HashMap<>();
 
-    public MessageHandler(EmoteCountRepository countRepository, UserRepository userRepository) {
-        this.countRepository = countRepository;
+    public MessageHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -36,24 +35,37 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
             return;
         }
         final long startTime = System.currentTimeMillis();
-        String userId = event.getChannel().getId();
+        log.info("[{}] {}: {}", event.getChannel().getId(), event.getUser().getName(), event.getMessage());
         String message = event.getMessage();
-        log.info(
-            "[{}] {}: {}", event.getChannel().getId(), event.getUser().getName(), event.getMessage());
-        User dbUser = userRepository.getUserByTwitchUserId(userId);
+        Streamer streamer = userRepository.getStreamerByTwitchUserId(event.getChannel().getId());
+
         List<String> matches =
-            Pattern.compile(dbUser.getEmoteRegex()).matcher(message).results().map(MatchResult::group).toList();
-        List<EmoteCountMap> emoteCounts = countRepository.getEmotesByUserId(event.getChannel().getId());
+            Pattern.compile(streamer.getEmoteRegex()).matcher(message).results().map(MatchResult::group).toList();
+        log.debug("{}ms to complete regex", System.currentTimeMillis() - startTime);
+
+        handleMatches(event.getUser().getName(), matches, streamer.getEmoteCounts());
+        log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
+        userRepository.saveAndFlush(streamer);
+        log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
+    }
+
+    private static void handleMatches(String userName, List<String> matches, Set<EmoteCountMap> emoteCounts) {
         for (var match : matches) {
-            emoteCounts
+            final long startTime = System.currentTimeMillis();
+            Optional<EmoteCountMap> optional = emoteCounts
                 .stream()
                 .filter(e -> e.getEmote().getName().equals(match))
-                .findFirst()
-                .ifPresent(EmoteCountMap::increaseCount);
+                .findFirst();
+            log.debug("{}ms to find match", System.currentTimeMillis() - startTime);
+
+            if (optional.isPresent()) {
+                optional.get().increaseCount();
+                log.debug("{}ms to increase count", System.currentTimeMillis() - startTime);
+                optional.get().getUniqueUsers().add(userName);
+                log.debug("{}ms to insert unique user", System.currentTimeMillis() - startTime);
+            }
         }
         log.debug("Emote count: {}", emoteCounts.toString());
-        countRepository.saveAllAndFlush(emoteCounts);
-        log.info("Took {} ms to process message", System.currentTimeMillis() - startTime);
     }
 
     public void pause(String userId) {
