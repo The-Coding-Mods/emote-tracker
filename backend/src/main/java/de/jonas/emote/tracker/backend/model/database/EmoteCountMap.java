@@ -34,9 +34,6 @@ public class EmoteCountMap {
     @ManyToOne(cascade = CascadeType.ALL)
     private Streamer streamer;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "unique_users", joinColumns = @JoinColumn(name = "emotecount_id"))
-    private Set<String> uniqueUsers;
     private boolean enabled = true;
 
     public static Set<EmoteCountMap> fromEmoteList(List<Emote> emotes, Streamer user) {

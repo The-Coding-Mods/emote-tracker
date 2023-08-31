@@ -5,6 +5,7 @@ import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
 import de.jonas.emote.tracker.backend.model.database.Streamer;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,19 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         String message = event.getMessage();
         Streamer streamer = userRepository.getStreamerByTwitchUserId(event.getChannel().getId());
 
-        List<String> matches =
-            Pattern.compile(streamer.getEmoteRegex()).matcher(message).results().map(MatchResult::group).toList();
+        List<String> splitMessage = List.of(message.split(" "));
+        Pattern pattern = Pattern.compile(streamer.getEmoteRegex());
+        List<String> matches = new ArrayList<>();
+        for (final var part : splitMessage) {
+            if (pattern.matcher(part).matches()) {
+                matches.add(part);
+            }
+        }
         log.debug("{}ms to complete regex", System.currentTimeMillis() - startTime);
 
         handleMatches(event.getUser().getName(), matches, streamer.getEmoteCounts());
         log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
+        log.debug("Emote count: {}", streamer.getEmoteCounts().toString());
         userRepository.saveAndFlush(streamer);
         log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
     }
@@ -61,11 +69,10 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
             if (optional.isPresent()) {
                 optional.get().increaseCount();
                 log.debug("{}ms to increase count", System.currentTimeMillis() - startTime);
-                optional.get().getUniqueUsers().add(userName);
+                optional.get().getEmote().getUniqueUsers().add(userName);
                 log.debug("{}ms to insert unique user", System.currentTimeMillis() - startTime);
             }
         }
-        log.debug("Emote count: {}", emoteCounts.toString());
     }
 
     public void pause(String userId) {
