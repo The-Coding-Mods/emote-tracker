@@ -211,6 +211,10 @@ components:
   schemas:
     Emote:
       type: object
+      required:
+        - id
+        - name
+        - count
       properties:
         id:
           type: string

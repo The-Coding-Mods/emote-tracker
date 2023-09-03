@@ -81,7 +81,8 @@ public class EmoteUpdateService {
                 if (addedEmote.getId().equals(removedEmote.getId())) {
                     Optional<Emote> toRename = oldEmotes.stream().filter(e -> e.equals(removedEmote)).findFirst();
                     if (toRename.isPresent()) {
-                        // TODO this updates the emote name globally and not user specific, two users can have different names for an emote.
+                        // TODO this updates the emote name globally and not user specific,
+                        // two users can have different names for an emote.
                         toRename.get().setName(addedEmote.getName());
                         renamed.add(toRename.get());
                     }
