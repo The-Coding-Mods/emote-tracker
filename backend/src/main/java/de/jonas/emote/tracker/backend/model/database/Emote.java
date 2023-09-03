@@ -24,7 +24,7 @@ public class Emote {
     private Source source;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
-    @CollectionTable(name = "unique_users_copy", joinColumns = @JoinColumn(name = "emote_id"))
+    @CollectionTable(name = "unique_users", joinColumns = @JoinColumn(name = "emote_id"))
     private Set<String> uniqueUsers;
 
     @Override
