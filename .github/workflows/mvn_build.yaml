@@ -3,6 +3,9 @@ name: Maven
 on:
   workflow_call:
 
+defaults:
+  run:
+    working-directory: ./backend
 
 jobs:
   build:

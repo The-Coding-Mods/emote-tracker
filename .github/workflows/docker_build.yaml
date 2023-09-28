@@ -8,6 +8,10 @@ on:
         type: boolean
         default: false
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   build:
     runs-on: ubuntu-latest
