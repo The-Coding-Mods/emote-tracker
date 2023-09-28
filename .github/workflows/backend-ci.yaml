@@ -1,12 +1,17 @@
 name: Backend CI
 
 on:
+  workflow_dispatch:
+    inputs:
+      publish_artifacts:
+        description: "Publish Docker image regardless of branch"
+        required: true
+        default: 'false'
+  merge_group:
   push:
     branches:
     - master
   pull_request:
-    branches:
-    - master
 
 defaults:
   run:
