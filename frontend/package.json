@@ -12,7 +12,7 @@
     "generate api": "openapi-generator-cli generate --generator-key all"
   },
   "dependencies": {
-    "@sveltejs/kit": "^1.25.0",
+    "@sveltejs/kit": "^1.25.1",
     "svelte": "^4.2.0"
   },
   "devDependencies": {
