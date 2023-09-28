@@ -13,11 +13,17 @@ defaults:
     working-directory: ./backend
 
 jobs:
-  Maven-build:
+  maven-build:
+    defaults:
+      run:
+        working-directory: ./backend
     uses: ./.github/workflows/mvn_build.yaml
     secrets: inherit
 
   docker-build:
+    defaults:
+      run:
+        working-directory: ./backend
     needs: maven-build
     uses: ./.github/workflows/docker_build.yaml
     with:
@@ -25,6 +31,9 @@ jobs:
     secrets: inherit
 
   checkstyle:
+    defaults:
+      run:
+        working-directory: ./backend
     name: Checkstyle
     runs-on: ubuntu-latest
     steps: 
