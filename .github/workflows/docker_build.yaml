@@ -51,5 +51,5 @@ jobs:
         with:
           context: ./backend/build
           push: ${{ inputs.push }}
-          platforms: linux/amd64, linux/arm/v8, linux/arm64
+          platforms: linux/amd64, linux/arm64/v8
           tags: tag365/emote-tracker-backend:${{ env.RELEASE_VERSION }} , tag365/emote-tracker-backend:latest
