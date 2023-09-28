@@ -47,4 +47,4 @@ jobs:
         with:
           context: ./build
           push: ${{ inputs.push }}
-          tags: tag365/tm-streams-support-api:${{ env.RELEASE_VERSION }} , tag365/tm-streams-support-api:latest
+          tags: tag365/emote-tracker-backend:${{ env.RELEASE_VERSION }} , tag365/emote-tracker-backend:latest

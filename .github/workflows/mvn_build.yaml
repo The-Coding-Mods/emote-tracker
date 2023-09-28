@@ -26,9 +26,9 @@ jobs:
       - name: Rename Jar
         shell: bash
         run: | 
-          mv target/*.jar target/command-api.jar
+          mv target/*.jar target/emote-tracker-backend.jar
       - name: Upload Jar
         uses: actions/upload-artifact@v3
         with:
           name: command-api
-          path: target/command-api.jar
+          path: target/emote-tracker-backend.jar
