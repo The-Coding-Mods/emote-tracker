@@ -30,7 +30,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: emote-tracker-backend
-          path: build/
+          path: backend/build/
 
       - name: Extract Project version
         run: |
@@ -45,6 +45,6 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v4
         with:
-          context: ./build
+          context: ./backend/build
           push: ${{ inputs.push }}
           tags: tag365/emote-tracker-backend:${{ env.RELEASE_VERSION }} , tag365/emote-tracker-backend:latest
