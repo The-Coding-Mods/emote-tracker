@@ -9,8 +9,6 @@ on:
     - master
 
 jobs:
-
-
   Maven-build:
     defaults:
       run:
