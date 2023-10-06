@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^8.49.0
     version: 8.49.0
   eslint-plugin-svelte:
-    specifier: ^2.33.1
-    version: 2.33.1(eslint@8.49.0)(svelte@4.2.0)
+    specifier: ^2.34.0
+    version: 2.34.0(eslint@8.49.0)(svelte@4.2.0)
   gts:
     specifier: ^5.0.1
     version: 5.0.1(typescript@5.2.2)
@@ -1522,8 +1522,8 @@ packages:
       synckit: 0.8.5
     dev: true
 
-  /eslint-plugin-svelte@2.33.1(eslint@8.49.0)(svelte@4.2.0):
-    resolution: {integrity: sha512-veYmyjsbt8ikXdaa6pLsgytdlzJpZZKw9vRaQlRBNKaLNmrbsdJulwiWfcDZ7tYJdaVpRB4iDFn/fuPeebxUVg==}
+  /eslint-plugin-svelte@2.34.0(eslint@8.49.0)(svelte@4.2.0):
+    resolution: {integrity: sha512-4RYUgNai7wr0v+T/kljMiYSjC/oqwgq5i+cPppawryAayj4C7WK1ixFlWCGmNmBppnoKCl4iA4ZPzPtlHcb4CA==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0-0
