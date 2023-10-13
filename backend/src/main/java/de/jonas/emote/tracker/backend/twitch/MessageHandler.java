@@ -1,18 +1,21 @@
 package de.jonas.emote.tracker.backend.twitch;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
+import de.jonas.emote.tracker.backend.databasev2.Activity;
+import de.jonas.emote.tracker.backend.databasev2.ActivityType;
+import de.jonas.emote.tracker.backend.emote.EmoteRepository;
+import de.jonas.emote.tracker.backend.model.database.Emote;
 import de.jonas.emote.tracker.backend.model.database.Streamer;
+import de.jonas.emote.tracker.backend.repository.ActivityRepository;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
-import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,17 +25,22 @@ import org.springframework.stereotype.Component;
 public class MessageHandler implements Consumer<ChannelMessageEvent> {
 
     private final UserRepository userRepository;
+    private final EmoteRepository emoteRepository;
+    private final ActivityRepository activityRepository;
 
     private final Map<String, Boolean> isPaused = new HashMap<>();
 
-    public MessageHandler(UserRepository userRepository) {
+    public MessageHandler(UserRepository userRepository, EmoteRepository emoteRepository,
+                          ActivityRepository activityRepository) {
         this.userRepository = userRepository;
+        this.emoteRepository = emoteRepository;
+        this.activityRepository = activityRepository;
     }
 
     @Override
     @Transactional
     public void accept(ChannelMessageEvent event) {
-        if (isPaused.getOrDefault(event.getChannel().getId(), true)) {
+        if (Boolean.TRUE.equals(isPaused.getOrDefault(event.getChannel().getId(), true))) {
             return;
         }
         final long startTime = System.currentTimeMillis();
@@ -50,28 +58,26 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         }
         log.debug("{}ms to complete regex", System.currentTimeMillis() - startTime);
 
-        handleMatches(event.getUser().getName(), matches, streamer.getEmoteCounts());
+        handleMatches(event.getUser().getName(), matches, streamer);
         log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
         log.debug("Emote count: {}", streamer.getEmoteCounts().toString());
-        userRepository.saveAndFlush(streamer);
-        log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
     }
 
-    private static void handleMatches(String userName, List<String> matches, Set<EmoteCountMap> emoteCounts) {
+    private void handleMatches(String userName, List<String> matches, Streamer streamer) {
         for (var match : matches) {
-            final long startTime = System.currentTimeMillis();
-            Optional<EmoteCountMap> optional = emoteCounts
-                .stream()
-                .filter(e -> e.getEmote().getName().equals(match))
-                .findFirst();
-            log.debug("{}ms to find match", System.currentTimeMillis() - startTime);
-
-            if (optional.isPresent()) {
-                optional.get().increaseCount();
-                log.debug("{}ms to increase count", System.currentTimeMillis() - startTime);
-                optional.get().getEmote().getUniqueUsers().add(userName);
-                log.debug("{}ms to insert unique user", System.currentTimeMillis() - startTime);
+            Optional<Emote> emote = emoteRepository.getEmoteByName(match);
+            if (emote.isEmpty()) {
+                log.warn("A message part matches emote regex but no emote in database");
+                continue;
             }
+            Activity activity = new Activity()
+                .setActivityType(ActivityType.EMOTE_USAGE)
+                .setStreamer(streamer)
+                .setEmote(emote.get())
+                .setTimeStamp(Instant.now())
+                .setUserName(userName);
+
+            activityRepository.saveAndFlush(activity);
         }
     }
 
