@@ -61,6 +61,7 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         handleMatches(event.getUser().getName(), matches, streamer);
         log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
         log.debug("Emote count: {}", streamer.getEmoteCounts().toString());
+        log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
     }
 
     private void handleMatches(String userName, List<String> matches, Streamer streamer) {
