@@ -13,3 +13,9 @@ html, body, label {
 html, body {
     @apply h-full overflow-hidden;
 }
+
+@layer components {
+    .selected {
+        @apply bg-primary-500 rounded-full font-bold
+    }
+}
