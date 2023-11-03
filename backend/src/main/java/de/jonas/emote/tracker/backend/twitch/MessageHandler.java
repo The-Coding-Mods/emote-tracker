@@ -1,11 +1,14 @@
 package de.jonas.emote.tracker.backend.twitch;
 
+import static de.jonas.emote.tracker.backend.emote.SevenTVService.buildRegexString;
+
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import de.jonas.emote.tracker.backend.databasev2.Activity;
 import de.jonas.emote.tracker.backend.databasev2.ActivityType;
+import de.jonas.emote.tracker.backend.databasev2.UserEmote;
 import de.jonas.emote.tracker.backend.emote.EmoteRepository;
-import de.jonas.emote.tracker.backend.model.database.Emote;
-import de.jonas.emote.tracker.backend.model.database.Streamer;
+import de.jonas.emote.tracker.backend.databasev2.Emote;
+import de.jonas.emote.tracker.backend.databasev2.Streamer;
 import de.jonas.emote.tracker.backend.repository.ActivityRepository;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -49,7 +52,7 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         Streamer streamer = userRepository.getStreamerByTwitchUserId(event.getChannel().getId());
 
         List<String> splitMessage = List.of(message.split(" "));
-        Pattern pattern = Pattern.compile(streamer.getEmoteRegex());
+        Pattern pattern = Pattern.compile(buildRegexString(streamer.getUserEmotes()));
         List<String> matches = new ArrayList<>();
         for (final var part : splitMessage) {
             if (pattern.matcher(part).matches()) {
@@ -60,13 +63,13 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
 
         handleMatches(event.getUser().getName(), matches, streamer);
         log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
-        log.debug("Emote count: {}", streamer.getEmoteCounts().toString());
+
         log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
     }
 
     private void handleMatches(String userName, List<String> matches, Streamer streamer) {
         for (var match : matches) {
-            Optional<Emote> emote = emoteRepository.getEmoteByName(match);
+            Optional<UserEmote> emote = emoteRepository.getUserEmoteByCustomEmoteName(match);
             if (emote.isEmpty()) {
                 log.warn("A message part matches emote regex but no emote in database");
                 continue;

@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.model.database;
+package de.jonas.emote.tracker.backend.databasev2;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
@@ -8,13 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import java.util.Objects;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 public class Emote {
 
@@ -23,9 +27,6 @@ public class Emote {
     private String name;
     private Source source;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
-    @CollectionTable(name = "unique_users", joinColumns = @JoinColumn(name = "emote_id"))
-    private Set<String> uniqueUsers;
 
     @Override
     public String toString() {

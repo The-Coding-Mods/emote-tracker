@@ -7,4 +7,6 @@ import lombok.Getter;
 public class Data {
     @JsonProperty("host")
     private Host host;
+    @JsonProperty("name")
+    private String name;
 }

@@ -1,12 +1,10 @@
 package de.jonas.emote.tracker.backend.user;
 
-import static de.jonas.emote.tracker.backend.emote.SevenTVService.buildRegexString;
-
 import com.github.twitch4j.helix.domain.User;
+import de.jonas.emote.tracker.backend.databasev2.Emote;
+import de.jonas.emote.tracker.backend.databasev2.Streamer;
+import de.jonas.emote.tracker.backend.databasev2.UserEmote;
 import de.jonas.emote.tracker.backend.emote.SevenTVService;
-import de.jonas.emote.tracker.backend.model.database.Emote;
-import de.jonas.emote.tracker.backend.model.database.EmoteCountMap;
-import de.jonas.emote.tracker.backend.model.database.Streamer;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.Client;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
@@ -52,23 +50,19 @@ public class RegistrationService {
         if (Boolean.TRUE.equals(userRepository.existsStreamerByTwitchUserId(userId))) {
             return false;
         }
-        List<Emote> emotes = sevenTVService.getSevenTVEmotes(userId);
+        Set<UserEmote> emotes = sevenTVService.getSevenTVEmotes(userId);
         if (emotes.isEmpty()) {
             unregister(username);
             return false;
         }
 
-        Streamer
-            user = new Streamer()
+        Streamer user = new Streamer()
             .setTwitchUserId(userId)
             .setUsername(username)
+            .setUserEmotes(emotes)
             .setSevenTVUserId(sevenTVService.get7TvUserOverview(userId).getUser().getId());
-        // Save user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
-        user = userRepository.saveAndFlush(user);
 
-        Set<EmoteCountMap> emoteCountMaps = EmoteCountMap.fromEmoteList(emotes, user);
-        user.setEmoteCounts(emoteCountMaps);
-        user.setEmoteRegex(buildRegexString(emotes));
+        // Save user already to have a UUID generated. Otherwise, the User reference in the EmoteMap is null
         userRepository.saveAndFlush(user);
 
         messageHandler.start(userId);

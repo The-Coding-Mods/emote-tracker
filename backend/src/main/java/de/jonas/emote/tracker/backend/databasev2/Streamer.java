@@ -1,7 +1,6 @@
-package de.jonas.emote.tracker.backend.model.database;
+package de.jonas.emote.tracker.backend.databasev2;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -19,18 +18,9 @@ public class Streamer {
     private String twitchUserId;
     private String sevenTVUserId;
     private String username;
-    @Column(length = 65536)
-    private String emoteRegex;
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<EmoteCountMap> emoteCounts;
+    private Set<UserEmote> userEmotes;
 
-    public void increaseEmoteCount(Emote emote) {
-        emoteCounts
-            .stream()
-            .filter(emoteCountMap -> emoteCountMap.getEmote().equals(emote))
-            .findFirst()
-            .ifPresent(EmoteCountMap::increaseCount);
-    }
 }

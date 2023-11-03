@@ -1,6 +1,6 @@
 package de.jonas.emote.tracker.backend.user;
 
-import de.jonas.emote.tracker.backend.model.database.Streamer;
+import de.jonas.emote.tracker.backend.databasev2.Streamer;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
