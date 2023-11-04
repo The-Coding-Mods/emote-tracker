@@ -12,6 +12,9 @@ on:
     branches:
     - master
   pull_request:
+    path:
+      - backend
+      - api
 
 defaults:
   run:
