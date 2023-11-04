@@ -1,30 +1,47 @@
 package de.jonas.emote.tracker.backend.user;
 
-import de.jonas.emote.tracker.backend.api.model.Emote;
+import com.github.twitch4j.helix.domain.User;
+import de.jonas.emote.tracker.backend.database.Streamer;
+import de.jonas.emote.tracker.backend.emote.EmoteService;
+import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+    private final TwitchApiWrapper twitchApi;
+    private final EmoteService emoteService;
+    private final UserRepository userRepository;
 
-    public List<Emote> getTopEmotes(String userId, Integer count) {
-        return Collections.emptyList();
+    public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository) {
+        this.twitchApi = twitchApi;
+        this.emoteService = emoteService;
+        this.userRepository = userRepository;
     }
 
-    public List<Emote> getBottomEmotes(String userId, Integer count) {
-        return Collections.emptyList();
+    public boolean exists(String username) {
+        return userRepository.existsStreamerByUsername(username);
     }
 
-    public List<Emote> getEmotesWithNrUsage(String userId, Integer count) {
-        return Collections.emptyList();
+    public List<Streamer> getAll() {
+        return userRepository.findAll();
     }
 
-    public List<Emote> getEmotesAboveAverage(String userId) {
-        return Collections.emptyList();
-    }
-    public List<Emote> getEmotesBelowAverage(String userId) {
-        return Collections.emptyList();
+    public Streamer create(String user) throws IllegalStateException {
+        List<User> users = this.twitchApi.getUsers(null, Collections.singletonList(user)).getUsers();
+        if (users.isEmpty()) {
+            throw new IllegalStateException("No twitch user found");
+        }
+        Streamer streamer = new Streamer()
+            .setUsername(user)
+            .setTwitchUserId(users.get(0).getId())
+            .setUserEmotes(emoteService.addEmotes(users.get(0).getId()));
 
+        return userRepository.saveAndFlush(streamer);
+    }
+
+    public void updateEmotes(String userId) {
+        emoteService.updateUserEmotes(userId);
     }
 }

@@ -3,12 +3,10 @@ package de.jonas.emote.tracker.backend.twitch;
 import static de.jonas.emote.tracker.backend.emote.SevenTVService.buildRegexString;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import de.jonas.emote.tracker.backend.databasev2.Activity;
-import de.jonas.emote.tracker.backend.databasev2.ActivityType;
-import de.jonas.emote.tracker.backend.databasev2.UserEmote;
+import de.jonas.emote.tracker.backend.database.Activity;
+import de.jonas.emote.tracker.backend.database.Emote;
+import de.jonas.emote.tracker.backend.database.Streamer;
 import de.jonas.emote.tracker.backend.emote.EmoteRepository;
-import de.jonas.emote.tracker.backend.databasev2.Emote;
-import de.jonas.emote.tracker.backend.databasev2.Streamer;
 import de.jonas.emote.tracker.backend.repository.ActivityRepository;
 import de.jonas.emote.tracker.backend.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -63,19 +61,18 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
 
         handleMatches(event.getUser().getName(), matches, streamer);
         log.debug("{}ms to process matches", System.currentTimeMillis() - startTime);
-
         log.info("Took {}ms to complete", System.currentTimeMillis() - startTime);
     }
 
     private void handleMatches(String userName, List<String> matches, Streamer streamer) {
         for (var match : matches) {
-            Optional<UserEmote> emote = emoteRepository.getUserEmoteByCustomEmoteName(match);
+            Optional<Emote> emote = emoteRepository.getEmoteByName(match);
             if (emote.isEmpty()) {
                 log.warn("A message part matches emote regex but no emote in database");
                 continue;
             }
             Activity activity = new Activity()
-                .setActivityType(ActivityType.EMOTE_USAGE)
+                .setActivityType(Activity.Type.EMOTE_USAGE)
                 .setStreamer(streamer)
                 .setEmote(emote.get())
                 .setTimeStamp(Instant.now())

@@ -1,6 +1,6 @@
 package de.jonas.emote.tracker.backend.repository;
 
-import de.jonas.emote.tracker.backend.databasev2.Activity;
+import de.jonas.emote.tracker.backend.database.Activity;
 import de.jonas.emote.tracker.backend.model.TimeRange;
 import java.time.Instant;
 import java.util.List;

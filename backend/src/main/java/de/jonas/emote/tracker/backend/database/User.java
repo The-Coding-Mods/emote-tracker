@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.databasev2;
+package de.jonas.emote.tracker.backend.database;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

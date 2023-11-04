@@ -2,6 +2,7 @@ package de.jonas.emote.tracker.backend.user;
 
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
+import de.jonas.emote.tracker.backend.database.Streamer;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController implements UserApi {
     private final RegistrationService registrationService;
     private final UserService userService;
-    private final EmoteUpdateService updateService;
 
     public UserController(RegistrationService registrationService,
-                          UserService userService,
-                          EmoteUpdateService updateService) {
+                          UserService userService) {
         this.registrationService = registrationService;
         this.userService = userService;
-        this.updateService = updateService;
     }
 
     @Override
@@ -53,9 +51,17 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<String> registerNewUser(String user) {
-        return registrationService.register(user)
-            ? ResponseEntity.ok().build()
-            : ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        if (userService.exists(user)) {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        }
+        try {
+            Streamer streamer = userService.create(user);
+            registrationService.register(streamer);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -67,7 +73,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<Void> updateEmotesForUser(String userId) {
-        updateService.updateUserEmotes(userId);
+        userService.updateEmotes(userId);
         return ResponseEntity.ok().build();
     }
 }

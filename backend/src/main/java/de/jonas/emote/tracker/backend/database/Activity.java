@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.databasev2;
+package de.jonas.emote.tracker.backend.database;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -21,7 +21,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private ActivityType activityType;
+    private Type activityType;
 
     private String userName;
 
@@ -32,4 +32,9 @@ public class Activity {
     private Streamer streamer;
 
     private Instant timeStamp;
+
+    public enum Type {
+        EMOTE_USAGE;
+    }
 }
+
