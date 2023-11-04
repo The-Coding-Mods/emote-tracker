@@ -3,6 +3,7 @@ package de.jonas.emote.tracker.backend.user;
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
 import de.jonas.emote.tracker.backend.database.Streamer;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,27 +22,27 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<List<Emote>> getBottomEmotes(String userId, Integer count) {
-        return ResponseEntity.ok(userService.getBottomEmotes(userId, count));
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
     public ResponseEntity<List<Emote>> getTopEmotes(String userId, Integer count) {
-        return ResponseEntity.ok(userService.getTopEmotes(userId, count));
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
     public ResponseEntity<List<Emote>> getEmotesWitNoUsage(String userId) {
-        return ResponseEntity.ok(userService.getEmotesWithNrUsage(userId, 0));
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
     public ResponseEntity<List<Emote>> getAboveAverageEmotes(String userId) {
-        return ResponseEntity.ok(userService.getEmotesAboveAverage(userId));
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
     public ResponseEntity<List<Emote>> getBelowAverageEmotes(String userId) {
-        return ResponseEntity.ok(userService.getEmotesBelowAverage(userId));
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
