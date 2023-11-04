@@ -25,7 +25,8 @@ public class EmoteService {
     private final MessageHandler messageHandler;
 
 
-    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, EmoteRepository emoteRepository, MessageHandler messageHandler) {
+    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, EmoteRepository emoteRepository,
+                        MessageHandler messageHandler) {
         this.sevenTVApi = sevenTVApi;
         this.userRepository = userRepository;
         this.emoteRepository = emoteRepository;

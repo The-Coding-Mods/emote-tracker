@@ -14,6 +14,7 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
                                                                                       Instant effTil);
 
     default List<Activity> getActivitiesBetweenTimeRange(String streamer, TimeRange timeRange) {
-        return getActivitiesByStreamerUsernameAndTimeStampAfterAndTimeStampBefore(streamer, timeRange.from(), timeRange.to());
+        return getActivitiesByStreamerUsernameAndTimeStampAfterAndTimeStampBefore(streamer, timeRange.from(),
+            timeRange.to());
     }
 }
