@@ -1,52 +1,47 @@
 package de.jonas.emote.tracker.backend.user;
 
-import de.jonas.emote.tracker.backend.api.model.Emote;
-import de.jonas.emote.tracker.backend.emote.EmoteCountRepository;
+import com.github.twitch4j.helix.domain.User;
+import de.jonas.emote.tracker.backend.database.Streamer;
+import de.jonas.emote.tracker.backend.emote.EmoteService;
+import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final EmoteCountRepository countRepository;
-    private final EmoteCountConverter converter;
+    private final TwitchApiWrapper twitchApi;
+    private final EmoteService emoteService;
+    private final UserRepository userRepository;
 
-    public UserService(EmoteCountRepository countRepository, EmoteCountConverter converter) {
-        this.countRepository = countRepository;
-        this.converter = converter;
+    public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository) {
+        this.twitchApi = twitchApi;
+        this.emoteService = emoteService;
+        this.userRepository = userRepository;
     }
 
-    public List<Emote> getTopEmotes(String userId, Integer count) {
-        return countRepository.getEnabledEmotesDescOrder(userId).subList(0, count)
-            .stream()
-            .map(converter::convert)
-            .toList();
+    public boolean exists(String username) {
+        return userRepository.existsStreamerByUsername(username);
     }
 
-    public List<Emote> getBottomEmotes(String userId, Integer count) {
-        return countRepository.getEnabledEmotesOrder(userId).subList(0, count)
-            .stream()
-            .map(converter::convert)
-            .toList();
+    public List<Streamer> getAll() {
+        return userRepository.findAll();
     }
 
-    public List<Emote> getEmotesWithNrUsage(String userId, Integer count) {
-        return countRepository.getEmotesWithLessOrEqualCount(userId, count)
-            .stream()
-            .map(converter::convert)
-            .toList();
+    public Streamer create(String user) throws IllegalStateException {
+        List<User> users = this.twitchApi.getUsers(null, Collections.singletonList(user)).getUsers();
+        if (users.isEmpty()) {
+            throw new IllegalStateException("No twitch user found");
+        }
+        Streamer streamer = new Streamer()
+            .setUsername(user)
+            .setTwitchUserId(users.get(0).getId())
+            .setUserEmotes(emoteService.addEmotes(users.get(0).getId()));
+
+        return userRepository.saveAndFlush(streamer);
     }
 
-    public List<Emote> getEmotesAboveAverage(String userId) {
-        return countRepository.getEmotesAboveAverage(userId)
-            .stream()
-            .map(converter::convert)
-            .toList();
-    }
-
-    public List<Emote> getEmotesBelowAverage(String userId) {
-        return countRepository.getEmotesBelowAverage(userId)
-            .stream()
-            .map(converter::convert)
-            .toList();
+    public void updateEmotes(String userId) {
+        emoteService.updateUserEmotes(userId);
     }
 }

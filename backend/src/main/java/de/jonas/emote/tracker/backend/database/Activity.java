@@ -1,14 +1,11 @@
-package de.jonas.emote.tracker.backend.databasev2;
+package de.jonas.emote.tracker.backend.database;
 
-import de.jonas.emote.tracker.backend.model.database.Emote;
-import de.jonas.emote.tracker.backend.model.database.Streamer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.Getter;
@@ -24,7 +21,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private ActivityType activityType;
+    private Type activityType;
 
     private String userName;
 
@@ -35,4 +32,9 @@ public class Activity {
     private Streamer streamer;
 
     private Instant timeStamp;
+
+    public enum Type {
+        EMOTE_USAGE;
+    }
 }
+

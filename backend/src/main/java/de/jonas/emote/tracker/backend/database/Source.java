@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.model.database;
+package de.jonas.emote.tracker.backend.database;
 
 public enum Source {
     TWITCH,
