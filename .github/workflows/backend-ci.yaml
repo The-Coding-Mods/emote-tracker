@@ -12,7 +12,7 @@ on:
     branches:
     - master
   pull_request:
-    path:
+    paths:
       - backend
       - api
       - .github
