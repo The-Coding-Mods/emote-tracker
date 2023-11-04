@@ -13,9 +13,9 @@ on:
     - master
   pull_request:
     paths:
-      - backend
-      - api
-      - .github
+      - 'backend/**'
+      - 'api/**'
+      - '.github/**'
 
 defaults:
   run:
