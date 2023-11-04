@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-    path:
+    paths:
       - backend
       - api
       - .github
