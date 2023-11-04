@@ -33,12 +33,12 @@ public class Emote {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        OriginalEmote emote = (OriginalEmote) o;
+        Emote emote = (Emote) o;
         return Objects.equals(name, emote.name) && source == emote.source;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, source);
+        return Objects.hash(id, name);
     }
 }

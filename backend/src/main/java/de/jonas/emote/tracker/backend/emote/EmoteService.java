@@ -11,7 +11,7 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
 import de.jonas.emote.tracker.backend.user.UserRepository;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +33,17 @@ public class EmoteService {
         this.messageHandler = messageHandler;
     }
 
-    public List<Emote> addEmotes(String userId) {
+    public Set<Emote> addEmotes(String userId) {
         UserOverview7TV sevenTvOverview = sevenTVApi.getUserByTwitchId(userId);
         if (sevenTvOverview.getEmoteSet().getEmotes().isEmpty()) {
             throw new IllegalStateException("No seven TV emotes found for user");
         }
-        List<Emote> originals = collectOriginalEmotes(sevenTvOverview.getEmoteSet());
-        List<Emote> customs = collectUserEmotes(sevenTvOverview.getEmoteSet());
+        Set<Emote> originals = collectOriginalEmotes(sevenTvOverview.getEmoteSet());
+        Set<Emote> customs = collectUserEmotes(sevenTvOverview.getEmoteSet());
         originals.addAll(customs);
         filterAlreadyExisting(originals);
-        return emoteRepository.saveAllAndFlush(originals);
+        emoteRepository.saveAllAndFlush(originals);
+        return originals;
     }
 
     public void updateUserEmotes(String userId) {
@@ -53,11 +54,11 @@ public class EmoteService {
         messageHandler.start(userId);
     }
 
-    private void filterAlreadyExisting(List<Emote> emotes) {
+    private void filterAlreadyExisting(Set<Emote> emotes) {
         emotes.removeIf(emote -> emoteRepository.existsById(new EmoteId(emote.getId(), emote.getName())));
     }
 
-    private List<Emote> collectOriginalEmotes(EmoteSet emotes) {
+    private Set<Emote> collectOriginalEmotes(EmoteSet emotes) {
         return emotes.getEmotes()
             .stream()
             .filter(emote -> emote.getData().getName().equalsIgnoreCase(emote.getName()))
@@ -65,10 +66,10 @@ public class EmoteService {
                 .setId(emote.getId())
                 .setName(emote.getData().getName())
                 .setSource(Source.SEVENTV))
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
     }
 
-    private List<Emote> collectUserEmotes(EmoteSet emotes) {
+    private Set<Emote> collectUserEmotes(EmoteSet emotes) {
         return emotes.getEmotes()
             .stream()
             .filter(emote -> !emote.getData().getName().equalsIgnoreCase(emote.getName()))
@@ -76,7 +77,7 @@ public class EmoteService {
                 .setId(emote.getId())
                 .setName(emote.getName())
                 .setSource(Source.SEVENTV))
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
     }
 
 }

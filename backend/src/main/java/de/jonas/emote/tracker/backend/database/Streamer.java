@@ -4,7 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,6 +19,6 @@ public class Streamer {
     private String username;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Emote> userEmotes;
+    private Set<Emote> userEmotes;
 
 }
