@@ -15,6 +15,7 @@ on:
     path:
       - backend
       - api
+      - .github
 
 defaults:
   run:
