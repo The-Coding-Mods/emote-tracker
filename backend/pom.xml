@@ -9,7 +9,7 @@
     </parent>
     <groupId>de.jonas</groupId>
     <artifactId>emote-tracker-backend</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>emote-tracker-backend</name>
     <description>Tracks the usage of emotes in a defined twitch channel</description>
     <properties>
@@ -97,6 +97,14 @@
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
+                            <typeMappings>
+                                <typeMapping>DateTime=Instant</typeMapping>
+                                <typeMapping>Date=Date</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>Instant=java.time.Instant</importMapping>
+                                <importMapping>Date=java.util.Date</importMapping>
+                            </importMappings>
                         </configuration>
                     </execution>
                 </executions>
