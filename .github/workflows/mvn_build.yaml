@@ -28,7 +28,7 @@ jobs:
         run: | 
           mv target/*.jar target/emote-tracker-backend.jar
       - name: Upload Jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: emote-tracker-backend
           path: backend/target/emote-tracker-backend.jar
