@@ -27,7 +27,7 @@
     "gts": "5.2.0",
     "postcss": "8.4.33",
     "postcss-load-config": "5.0.2",
-    "prettier": "3.1.1",
+    "prettier": "3.2.2",
     "svelte-check": "3.6.2",
     "svelte-loading-spinners": "0.3.4",
     "svelte-preprocess": "5.1.3",
