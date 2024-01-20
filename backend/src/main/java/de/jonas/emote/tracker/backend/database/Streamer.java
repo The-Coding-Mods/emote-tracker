@@ -3,7 +3,7 @@ package de.jonas.emote.tracker.backend.database;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class Streamer {
     private String twitchUserId;
     private String username;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Emote> userEmotes;
 
 }

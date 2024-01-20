@@ -1,7 +1,6 @@
 package de.jonas.emote.tracker.backend.emote;
 
 import de.jonas.emote.tracker.backend.database.Emote;
-import de.jonas.emote.tracker.backend.database.EmoteId;
 import de.jonas.emote.tracker.backend.database.OriginalEmote;
 import de.jonas.emote.tracker.backend.database.Source;
 import de.jonas.emote.tracker.backend.database.Streamer;
@@ -11,6 +10,7 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
 import de.jonas.emote.tracker.backend.user.UserRepository;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -20,16 +20,12 @@ public class EmoteService {
 
     private final SevenTVApiWrapper sevenTVApi;
     private final UserRepository userRepository;
-
-    private final EmoteRepository emoteRepository;
     private final MessageHandler messageHandler;
 
 
-    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, EmoteRepository emoteRepository,
-                        MessageHandler messageHandler) {
+    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, MessageHandler messageHandler) {
         this.sevenTVApi = sevenTVApi;
         this.userRepository = userRepository;
-        this.emoteRepository = emoteRepository;
         this.messageHandler = messageHandler;
     }
 
@@ -41,8 +37,6 @@ public class EmoteService {
         Set<Emote> originals = collectOriginalEmotes(sevenTvOverview.getEmoteSet());
         Set<Emote> customs = collectUserEmotes(sevenTvOverview.getEmoteSet());
         originals.addAll(customs);
-        filterAlreadyExisting(originals);
-        emoteRepository.saveAllAndFlush(originals);
         return originals;
     }
 
@@ -52,10 +46,6 @@ public class EmoteService {
         user.setUserEmotes(addEmotes(userId));
         userRepository.saveAndFlush(user);
         messageHandler.start(userId);
-    }
-
-    private void filterAlreadyExisting(Set<Emote> emotes) {
-        emotes.removeIf(emote -> emoteRepository.existsById(new EmoteId(emote.getId(), emote.getName())));
     }
 
     private Set<Emote> collectOriginalEmotes(EmoteSet emotes) {
