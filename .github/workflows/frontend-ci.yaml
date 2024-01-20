@@ -63,7 +63,7 @@ jobs:
 
       - name: Extract Project version
         run: |
-          echo "RELEASE_VERSION=$npm pkg get version)" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=$(npm pkg get version)" >> $GITHUB_ENV
 
       - name: Add snapshot
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
