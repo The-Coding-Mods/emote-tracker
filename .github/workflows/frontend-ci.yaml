@@ -124,3 +124,4 @@ jobs:
           path: |
             ./frontend/build
             ./frontend/package.json
+            ./frontend/package-lock.json
