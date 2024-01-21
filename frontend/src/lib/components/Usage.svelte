@@ -1,11 +1,12 @@
 <script lang="ts">
 
     import { Shadow } from "svelte-loading-spinners";
-    import { UserApi } from "$lib/../api";
+    import { Configuration, UserApi } from "$lib/../api";
     import Emote from "$lib/components/Emote.svelte";
+    import { BACKEND_URL } from "$lib/common/ApiHost";
 
     let elemMovies: HTMLDivElement;
-    const userApi = new UserApi();
+    const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}));
     let promise = userApi.getEmotesWitNoUsage({userId: "40646018"});
 
     function multiColumnLeft(): void {
