@@ -87,3 +87,37 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' || inputs.force-push == true }}
           platforms: linux/amd64, linux/arm64/v8
           tags: ${{ steps.meta.outputs.tags }}
+  staging:
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: npm
+          cache-dependency-path: ./frontend
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 8.6.*
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate api code
+        run: pnpm "generate api"
+
+      - name: Build staging
+        run: pnpm staging
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: emote-tracker
+          path: ./frontend/build
