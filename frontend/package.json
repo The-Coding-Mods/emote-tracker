@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "staging": "vite build --mode staging",
     "preview": "vite preview --host",
     "dev": "vite dev",
     "lint": "gts lint && svelte-check",
