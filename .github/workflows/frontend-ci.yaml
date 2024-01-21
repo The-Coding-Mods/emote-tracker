@@ -121,4 +121,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: emote-tracker
-          path: ./frontend/build
+          path: |
+            ./frontend/build
+            ./frontend/node_modules
+            ./frontend/package.json
