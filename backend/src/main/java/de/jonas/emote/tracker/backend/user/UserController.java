@@ -5,10 +5,12 @@ import de.jonas.emote.tracker.backend.api.model.Emote;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class UserController implements UserApi {
     private final RegistrationService registrationService;
@@ -74,6 +76,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<Void> updateEmotesForUser(String userId) {
+        log.info("Update emotes request for {}", userId);
         userService.updateEmotes(userId);
         return ResponseEntity.ok().build();
     }

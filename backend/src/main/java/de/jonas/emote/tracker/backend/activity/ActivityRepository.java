@@ -1,4 +1,4 @@
-package de.jonas.emote.tracker.backend.repository;
+package de.jonas.emote.tracker.backend.activity;
 
 import de.jonas.emote.tracker.backend.database.Activity;
 import de.jonas.emote.tracker.backend.model.TimeRange;
