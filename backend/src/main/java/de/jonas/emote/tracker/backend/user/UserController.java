@@ -4,7 +4,6 @@ import de.jonas.emote.tracker.backend.activity.ActivityService;
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
 import de.jonas.emote.tracker.backend.database.Streamer;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +46,11 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<List<Emote>> getEmotesWitNoUsage(String userId) {
-        return ResponseEntity.ok(Collections.emptyList());
+        Optional<Streamer> streamer = userService.getById(userId);
+        if (streamer.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(userService.getEmotesWithNoUsageForStreamer(streamer.get()));
     }
 
     @Override

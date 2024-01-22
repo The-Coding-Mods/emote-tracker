@@ -19,7 +19,7 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     List<de.jonas.emote.tracker.backend.api.model.Emote> getEmoteUsageForStreamerDescending(Streamer streamer);
 
     @Query("""
-        SELECT new de.jonas.emote.tracker.backend.api.model.Emote(a.emote.id, a.emote.name, count(*)) 
+        SELECT new de.jonas.emote.tracker.backend.api.model.Emote(a.emote.id, a.emote.name, count(*))
         FROM Activity a WHERE a.streamer = ?1 GROUP BY a.emote ORDER BY count(*) ASC""")
     List<de.jonas.emote.tracker.backend.api.model.Emote> getEmoteUsageForStreamerAscending(Streamer streamer);
 
