@@ -1,6 +1,6 @@
 openapi: 3.0.3
 servers:
-  - url: https://api.pepega.chat
+  - url: https://tracker-api.pepega.chat
 info:
   title: Emote Tracker API
   description: The Rest API for the Emote Tracker
