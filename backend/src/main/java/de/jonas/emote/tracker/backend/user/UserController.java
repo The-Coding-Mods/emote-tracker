@@ -32,7 +32,8 @@ public class UserController implements UserApi {
         if (streamer.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(activityService.getBottomEmotes(streamer.get()).subList(0, count));
+        List<Emote> emotes = activityService.getBottomEmotes(streamer.get());
+        return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
     }
 
     @Override
@@ -41,7 +42,8 @@ public class UserController implements UserApi {
         if (streamer.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(activityService.getTopEmotes(streamer.get()).subList(0, count));
+        List<Emote> emotes = activityService.getTopEmotes(streamer.get());
+        return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
     }
 
     @Override
