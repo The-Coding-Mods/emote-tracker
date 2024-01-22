@@ -1,13 +1,10 @@
 <script lang="ts">
 
-    import { Shadow } from "svelte-loading-spinners";
-    import { Configuration, UserApi } from "$lib/../api";
+    import type { Emote as ApiEmote } from "$lib/../api";
     import Emote from "$lib/components/Emote.svelte";
-    import { BACKEND_URL } from "$lib/common/ApiHost";
 
     let elemMovies: HTMLDivElement;
-    const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}));
-    let promise = userApi.getEmotesWitNoUsage({userId: "40646018"});
+    export let emotes!: ApiEmote[];
 
     function multiColumnLeft(): void {
         let x = elemMovies.scrollWidth;
@@ -24,12 +21,6 @@
 
 </script>
 <section class="pt-5 space-y-8">
-    {#await promise}
-        <h1 class="pl-4 text-4xl font-bold">Emotes with 0 usage</h1>
-        <div class="ml-5 mt-5">
-            <Shadow size="2" unit="rem" color="rgb(101 163 13)"/>
-        </div>
-    {:then emotes}
         <h1 class="pl-4 text-4xl font-bold">Emotes with 0 usage ({emotes.length})</h1>
         <div class="pl-4 grid grid-cols-[auto_1fr_auto] gap-4 items-center max-w-4xl">
             <!-- Button: Left -->
@@ -47,5 +38,4 @@
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
-    {/await}
 </section>

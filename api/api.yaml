@@ -103,6 +103,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Emote'
+        404:
+          description: User not found
 
   /user/{userId}/emotes/count/bottom:
     get:
@@ -130,6 +132,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Emote'
+        404:
+          description: User not found
 
   /user/{userId}/emotes/count/above-average:
     get:
@@ -224,4 +228,4 @@ components:
           type: string
         count:
           type: integer
-          format: int32
+          format: int64
