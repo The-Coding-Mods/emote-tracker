@@ -6,6 +6,7 @@ import de.jonas.emote.tracker.backend.emote.EmoteService;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,10 @@ public class UserService {
         this.twitchApi = twitchApi;
         this.emoteService = emoteService;
         this.userRepository = userRepository;
+    }
+
+    public Optional<Streamer> getById(String userId) {
+        return userRepository.findById(userId);
     }
 
     public boolean exists(String username) {

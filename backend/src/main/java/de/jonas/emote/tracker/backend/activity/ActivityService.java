@@ -4,6 +4,7 @@ import de.jonas.emote.tracker.backend.database.Activity;
 import de.jonas.emote.tracker.backend.database.Emote;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import java.time.Instant;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +24,17 @@ public class ActivityService {
             .setTimeStamp(Instant.now())
             .setUserName(userName);
         activityRepository.saveAndFlush(activity);
+    }
+
+    public List<Activity> getActivitiesByStreamer(Streamer streamer) {
+        return activityRepository.getActivitiesByStreamer(streamer);
+    }
+
+    public List<de.jonas.emote.tracker.backend.api.model.Emote> getTopEmotes(Streamer streamer) {
+        return activityRepository.getEmoteUsageForStreamerDescending(streamer);
+    }
+
+    public List<de.jonas.emote.tracker.backend.api.model.Emote> getBottomEmotes(Streamer streamer) {
+        return activityRepository.getEmoteUsageForStreamerAscending(streamer);
     }
 }

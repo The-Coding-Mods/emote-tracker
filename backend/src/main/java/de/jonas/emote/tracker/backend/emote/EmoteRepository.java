@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmoteRepository extends JpaRepository<Emote, EmoteId> {
 
-    Optional<Emote> getEmoteByName(String name);
 }
