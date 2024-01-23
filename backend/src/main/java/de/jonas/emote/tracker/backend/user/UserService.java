@@ -2,6 +2,7 @@ package de.jonas.emote.tracker.backend.user;
 
 import com.github.twitch4j.helix.domain.User;
 import de.jonas.emote.tracker.backend.api.model.Emote;
+import de.jonas.emote.tracker.backend.api.model.SimpleUser;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import de.jonas.emote.tracker.backend.emote.EmoteService;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
@@ -16,14 +17,23 @@ public class UserService {
     private final EmoteService emoteService;
     private final UserRepository userRepository;
 
-    public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository) {
+    private final UserConverter userConverter;
+
+    public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository,
+                       UserConverter userConverter) {
         this.twitchApi = twitchApi;
         this.emoteService = emoteService;
         this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
     public Optional<Streamer> getById(String userId) {
         return userRepository.findById(userId);
+    }
+
+    public Optional<SimpleUser> getSimpleUser(String userId) {
+        Optional<Streamer> streamer = getById(userId);
+        return streamer.map(userConverter::toSimpleUser);
     }
 
     public boolean exists(String username) {

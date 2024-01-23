@@ -20,7 +20,7 @@ paths:
           schema:
             type: string
       responses:
-        200:
+        201:
           description: Successfully registered new user
           content:
             'application/json':
@@ -59,14 +59,15 @@ paths:
               schema:
                 type: string
 
-  /user/overview:
+  /user/{userId}:
     get:
       tags:
         - user
-      operationId: getUserOverview
+      operationId: getUser
       parameters:
-        - in: query
+        - in: path
           name: userId
+          required: true
           schema:
             type: string
       responses:
@@ -75,7 +76,7 @@ paths:
           content:
             'application/json':
               schema:
-                type: string
+                $ref: '#/components/schemas/SimpleUser'
 
   /user/{userId}/emotes/count/top:
     get:
@@ -229,3 +230,13 @@ components:
         count:
           type: integer
           format: int64
+    SimpleUser:
+        type: object
+        required:
+            - id
+            - name
+        properties:
+          id:
+            type: string
+          name:
+            type: string

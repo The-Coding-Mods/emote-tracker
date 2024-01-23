@@ -3,6 +3,7 @@ package de.jonas.emote.tracker.backend.user;
 import de.jonas.emote.tracker.backend.activity.ActivityService;
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
 import de.jonas.emote.tracker.backend.api.model.Emote;
+import de.jonas.emote.tracker.backend.api.model.SimpleUser;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import java.util.Collections;
 import java.util.List;
@@ -66,8 +67,12 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> getUserOverview(String userId) {
-        return null;
+    public ResponseEntity<SimpleUser> getUser(String userId) {
+        Optional<SimpleUser> user = userService.getSimpleUser(userId);
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(user.get());
     }
 
     @Override
