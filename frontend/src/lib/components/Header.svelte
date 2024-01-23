@@ -18,7 +18,7 @@
         <a href="/"><h1 class="text-4xl p-4 font-bold">Emote Tracker</h1></a>
 
         <div class="flex justify-center align-middle">
-            <a href="/users"><h1 class="text-3xl p-4 uppercase">users</h1></a>
+            <a href="/user"><h1 class="text-3xl p-4 uppercase">users</h1></a>
         </div>
 
         <div class="text-4xl p-4 flex justify-end align-middle">

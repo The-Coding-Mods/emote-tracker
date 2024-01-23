@@ -7,6 +7,9 @@
     let count: number = 10;
 </script>
 
+<svelte:head>
+    <title>{data.user ? `Emote Tracker - ${data.user.name}` : 'Emote Tracker'}</title>
+</svelte:head>
 {#if data.topEmotes && data.bottomEmotes}
     <div class="flex justify-center mt-4">
         <input type="number" class="variant-filled-secondary rounded p-2 " bind:value={count} max="50" min="10"/>
