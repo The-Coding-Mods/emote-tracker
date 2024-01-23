@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<Streamer, String> {
 
     @Query("""
         SELECT e FROM Streamer s JOIN s.userEmotes e
-        WHERE s = ?1 AND NOT EXISTS (SELECT a FROM Activity a WHERE a.emote.id = e.id)""")
+        WHERE s = ?1 AND NOT EXISTS (SELECT a FROM Activity a WHERE a.emote.id = e.id and a.streamer = s)""")
     List<Emote> getEmotesWithNoUsageForStreamer(Streamer streamer);
 }
