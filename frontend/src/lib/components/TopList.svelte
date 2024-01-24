@@ -14,7 +14,7 @@
     export let emotes!: ApiEmote[];
 </script>
 
-<div class="flex flex-col mx-2 min-w-[22rem] rounded-2xl bg-secondary-50-900-token border-2">
+<div class="flex flex-col min-w-[22rem] rounded-2xl bg-secondary-50-900-token border-2">
     <h1 class="text-3xl flex justify-center p-1.5">
         {#if isTop}
             Top
