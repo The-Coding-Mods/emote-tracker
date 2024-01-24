@@ -72,7 +72,7 @@ jobs:
           echo "RELEASE_VERSION=${{ env.RELEASE_VERSION }}-SNAPSHOT" >> $GITHUB_ENV
 
       - name: Docker meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: meta
         with:
           images: tag365/emote-tracker
