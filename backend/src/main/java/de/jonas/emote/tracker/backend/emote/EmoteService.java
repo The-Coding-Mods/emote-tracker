@@ -51,7 +51,7 @@ public class EmoteService {
     private Set<Emote> collectOriginalEmotes(EmoteSet emotes) {
         return emotes.getEmotes()
             .stream()
-            .filter(emote -> emote.getData().getName().equalsIgnoreCase(emote.getName()))
+            .filter(emote -> emote.getData().getName().equals(emote.getName()))
             .map(emote -> new OriginalEmote()
                 .setId(emote.getId())
                 .setName(emote.getData().getName())
@@ -62,7 +62,7 @@ public class EmoteService {
     private Set<Emote> collectUserEmotes(EmoteSet emotes) {
         return emotes.getEmotes()
             .stream()
-            .filter(emote -> !emote.getData().getName().equalsIgnoreCase(emote.getName()))
+            .filter(emote -> !emote.getData().getName().equals(emote.getName()))
             .map(emote -> new UserEmote()
                 .setId(emote.getId())
                 .setName(emote.getName())
