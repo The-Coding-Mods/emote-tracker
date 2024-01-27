@@ -65,6 +65,4 @@ build/
 */testem.log
 */typings
 
-frontend/src/api/
-
 backend/src/main/resources/db/

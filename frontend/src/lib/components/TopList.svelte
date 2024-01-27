@@ -1,13 +1,8 @@
 <script lang="ts">
 
-    import type { Emote as ApiEmote } from "$lib/../api";
+    import type { Emote as ApiEmote } from "$lib/api";
     import Emote from "$lib/components/Emote.svelte";
-
-    function truncate(input: string, length: number) {
-        return input.length > length
-            ? `${input.substring(0, length)}...`
-            : input;
-    }
+    import { truncate } from "$lib/common/StringFormatting";
 
     export let isTop!: boolean;
     export let count!: number;

@@ -1,30 +1,22 @@
 <script lang="ts">
     import TopList from "$lib/components/TopList.svelte";
     import Usage from "$lib/components/Usage.svelte";
-    import { Configuration, UserApi } from "$lib/../api";
+    import { Configuration, UserApi } from "$lib/api";
     import { BACKEND_URL } from "$lib/common/ApiHost";
-    import type { UserLoad } from "./types";
 
-    export let data: UserLoad;
+    export let data;
+
     let count: number = 10;
     const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}))
 
     async function handleUpdateClick() {
-        if (data.error) return;
         await userApi.updateEmotesForUser({userId: data.user.id});
     }
 
-    function capitalizeFirstLetter(string: string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
 </script>
 
-<svelte:head>
-    <title>{!data.error ? `Emote Tracker - ${capitalizeFirstLetter(data.user.name)}` : 'Emote Tracker'}</title>
-</svelte:head>
 <div class="relative w-[100%] max-w-[1400px] mr-auto ml-auto pr-3 pl-3">
-<div class="flex-col justify-center p-0 m-0">
-    {#if !data.error}
+    <div class="flex-col justify-center p-0 m-0">
         <div class="flex justify-center mt-4">
             <input type="number" class="variant-filled-secondary rounded p-2 " bind:value={count} max="50" min="10"/>
         </div>
@@ -42,11 +34,5 @@
                 </button>
             </div>
         </div>
-
-    {:else }
-        <div class="flex justify-center">
-            <p class="text-2xl">User not found</p>
-        </div>
-    {/if}
-</div>
+    </div>
 </div>

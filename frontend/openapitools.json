@@ -10,7 +10,7 @@
         },
         "serverVariables": "server=localhost",
         "inputSpec": "../api/api.yaml",
-        "output": "#{cwd}/src/#{name}",
+        "output": "#{cwd}/src/lib/#{name}",
         "generatorName": "typescript-fetch"
       },
       "prod": {
@@ -18,7 +18,7 @@
           "npmVersion": "9.6.6"
         },
         "inputSpec": "../api/api.yaml",
-        "output": "#{cwd}/src/#{name}",
+        "output": "#{cwd}/src/lib/#{name}",
         "generatorName": "typescript-fetch"
       }
     }
