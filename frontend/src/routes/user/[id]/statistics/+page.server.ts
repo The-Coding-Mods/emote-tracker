@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
 import { BACKEND_URL } from "$lib/common/ApiHost";
 import { Configuration, UserApi } from "$lib/api";
+import type { PageServerLoad } from "./$types";
 
 const userApi = new UserApi(new Configuration({ basePath: BACKEND_URL }));
 

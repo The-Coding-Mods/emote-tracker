@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Emote } from "../../api";
+    import type { Emote } from "$lib/api";
 
     export let emote: Emote;
     export let size: "2x" | "4x";

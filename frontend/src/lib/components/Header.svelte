@@ -12,7 +12,7 @@
     );
 </script>
 
-<nav class="variant-filled-primary max-h-18 min-h-18 h-18 drop-shadow-2xl">
+<nav class="bg-secondary-100-800-token max-h-18 min-h-18 h-18 drop-shadow-2xl">
     <div class="grid grid-cols-3">
 
         <a href="/"><h1 class="text-4xl p-4 font-bold">Emote Tracker</h1></a>
