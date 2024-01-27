@@ -24,7 +24,7 @@
         <th>Count</th>
         </thead>
         <tbody>
-        {#each emotes as emote, i (emote.id)}
+        {#each emotes as emote, i (emote.name)}
             <tr class="">
                 <td class="p-4">#{i + 1}</td>
                 <td class="">{truncate(emote.name, 14)}</td>
