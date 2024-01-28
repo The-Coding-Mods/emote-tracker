@@ -9,6 +9,8 @@ public class UserConverter {
     SimpleUser toSimpleUser(Streamer streamer) {
         return new SimpleUser()
             .name(streamer.getUsername())
-            .id(streamer.getTwitchUserId());
+            .id(streamer.getTwitchUserId())
+            .profilePicture(streamer.getProfilePictureUrl())
+            .registered(streamer.getRegistered());
     }
 }

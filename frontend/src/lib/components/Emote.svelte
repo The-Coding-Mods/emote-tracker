@@ -12,5 +12,6 @@
    class="snap-start shrink-0 w-[25%] hover:brightness-125">
     <img class="mx-1 aspect-square object-contain"
          src="{imageUrl}"
+         loading="lazy"
          alt="Emote with name {emote.name}" width="{size === '2x' ? '64' : '128'}"/>
 </a>
