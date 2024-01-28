@@ -24,9 +24,11 @@
     <h1 class="pl-4 text-4xl font-bold">Emotes with 0 usage ({emotes.length})</h1>
     <div class="pl-4 grid grid-cols-[auto_1fr_auto] gap-4 items-center max-w-4xl">
         <!-- Button: Left -->
-        <button type="button" class="btn-icon variant-filled" on:click={multiColumnLeft}>
-            <i class="fa-solid fa-arrow-left"></i>
-        </button>
+        {#if emotes.length > 4}
+            <button type="button" class="btn-icon variant-filled" on:click={multiColumnLeft}>
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+        {/if}
         <!-- Carousel -->
         <div bind:this={elemMovies} class="snap-x snap-mandatory scroll-smooth flex gap-2 pb-2 overflow-x-auto">
             {#each emotes as emote}
@@ -34,8 +36,10 @@
             {/each}
         </div>
         <!-- Button-Right -->
-        <button type="button" class="btn-icon variant-filled" on:click={multiColumnRight}>
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
+        {#if emotes.length > 4}
+            <button type="button" class="btn-icon variant-filled" on:click={multiColumnRight}>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        {/if}
     </div>
 </section>
