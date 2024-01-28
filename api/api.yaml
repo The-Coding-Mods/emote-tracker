@@ -240,3 +240,8 @@ components:
             type: string
           name:
             type: string
+          profilePicture:
+            type: string
+          registered:
+            type: string
+            format: date-time

@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import type { Emote as ApiEmote } from "$lib/api";
+    import type { EmoteCount as ApiEmote } from "$lib/api";
     import Emote from "$lib/components/Emote.svelte";
     import { truncate } from "$lib/common/StringFormatting";
 

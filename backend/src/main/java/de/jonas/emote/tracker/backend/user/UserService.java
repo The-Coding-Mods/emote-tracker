@@ -6,6 +6,7 @@ import de.jonas.emote.tracker.backend.api.model.SimpleUser;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import de.jonas.emote.tracker.backend.emote.EmoteService;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,8 @@ public class UserService {
         Streamer streamer = new Streamer()
             .setUsername(user)
             .setTwitchUserId(users.get(0).getId())
+            .setRegistered(Instant.now())
+            .setProfilePictureUrl(users.get(0).getProfileImageUrl())
             .setUserEmotes(emoteService.addEmotes(users.get(0).getId()));
 
         return userRepository.saveAndFlush(streamer);

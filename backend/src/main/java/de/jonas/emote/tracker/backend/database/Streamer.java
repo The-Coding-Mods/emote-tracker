@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import java.time.Instant;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,9 @@ public class Streamer {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Emote> userEmotes;
+
+    private Instant registered;
+
+    private String profilePictureUrl;
 
 }
