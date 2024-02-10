@@ -1,5 +1,6 @@
 package de.jonas.emote.tracker.backend.emote;
 
+import de.jonas.emote.tracker.backend.activity.ActivityService;
 import de.jonas.emote.tracker.backend.database.Emote;
 import de.jonas.emote.tracker.backend.database.OriginalEmote;
 import de.jonas.emote.tracker.backend.database.Source;
@@ -10,7 +11,6 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
 import de.jonas.emote.tracker.backend.user.UserRepository;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,15 @@ public class EmoteService {
 
     private final SevenTVApiWrapper sevenTVApi;
     private final UserRepository userRepository;
+    private final ActivityService activityService;
     private final MessageHandler messageHandler;
 
 
-    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, MessageHandler messageHandler) {
+    public EmoteService(SevenTVApiWrapper sevenTVApi, UserRepository userRepository, ActivityService activityService,
+                        MessageHandler messageHandler) {
         this.sevenTVApi = sevenTVApi;
         this.userRepository = userRepository;
+        this.activityService = activityService;
         this.messageHandler = messageHandler;
     }
 
@@ -37,6 +40,7 @@ public class EmoteService {
         Set<Emote> originals = collectOriginalEmotes(sevenTvOverview.getEmoteSet());
         Set<Emote> customs = collectUserEmotes(sevenTvOverview.getEmoteSet());
         originals.addAll(customs);
+        activityService.createEmoteUpdateActivity(userRepository.getReferenceById(userId));
         return originals;
     }
 

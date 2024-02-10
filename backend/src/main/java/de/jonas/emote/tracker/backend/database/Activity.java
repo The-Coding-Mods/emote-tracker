@@ -34,7 +34,8 @@ public class Activity {
     private Instant timeStamp;
 
     public enum Type {
-        EMOTE_USAGE;
+        EMOTE_USAGE,
+        EMOTE_UPDATE;
     }
 }
 
