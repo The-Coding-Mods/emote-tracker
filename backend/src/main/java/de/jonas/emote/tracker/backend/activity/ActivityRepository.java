@@ -15,13 +15,18 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
 
     @Query("""
         SELECT new de.jonas.emote.tracker.backend.api.model.Emote(a.emote.id, a.emote.name, count(*))
-        FROM Activity a WHERE a.streamer = ?1 GROUP BY a.emote ORDER BY count(*) DESC""")
+        FROM Activity a WHERE a.streamer = ?1 AND a.activityType = 0 GROUP BY a.emote ORDER BY count(*) DESC""")
     List<de.jonas.emote.tracker.backend.api.model.Emote> getEmoteUsageForStreamerDescending(Streamer streamer);
 
     @Query("""
         SELECT new de.jonas.emote.tracker.backend.api.model.Emote(a.emote.id, a.emote.name, count(*))
-        FROM Activity a WHERE a.streamer = ?1 GROUP BY a.emote ORDER BY count(*) ASC""")
+        FROM Activity a WHERE a.streamer = ?1 AND a.activityType = 0 GROUP BY a.emote ORDER BY count(*) ASC""")
     List<de.jonas.emote.tracker.backend.api.model.Emote> getEmoteUsageForStreamerAscending(Streamer streamer);
+
+    @Query("""
+        SELECT max(a.timeStamp) FROM Activity a WHERE a.streamer = ?1 AND a.activityType = 1
+        """)
+    Instant getLastEmoteUpdate(Streamer streamer);
 
     List<Activity> getActivitiesByStreamerUsernameAndTimeStampAfterAndTimeStampBefore(String streamer,
                                                                                       Instant effFrom,

@@ -17,7 +17,6 @@ public class UserService {
     private final TwitchApiWrapper twitchApi;
     private final EmoteService emoteService;
     private final UserRepository userRepository;
-
     private final UserConverter userConverter;
 
     public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository,

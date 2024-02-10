@@ -26,6 +26,14 @@ public class ActivityService {
         activityRepository.saveAndFlush(activity);
     }
 
+    public void createEmoteUpdateActivity(Streamer streamer) {
+        Activity activity = new Activity()
+            .setActivityType(Activity.Type.EMOTE_UPDATE)
+            .setStreamer(streamer)
+            .setTimeStamp(Instant.now());
+        activityRepository.saveAndFlush(activity);
+    }
+
     public List<Activity> getActivitiesByStreamer(Streamer streamer) {
         return activityRepository.getActivitiesByStreamer(streamer);
     }
@@ -36,5 +44,9 @@ public class ActivityService {
 
     public List<de.jonas.emote.tracker.backend.api.model.Emote> getBottomEmotes(Streamer streamer) {
         return activityRepository.getEmoteUsageForStreamerAscending(streamer);
+    }
+
+    public Instant getLastUpdate(Streamer streamer) {
+        return activityRepository.getLastEmoteUpdate(streamer);
     }
 }

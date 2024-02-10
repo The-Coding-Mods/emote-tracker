@@ -2,6 +2,7 @@
     import { page } from '$app/stores';
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
     import { AppRail, AppRailAnchor, AppShell } from "@skeletonlabs/skeleton";
+    import { DateTime } from "luxon";
 
     export let data;
 
@@ -21,6 +22,28 @@
         }
         return splitUrl.join("/");
     }
+
+    const units: Intl.RelativeTimeFormatUnit[] = [
+        'year',
+        'month',
+        'week',
+        'day',
+        'hour',
+        'minute',
+        'second',
+    ];
+
+    function timeAgo(date: Date) {
+        const dateTime = DateTime.fromJSDate(date);
+        const diff = dateTime.diffNow().shiftTo(...units);
+        const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
+
+        const relativeFormatter = new Intl.RelativeTimeFormat('en', {
+            numeric: 'auto',
+        });
+        return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
+    }
+
 </script>
 
 <svelte:head>
@@ -59,7 +82,17 @@
             <hr class="!border-t-2 divide-tertiary-50-900-token mx-0.5"/>
 
             <div class="card-body mx-2">
-                Tracking since {formatter.format(data.user.registered)}
+                <table class="w-full">
+                    <tr>
+                        <td>Tracking since:</td>
+                        <td class="text-right">{formatter.format(data.user.registered)}</td>
+                    </tr>
+                    <tr>
+                        <td>Last updated:</td>
+                        <td class="text-right">{timeAgo(data.user.lastUpdated)}</td>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </svelte:fragment>

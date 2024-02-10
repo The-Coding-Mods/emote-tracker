@@ -230,18 +230,22 @@ components:
         count:
           type: integer
           format: int64
+
     SimpleUser:
-        type: object
-        required:
-            - id
-            - name
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          profilePicture:
-            type: string
-          registered:
-            type: string
-            format: date-time
+      type: object
+      required:
+          - id
+          - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        profilePicture:
+          type: string
+        registered:
+          type: string
+          format: date-time
+        lastUpdated:
+          type: string
+          format: date-time
