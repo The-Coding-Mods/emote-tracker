@@ -15,8 +15,7 @@ export const load: PageServerLoad = async ({ params }) => {
       userId: params.id,
       count: 50,
     });
-    const noUsage = await userApi.getEmotesWitNoUsage({ userId: params.id });
-    return { topEmotes, bottomEmotes, noUsage };
+    return { topEmotes, bottomEmotes };
   } catch (exception) {
     return error(500, "Unknown error");
   }
