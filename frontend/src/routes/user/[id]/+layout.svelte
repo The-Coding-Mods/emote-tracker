@@ -92,7 +92,6 @@
                         <td class="text-right">{timeAgo(data.user.lastUpdated)}</td>
                     </tr>
                 </table>
-
             </div>
         </div>
     </svelte:fragment>

@@ -34,6 +34,7 @@ public class UserController implements UserApi {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         List<Emote> emotes = activityService.getBottomEmotes(streamer.get());
+        emotes.addAll(0, userService.getEmotesWithNoUsageForStreamer(streamer.get()));
         return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
     }
 
@@ -45,15 +46,6 @@ public class UserController implements UserApi {
         }
         List<Emote> emotes = activityService.getTopEmotes(streamer.get());
         return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
-    }
-
-    @Override
-    public ResponseEntity<List<Emote>> getEmotesWitNoUsage(String userId) {
-        Optional<Streamer> streamer = userService.getById(userId);
-        if (streamer.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(userService.getEmotesWithNoUsageForStreamer(streamer.get()));
     }
 
     @Override

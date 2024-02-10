@@ -1,6 +1,5 @@
 <script lang="ts">
     import TopList from "$lib/components/TopList.svelte";
-    import Usage from "$lib/components/Usage.svelte";
     import { Configuration, UserApi } from "$lib/api";
     import { BACKEND_URL } from "$lib/common/ApiHost";
 
@@ -24,9 +23,6 @@
         <TopList emotes={data.bottomEmotes.slice(0, count)} isTop={false} {count}/>
     </div>
     <div class="flex justify-between mt-4">
-        {#if data.noUsage.length > 0 }
-            <Usage emotes={data.noUsage}/>
-        {/if}
         <div class="flex items-center">
             <button class="btn-md variant-filled bg-secondary-50-900-token rounded border-2 text-primary-900-50-token"
                     on:click={handleUpdateClick}>Update
