@@ -103,7 +103,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Emote'
+                  $ref: '#/components/schemas/EmoteCount'
         404:
           description: User not found
 
@@ -132,51 +132,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Emote'
+                  $ref: '#/components/schemas/EmoteCount'
         404:
           description: User not found
-
-  /user/{userId}/emotes/count/above-average:
-    get:
-      tags:
-        - user
-      operationId: getAboveAverageEmotes
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Successfully retrieved bottom emotes based on their usage count
-          content:
-            'application/json':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Emote'
-
-  /user/{userId}/emotes/count/below-average:
-    get:
-      tags:
-        - user
-      operationId: getBelowAverageEmotes
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Successfully retrieved bottom emotes based on their usage count
-          content:
-            'application/json':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Emote'
 
   /user/{userId}/emotes/update:
     patch:
@@ -192,6 +150,10 @@ paths:
       responses:
         200:
           description: Updated emote set successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/EmoteUpdateLog'
 
 components:
   schemas:
@@ -200,21 +162,34 @@ components:
       required:
         - id
         - name
-        - count
       properties:
         id:
           type: string
         name:
           type: string
-        count:
-          type: integer
-          format: int64
 
+    EmoteCount:
+      allOf:
+        - $ref: '#/components/schemas/Emote'
+        - type: object
+          required:
+            - count
+          properties:
+            count:
+              type: integer
+              format: int64
+    EmoteUpdate:
+      allOf:
+        - $ref: '#/components/schemas/Emote'
+        - type: object
+          properties:
+            oldName:
+              type: string
     SimpleUser:
       type: object
       required:
-          - id
-          - name
+        - id
+        - name
       properties:
         id:
           type: string
@@ -228,3 +203,19 @@ components:
         lastUpdated:
           type: string
           format: date-time
+
+    EmoteUpdateLog:
+      type: object
+      properties:
+        added:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emote'
+        removed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emote'
+        renamed:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmoteUpdate'

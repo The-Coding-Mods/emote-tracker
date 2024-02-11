@@ -1,5 +1,6 @@
 package de.jonas.emote.tracker.backend.activity;
 
+import de.jonas.emote.tracker.backend.api.model.EmoteCount;
 import de.jonas.emote.tracker.backend.database.Activity;
 import de.jonas.emote.tracker.backend.database.Emote;
 import de.jonas.emote.tracker.backend.database.Streamer;
@@ -38,11 +39,11 @@ public class ActivityService {
         return activityRepository.getActivitiesByStreamer(streamer);
     }
 
-    public List<de.jonas.emote.tracker.backend.api.model.Emote> getTopEmotes(Streamer streamer) {
+    public List<EmoteCount> getTopEmotes(Streamer streamer) {
         return activityRepository.getEmoteUsageForStreamerDescending(streamer);
     }
 
-    public List<de.jonas.emote.tracker.backend.api.model.Emote> getBottomEmotes(Streamer streamer) {
+    public List<EmoteCount> getBottomEmotes(Streamer streamer) {
         return activityRepository.getEmoteUsageForStreamerAscending(streamer);
     }
 

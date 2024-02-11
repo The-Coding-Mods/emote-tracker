@@ -11,6 +11,7 @@ import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
 import de.jonas.emote.tracker.backend.twitch.MessageHandler;
 import de.jonas.emote.tracker.backend.user.UserRepository;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,18 @@ public class EmoteService {
         return originals;
     }
 
-    public void updateUserEmotes(String userId) {
+    public EmoteUpdateDTO updateUserEmotes(String userId) {
         messageHandler.pause(userId);
         Streamer user = userRepository.getStreamerByTwitchUserId(userId);
-        user.setUserEmotes(addEmotes(userId));
+        final Set<Emote> oldEmotes = user.getUserEmotes();
+        final Set<Emote> newEmotes = addEmotes(userId);
+        final Set<Emote> added = getAddedEmotes(oldEmotes, newEmotes);
+        final Set<Emote> removed = getRemovedEmotes(oldEmotes, newEmotes);
+        final Set<UpdatedEmote> renamed = getRenamedEmotes(removed, added);
+        user.setUserEmotes(newEmotes);
         userRepository.saveAndFlush(user);
         messageHandler.start(userId);
+        return new EmoteUpdateDTO(added, removed, renamed);
     }
 
     private Set<Emote> collectOriginalEmotes(EmoteSet emotes) {
@@ -72,6 +79,41 @@ public class EmoteService {
                 .setName(emote.getName())
                 .setSource(Source.SEVENTV))
             .collect(Collectors.toSet());
+    }
+
+    private Set<Emote> getRemovedEmotes(Set<Emote> oldEmotes, Set<Emote> newEmotes) {
+        Set<Emote> removed = new HashSet<>();
+        for (final var emote : oldEmotes) {
+            if (!newEmotes.contains(emote)) {
+                removed.add(emote);
+            }
+        }
+        return removed;
+    }
+
+    private Set<Emote> getAddedEmotes(Set<Emote> oldEmotes, Set<Emote> newEmotes) {
+        Set<Emote> added = new HashSet<>();
+        for (final var emote : newEmotes) {
+            if (!oldEmotes.contains(emote)) {
+                added.add(emote);
+            }
+        }
+        return added;
+    }
+
+    private Set<UpdatedEmote> getRenamedEmotes(Set<Emote> removed, Set<Emote> added) {
+        Set<UpdatedEmote> renamed = new HashSet<>();
+        for (final var addedEmote : added) {
+            for (final var removedEmote : removed) {
+                if (addedEmote.getId().equals(removedEmote.getId())) {
+                    renamed.add(new UpdatedEmote(addedEmote, removedEmote.getName()));
+                }
+            }
+        }
+        Set<String> renamedIds = renamed.stream().map(Emote::getId).collect(Collectors.toSet());
+        added.removeIf(e -> renamedIds.contains(e.getId()));
+        removed.removeIf(e -> renamedIds.contains(e.getId()));
+        return renamed;
     }
 
 }
