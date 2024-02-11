@@ -1,10 +1,13 @@
 package de.jonas.emote.tracker.backend.user;
 
 import com.github.twitch4j.helix.domain.User;
-import de.jonas.emote.tracker.backend.api.model.Emote;
+import de.jonas.emote.tracker.backend.api.model.EmoteCount;
+import de.jonas.emote.tracker.backend.api.model.EmoteUpdateLog;
 import de.jonas.emote.tracker.backend.api.model.SimpleUser;
 import de.jonas.emote.tracker.backend.database.Streamer;
 import de.jonas.emote.tracker.backend.emote.EmoteService;
+import de.jonas.emote.tracker.backend.emote.EmoteUpdateConverter;
+import de.jonas.emote.tracker.backend.emote.EmoteUpdateDTO;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
 import java.time.Instant;
 import java.util.Collections;
@@ -18,13 +21,15 @@ public class UserService {
     private final EmoteService emoteService;
     private final UserRepository userRepository;
     private final UserConverter userConverter;
+    private final EmoteUpdateConverter emoteUpdateConverter;
 
     public UserService(TwitchApiWrapper twitchApi, EmoteService emoteService, UserRepository userRepository,
-                       UserConverter userConverter) {
+                       UserConverter userConverter, EmoteUpdateConverter emoteUpdateConverter) {
         this.twitchApi = twitchApi;
         this.emoteService = emoteService;
         this.userRepository = userRepository;
         this.userConverter = userConverter;
+        this.emoteUpdateConverter = emoteUpdateConverter;
     }
 
     public Optional<Streamer> getById(String userId) {
@@ -36,8 +41,12 @@ public class UserService {
         return streamer.map(userConverter::toSimpleUser);
     }
 
-    public boolean exists(String username) {
+    public boolean existsByUsername(String username) {
         return userRepository.existsStreamerByUsername(username);
+    }
+
+    public boolean existsById(String userId) {
+        return userRepository.existsById(userId);
     }
 
     public List<Streamer> getAll() {
@@ -59,8 +68,9 @@ public class UserService {
         return userRepository.saveAndFlush(streamer);
     }
 
-    public void updateEmotes(String userId) {
-        emoteService.updateUserEmotes(userId);
+    public EmoteUpdateLog updateEmotes(String userId) {
+        EmoteUpdateDTO dto = emoteService.updateUserEmotes(userId);
+        return emoteUpdateConverter.convert(dto);
     }
 
     /**
@@ -69,10 +79,10 @@ public class UserService {
      * @param streamer The streamer for whom to retrieve the unused emotes.
      * @return A list of Emote objects representing the emotes not used in the streamer.
      */
-    public List<Emote> getEmotesWithNoUsageForStreamer(Streamer streamer) {
+    public List<EmoteCount> getEmotesWithNoUsageForStreamer(Streamer streamer) {
         return userRepository.getEmotesWithNoUsageForStreamer(streamer)
             .stream()
-            .map(emote -> new Emote()
+            .map(emote -> new EmoteCount()
                 .name(emote.getName())
                 .id(emote.getId())
                 .count(0L))

@@ -2,10 +2,10 @@ package de.jonas.emote.tracker.backend.user;
 
 import de.jonas.emote.tracker.backend.activity.ActivityService;
 import de.jonas.emote.tracker.backend.api.controller.UserApi;
-import de.jonas.emote.tracker.backend.api.model.Emote;
+import de.jonas.emote.tracker.backend.api.model.EmoteCount;
+import de.jonas.emote.tracker.backend.api.model.EmoteUpdateLog;
 import de.jonas.emote.tracker.backend.api.model.SimpleUser;
 import de.jonas.emote.tracker.backend.database.Streamer;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -28,34 +28,24 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<Emote>> getBottomEmotes(String userId, Integer count) {
+    public ResponseEntity<List<EmoteCount>> getBottomEmotes(String userId, Integer count) {
         Optional<Streamer> streamer = userService.getById(userId);
         if (streamer.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        List<Emote> emotes = activityService.getBottomEmotes(streamer.get());
+        List<EmoteCount> emotes = activityService.getBottomEmotes(streamer.get());
         emotes.addAll(0, userService.getEmotesWithNoUsageForStreamer(streamer.get()));
         return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
     }
 
     @Override
-    public ResponseEntity<List<Emote>> getTopEmotes(String userId, Integer count) {
+    public ResponseEntity<List<EmoteCount>> getTopEmotes(String userId, Integer count) {
         Optional<Streamer> streamer = userService.getById(userId);
         if (streamer.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        List<Emote> emotes = activityService.getTopEmotes(streamer.get());
+        List<EmoteCount> emotes = activityService.getTopEmotes(streamer.get());
         return ResponseEntity.ok(emotes.subList(0, Math.min(count, emotes.size())));
-    }
-
-    @Override
-    public ResponseEntity<List<Emote>> getAboveAverageEmotes(String userId) {
-        return ResponseEntity.ok(Collections.emptyList());
-    }
-
-    @Override
-    public ResponseEntity<List<Emote>> getBelowAverageEmotes(String userId) {
-        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @Override
@@ -69,7 +59,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<String> registerNewUser(String user) {
-        if (userService.exists(user)) {
+        if (userService.existsByUsername(user)) {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
         try {
@@ -90,9 +80,11 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateEmotesForUser(String userId) {
+    public ResponseEntity<EmoteUpdateLog> updateEmotesForUser(String userId) {
         log.info("Update emotes request for {}", userId);
-        userService.updateEmotes(userId);
-        return ResponseEntity.ok().build();
+        if (!userService.existsById(userId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(userService.updateEmotes(userId));
     }
 }
