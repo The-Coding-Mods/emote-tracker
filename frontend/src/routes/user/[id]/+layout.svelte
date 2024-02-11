@@ -3,11 +3,12 @@
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
     import { AppRail, AppRailAnchor, AppShell } from "@skeletonlabs/skeleton";
     import { DateTime } from "luxon";
+    import { dateTime } from "$lib/stores/time";
 
     export let data;
 
     const formatter = new Intl.DateTimeFormat(
-        undefined,
+        undefined!,
         {
             day: '2-digit',
             month: 'short',
@@ -33,12 +34,11 @@
         'second',
     ];
 
-    function timeAgo(date: Date) {
-        const dateTime = DateTime.fromJSDate(date);
-        const diff = dateTime.diffNow().shiftTo(...units);
+    function timeAgo(date: DateTime, currentDate: DateTime) {
+        const diff = date.diff(currentDate).shiftTo(...units);
         const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
 
-        const relativeFormatter = new Intl.RelativeTimeFormat('en', {
+        const relativeFormatter = new Intl.RelativeTimeFormat(undefined!, {
             numeric: 'auto',
         });
         return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
@@ -89,7 +89,7 @@
                     </tr>
                     <tr>
                         <td>Last updated:</td>
-                        <td class="text-right">{timeAgo(data.user.lastUpdated)}</td>
+                        <td class="text-right">{timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}</td>
                     </tr>
                 </table>
             </div>
