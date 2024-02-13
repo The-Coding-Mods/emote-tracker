@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.VisibleForTesting;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -54,5 +55,10 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
     public void start(String userId) {
         log.info("Start MessageHandler for {}", userId);
         this.isPaused.put(userId, false);
+    }
+
+    @VisibleForTesting
+    Map<String, Boolean> getIsPaused() {
+        return isPaused;
     }
 }

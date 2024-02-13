@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class RegistrationService {
     private final Client client;
     private final MessageHandler messageHandler;
-
     private final UserService userService;
 
     public RegistrationService(Client client, MessageHandler messageHandler, UserService userService) {
@@ -27,9 +26,9 @@ public class RegistrationService {
     }
 
     public boolean unregister(String username) {
+        messageHandler.pause(username);
         return this.client.leaveChannel(username);
     }
-
 
     @PostConstruct
     public void initializeUsersAfterStart() {
@@ -37,6 +36,5 @@ public class RegistrationService {
             log.info("Subscribe to already registered users twitch channel: {}", user.getUsername());
             register(user);
         }
-
     }
 }
