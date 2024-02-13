@@ -33,7 +33,7 @@ public class EmoteService {
         this.messageHandler = messageHandler;
     }
 
-    public Set<Emote> addEmotes(String userId) {
+    public Set<Emote> addEmotes(String userId) throws IllegalStateException {
         UserOverview7TV sevenTvOverview = sevenTVApi.getUserByTwitchId(userId);
         if (sevenTvOverview.getEmoteSet().getEmotes().isEmpty()) {
             throw new IllegalStateException("No seven TV emotes found for user");
@@ -115,5 +115,4 @@ public class EmoteService {
         removed.removeIf(e -> renamedIds.contains(e.getId()));
         return renamed;
     }
-
 }
