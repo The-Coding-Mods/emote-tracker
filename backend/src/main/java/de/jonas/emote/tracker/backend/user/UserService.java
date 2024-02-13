@@ -79,7 +79,7 @@ public class UserService {
      * @param streamer The streamer for whom to retrieve the unused emotes.
      * @return A list of Emote objects representing the emotes not used in the streamer.
      */
-    public List<EmoteCount> getEmotesWithNoUsageForStreamer(Streamer streamer) {
+    public List<EmoteCount> getEmotesWithNoUsage(Streamer streamer) {
         return userRepository.getEmotesWithNoUsageForStreamer(streamer)
             .stream()
             .map(emote -> new EmoteCount()
