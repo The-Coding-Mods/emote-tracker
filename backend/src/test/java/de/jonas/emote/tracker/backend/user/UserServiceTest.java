@@ -132,7 +132,7 @@ class UserServiceTest {
         assertNotNull(result);
         assertThat(result.getUsername()).isEqualTo("username");
         assertThat(result.getTwitchUserId()).isEqualTo("123");
-        assertThat(result.getProfilePictureUrl()).isEqualTo("profileImageUrl");;
+        assertThat(result.getProfilePictureUrl()).isEqualTo("profileImageUrl");
         assertThat(result.getUserEmotes()).isEmpty();
         verify(userRepository, times(1)).saveAndFlush(any());
     }
