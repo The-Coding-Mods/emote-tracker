@@ -12,8 +12,16 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly" 
+      interval: "weekly"
+    groups:
+      svelte:
+        patterns:
+          - "*svelte*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
