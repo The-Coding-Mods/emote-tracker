@@ -18,6 +18,7 @@
     "svelte": "4.2.12"
   },
   "devDependencies": {
+    "@floating-ui/dom": "^1.6.3",
     "@openapitools/openapi-generator-cli": "2.9.0",
     "@skeletonlabs/skeleton": "2.8.0",
     "@skeletonlabs/tw-plugin": "0.3.1",
