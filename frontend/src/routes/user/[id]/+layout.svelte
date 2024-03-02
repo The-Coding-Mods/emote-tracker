@@ -1,13 +1,20 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-    import { AppRail, AppRailAnchor, AppShell } from "@skeletonlabs/skeleton";
+    import { AppRail, AppRailAnchor, AppShell, popup, type PopupSettings } from "@skeletonlabs/skeleton";
     import { DateTime } from "luxon";
     import { dateTime } from "$lib/stores/time";
 
     export let data;
 
-    const formatter = new Intl.DateTimeFormat(
+    const popupHover: PopupSettings = {
+        event: 'hover',
+        target: 'popupHover',
+        placement: 'bottom'
+    };
+
+
+    const dayFormatter = new Intl.DateTimeFormat(
         undefined!,
         {
             day: '2-digit',
@@ -15,6 +22,16 @@
             year: 'numeric'
         }
     );
+    const hourFormatter = new Intl.DateTimeFormat(
+        undefined!,
+        {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: "2-digit"
+        }
+    )
 
     function removeTrailingPath(url: string): string {
         const splitUrl = url.split("/");
@@ -85,11 +102,19 @@
                 <table class="w-full">
                     <tr>
                         <td>Tracking since:</td>
-                        <td class="text-right">{formatter.format(data.user.registered)}</td>
+                        <td class="text-right">{dayFormatter.format(data.user.registered)}</td>
                     </tr>
                     <tr>
                         <td>Last updated:</td>
-                        <td class="text-right">{timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}</td>
+                        <td class="text-right">
+                            <div use:popup={popupHover}>
+                                {timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
+                            </div>
+                            <div class="bg-tertiary-100-800-token card p-1"
+                                 data-popup="popupHover">{hourFormatter.format(data.user.lastUpdated)}
+                                <div class="arrow bg-tertiary-100-800-token"/>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
