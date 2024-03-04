@@ -26,7 +26,7 @@
     "@sveltejs/vite-plugin-svelte": "3.0.2",
     "@types/luxon": "^3.4.2",
     "@types/node": "20.11.19",
-    "autoprefixer": "10.4.17",
+    "autoprefixer": "10.4.18",
     "eslint": "8.56.0",
     "eslint-plugin-svelte": "2.35.1",
     "gts": "5.2.0",
