@@ -1,5 +1,5 @@
 <script type="ts">
-    import { time } from '$lib/stores/count';
+    import { time } from '$lib/stores/time';
     import { LightSwitch } from '@skeletonlabs/skeleton';
 
     const formatter = new Intl.DateTimeFormat(
