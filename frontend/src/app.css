@@ -15,7 +15,5 @@ html, body {
 }
 
 @layer components {
-    .selected {
-        @apply bg-primary-500 rounded-full font-bold
-    }
+
 }
