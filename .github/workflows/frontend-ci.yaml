@@ -1,23 +1,17 @@
 name: Frontend CI
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'frontend/**'
-      - 'api/**'
-      - '.github/**'
-
   workflow_dispatch:
     inputs:
       force-push:
         description: Push artifact regardless of branch
         type: boolean
         default: false
+  merge_group:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   node:
