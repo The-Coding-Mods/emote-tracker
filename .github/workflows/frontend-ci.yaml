@@ -1,16 +1,12 @@
 name: Frontend CI
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       force-push:
-        description: Push artifact regardless of branch
+        description: "Publish Docker image regardless of branch"
         type: boolean
         default: false
-  push:
-    branches:
-      - master
-  pull_request:
 
 jobs:
   node:
@@ -77,7 +73,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
-          push: ${{ github.ref == 'refs/heads/master' || inputs.force-push == true }}
+          push: ${{ inputs.force-push }}
           platforms: linux/amd64, linux/arm64/v8
           tags: ${{ steps.meta.outputs.tags }}
   staging:
