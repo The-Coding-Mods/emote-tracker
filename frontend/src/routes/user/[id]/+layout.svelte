@@ -1,11 +1,24 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-    import { AppRail, AppRailAnchor, AppShell, popup, type PopupSettings } from "@skeletonlabs/skeleton";
+    import {
+        AppRail,
+        AppRailAnchor,
+        AppShell,
+        getToastStore,
+        popup,
+        type PopupSettings,
+        type ToastSettings
+    } from "@skeletonlabs/skeleton";
     import { DateTime } from "luxon";
     import { dateTime } from "$lib/stores/time";
+    import { invalidateAll } from "$app/navigation";
+    import { Configuration, UserApi } from "$lib/api";
+    import { BACKEND_URL } from "$lib/common/ApiHost";
 
     export let data;
+    const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}))
+    const toastStore = getToastStore();
 
     const popupHover: PopupSettings = {
         event: 'hover',
@@ -61,6 +74,14 @@
         return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
     }
 
+    async function handleUpdateClick() {
+        const {added, removed, renamed} = await userApi.updateEmotesForUser({userId: data.user.id});
+        const t: ToastSettings = {
+            message: `Added: ${added?.length}, Removed: ${removed?.length}, Renamed: ${renamed?.length}`,
+        };
+        toastStore.trigger(t);
+        await invalidateAll();
+    }
 </script>
 
 <svelte:head>
@@ -94,6 +115,7 @@
                 <img class="rounded-full w-16 square mr-2" src="{data.user.profilePicture}" alt="{data.user.name}"/>
                 {capitalizeFirstLetter(data.user.name)}
                 <a href="//twitch.tv/{data.user.name}" target="_blank" rel="noopener noreferrer"
+                   title="twitch.tv/{data.user.name}"
                    class="mx-2 hover:text-[#6441a5]"><i class="fa-brands fa-twitch"/></a>
             </div>
             <hr class="!border-t-2 divide-tertiary-50-900-token mx-0.5"/>
@@ -106,7 +128,7 @@
                     </tr>
                     <tr>
                         <td>Last updated:</td>
-                        <td class="text-right">
+                        <td class="text-right flex">
                             <div use:popup={popupHover}>
                                 {timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
                             </div>
@@ -114,6 +136,9 @@
                                  data-popup="popupHover">{hourFormatter.format(data.user.lastUpdated)}
                                 <div class="arrow bg-tertiary-100-800-token"/>
                             </div>
+                            <button class="btn-icon-sm mx-[-0.25rem] my-[-0.5rem]" title="Update Emotes"
+                                    on:click={handleUpdateClick}><i class="fa-solid fa-rotate-right"></i>
+                            </button>
                         </td>
                     </tr>
                 </table>
