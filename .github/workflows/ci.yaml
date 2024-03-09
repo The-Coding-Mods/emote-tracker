@@ -1,0 +1,28 @@
+name: Pipeline
+on:
+  merge_group:
+  workflow_dispatch:
+    inputs:
+      force-push:
+        description: "Publish Docker image regardless of branch"
+        type: boolean
+        default: false
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend build
+    uses: ./.github/workflows/backend-ci.yaml
+    secrets: inherit
+    with:
+      force-push: ${{ github.ref == 'refs/heads/master' || inputs.force-push == true }}
+
+  frontend:
+    name: Frontend build
+    uses: ./.github/workflows/frontend-ci.yaml
+    secrets: inherit
+    with:
+      force-push: ${{ github.ref == 'refs/heads/master' || inputs.force-push == true }}
