@@ -9,12 +9,13 @@ on:
         default: false
 
 jobs:
-  node:
-    name: Node
-    runs-on: ubuntu-latest
+  docker:
+    name: Frontend docker build
     defaults:
       run:
         working-directory: ./frontend
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -37,27 +38,6 @@ jobs:
       - name: Generate api code
         run: pnpm "generate api"
 
-      - name: Build staging
-        run: pnpm staging
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: emote-tracker
-          path: |
-            ./frontend/build
-            ./frontend/package.json
-            ./frontend/pnpm-lock.yaml
-
-  docker:
-    name: Frontend docker build
-    needs: node
-    defaults:
-      run:
-        working-directory: ./frontend
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -69,12 +49,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Download compiled emote-tracker
-        uses: actions/download-artifact@v4
-        with:
-          name: emote-tracker
-          path: frontend/
 
       - name: Extract Project version
         run: |
