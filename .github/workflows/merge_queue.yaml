@@ -1,7 +1,7 @@
 name: Merge Queue
 on:
   merge_group:
-
+  push:
 jobs:
   frontend:
     defaults:
