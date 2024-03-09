@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 
 const userApi = new UserApi(new Configuration({ basePath: BACKEND_URL }));
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async () => {
   const users = await userApi.getAllUsers();
   return { users };
 };
