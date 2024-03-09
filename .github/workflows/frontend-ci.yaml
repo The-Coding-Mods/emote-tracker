@@ -7,7 +7,6 @@ on:
         description: Push artifact regardless of branch
         type: boolean
         default: false
-  merge_group:
   push:
     branches:
       - master

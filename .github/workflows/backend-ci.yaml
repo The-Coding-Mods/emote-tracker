@@ -7,7 +7,6 @@ on:
         description: "Publish Docker image regardless of branch"
         type: boolean
         default: false
-  merge_group:
   push:
     branches:
       - master
