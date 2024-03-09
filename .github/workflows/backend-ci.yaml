@@ -89,6 +89,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./backend/build/Dockerfile
+          context: ./backend/build
           push: ${{ inputs.force-push }}
           platforms: linux/amd64, linux/arm64/v8
           tags: ${{ steps.meta.outputs.tags }}

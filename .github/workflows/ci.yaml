@@ -13,13 +13,13 @@ on:
   pull_request:
 
 jobs:
-  frontend:
+  backend:
     uses: ./.github/workflows/backend-ci.yaml
     secrets: inherit
     with:
       force-push: ${{ github.ref == 'refs/heads/master' || inputs.force-push == true }}
 
-  backend:
+  frontend:
     uses: ./.github/workflows/frontend-ci.yaml
     secrets: inherit
     with:
