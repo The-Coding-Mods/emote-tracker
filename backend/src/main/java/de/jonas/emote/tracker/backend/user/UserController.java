@@ -28,6 +28,11 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public ResponseEntity<List<SimpleUser>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAll());
+    }
+
+    @Override
     public ResponseEntity<List<EmoteCount>> getBottomEmotes(String userId, Integer count) {
         Optional<Streamer> streamer = userService.getById(userId);
         if (streamer.isEmpty()) {

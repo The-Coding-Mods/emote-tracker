@@ -2,7 +2,6 @@ package de.jonas.emote.tracker.backend.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import de.jonas.emote.tracker.backend.activity.ActivityService;
@@ -261,6 +260,31 @@ class UserControllerTest {
         ResponseEntity<EmoteUpdateLog> response = userController.updateEmotesForUser(userId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 
+    @Test
+    void getAllUsers_should_return_all_users() {
+        List<SimpleUser> users = Arrays.asList(new SimpleUser(), new SimpleUser());
+
+        when(userService.getAll()).thenReturn(users);
+
+        ResponseEntity<List<SimpleUser>> response = userController.getAllUsers();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody())
+            .isNotNull()
+            .hasSize(2);
+    }
+
+    @Test
+    void getAllUsers_should_return_empty_list_when_no_users_exist() {
+        when(userService.getAll()).thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<SimpleUser>> response = userController.getAllUsers();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody())
+            .isNotNull()
+            .isEmpty();
     }
 }

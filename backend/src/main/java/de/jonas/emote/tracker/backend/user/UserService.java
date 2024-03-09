@@ -49,8 +49,12 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    public List<Streamer> getAll() {
+    public List<Streamer> getAllDatabaseUsers() {
         return userRepository.findAll();
+    }
+
+    public List<SimpleUser> getAll() {
+        return userRepository.findAll().stream().map(userConverter::toSimpleUser).toList();
     }
 
     public Streamer create(String user) throws IllegalStateException {

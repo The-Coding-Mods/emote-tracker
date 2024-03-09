@@ -77,7 +77,7 @@ class RegistrationServiceTest {
         when(streamer2.getUsername()).thenReturn("testUser2");
         when(streamer2.getTwitchUserId()).thenReturn("testUserId2");
 
-        when(userService.getAll()).thenReturn(List.of(streamer1, streamer2));
+        when(userService.getAllDatabaseUsers()).thenReturn(List.of(streamer1, streamer2));
 
         registrationService.initializeUsersAfterStart();
 
