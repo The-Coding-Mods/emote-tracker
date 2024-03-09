@@ -22,10 +22,10 @@ import de.jonas.emote.tracker.backend.database.Streamer;
 import de.jonas.emote.tracker.backend.emote.EmoteService;
 import de.jonas.emote.tracker.backend.emote.EmoteUpdateConverter;
 import de.jonas.emote.tracker.backend.network.wrapper.TwitchApiWrapper;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -149,7 +149,8 @@ class UserServiceTest {
     @Test
     void getEmotesWithNoUsage_should_return_emotes_with_count_is_zero() {
         Streamer streamer = mock(Streamer.class);
-        when(userRepository.getEmotesWithNoUsageForStreamer(streamer)).thenReturn(List.of(new Emote().setId("123").setName("emote")));
+        when(userRepository.getEmotesWithNoUsageForStreamer(streamer)).thenReturn(
+            List.of(new Emote().setId("123").setName("emote")));
 
         List<EmoteCount> result = userService.getEmotesWithNoUsage(streamer);
 
@@ -157,12 +158,41 @@ class UserServiceTest {
             .extracting(EmoteCount::getId, EmoteCount::getName, EmoteCount::getCount)
             .containsExactlyInAnyOrder(tuple("123", "emote", 0L));
     }
+
     @Test
     void getEmotesWithNoUsage_should_return_empty_list() {
         Streamer streamer = mock(Streamer.class);
         when(userRepository.getEmotesWithNoUsageForStreamer(streamer)).thenReturn(Collections.emptyList());
 
         List<EmoteCount> result = userService.getEmotesWithNoUsage(streamer);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void getAll_should_return_all_users() {
+        Streamer streamer1 = new Streamer();
+        Streamer streamer2 = new Streamer();
+        List<Streamer> streamers = Arrays.asList(streamer1, streamer2);
+
+        SimpleUser simpleUser1 = new SimpleUser();
+        SimpleUser simpleUser2 = new SimpleUser();
+        List<SimpleUser> simpleUsers = Arrays.asList(simpleUser1, simpleUser2);
+
+        when(userRepository.findAll()).thenReturn(streamers);
+        when(userConverter.toSimpleUser(streamer1)).thenReturn(simpleUser1);
+        when(userConverter.toSimpleUser(streamer2)).thenReturn(simpleUser2);
+
+        List<SimpleUser> result = userService.getAll();
+
+        assertThat(result).isEqualTo(simpleUsers);
+    }
+
+    @Test
+    void getAll_should_return_empty_list_when_no_users_exist() {
+        when(userRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<SimpleUser> result = userService.getAll();
 
         assertThat(result).isEmpty();
     }
