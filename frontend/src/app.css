@@ -13,7 +13,3 @@ html, body, label {
 html, body {
     @apply h-full overflow-hidden;
 }
-
-@layer components {
-
-}
