@@ -51,6 +51,7 @@ jobs:
 
   docker:
     name: Frontend docker build
+    needs: node
     defaults:
       run:
         working-directory: ./frontend
