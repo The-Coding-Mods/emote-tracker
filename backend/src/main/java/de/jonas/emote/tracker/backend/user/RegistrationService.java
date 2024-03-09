@@ -32,7 +32,7 @@ public class RegistrationService {
 
     @PostConstruct
     public void initializeUsersAfterStart() {
-        for (final var user : userService.getAll()) {
+        for (final var user : userService.getAllDatabaseUsers()) {
             log.info("Subscribe to already registered users twitch channel: {}", user.getUsername());
             register(user);
         }

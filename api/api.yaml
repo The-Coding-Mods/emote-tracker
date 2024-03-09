@@ -58,6 +58,20 @@ paths:
             'application/json':
               schema:
                 type: string
+  /user:
+    get:
+      tags:
+        - user
+      operationId: getAllUsers
+      responses:
+        200:
+          description: Successfully got all users
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SimpleUser'
 
   /user/{userId}:
     get:
