@@ -37,7 +37,7 @@ jobs:
       - run: mvn checkstyle:check --no-transfer-progress
 
   jacoco-report:
-    if: $ {{ github.event.action == pull_request || github.event_name == push }}
+    if: ${{ github.event.action == pull_request || github.event_name == push }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
