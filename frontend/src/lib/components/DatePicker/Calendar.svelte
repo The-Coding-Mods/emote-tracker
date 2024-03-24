@@ -82,7 +82,7 @@
 </script>
 
 <div>
-    <table class="text-center m-0 p-0">
+    <table class="text-center m-2">
         <tr class="">
             <td class="w-[32px] h-[32px] btn-icon variant-ghost-primary hover:cursor-pointer" on:click={() => go(-1)}><i
                     class="fa-solid fa-arrow-left"></i></td>
