@@ -51,13 +51,12 @@
         if (!(isoDateString(selected.from) === isoDateString(dayIterator) || isoDateString(selected.to) === isoDateString(dayIterator))) {
             return '';
         }
-        let selectedClass = 'bg-primary-500 font-bold';
         if (dayIterator > selected.from) {
-            selectedClass += ' rounded-r-full';
+            return 'bg-primary-500 font-bold rounded-r-full';
         } else if (dayIterator < selected.to) {
-            selectedClass += ' rounded-l-full';
+            return 'bg-primary-500 font-bold rounded-l-full';
         }
-        return selectedClass;
+        return 'bg-primary-500 font-bold rounded-full';
 
     }
 
