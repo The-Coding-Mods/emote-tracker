@@ -10,10 +10,33 @@
         return `${months[date.getMonth()]} ${date.getDate()}`
     }
 </script>
-<Calendar/>
-<div class="btn-group variant-filled ">
-    <button class="btn variant-filled{$prioritizeStart ? '-secondary' : '' }" on:click={() => $prioritizeStart = true}>
-        From: {shortVersion($selectedDates.from)}</button>
-    <button class="variant-filled{$prioritizeStart?'':'-secondary' }" on:click={() =>  $prioritizeStart = false}>
-        To: {shortVersion($selectedDates.to)}</button>
+<div class="flex flex-col justify-center">
+    <Calendar/>
+    <div class="inline-flex overflow-hidden rounded">
+        <a id="wont-close"
+           class="w-full py-[9px] px-5 variant-filled{$prioritizeStart ? '-secondary' : '' } hover:cursor-pointer"
+           on:click={() => $prioritizeStart = true}>
+            <div class="flex flex-col items-start">
+                <div class="text-xs">
+                    From
+                </div>
+                <div>
+                    {shortVersion($selectedDates.from)}
+                </div>
+            </div>
+        </a>
+        <span class="divider-vertical"/>
+        <a id="wont-close"
+           class="w-full py-[9px] px-5 variant-filled{$prioritizeStart ? '' : '-secondary' } hover:cursor-pointer"
+           on:click={() =>  $prioritizeStart = false}>
+            <div class="flex flex-col items-start">
+                <div class="text-xs">
+                    To
+                </div>
+                <div>
+                    {shortVersion($selectedDates.to)}
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
