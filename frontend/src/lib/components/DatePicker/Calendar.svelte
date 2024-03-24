@@ -1,6 +1,6 @@
 <script lang="ts">
     import { prioritizeStart, type Range, selectedDates } from "$lib/stores/SelectedDates";
-    import { days, months, isoDateString } from "$lib/service/DateUtil";
+    import { days, isoDateString, months } from "$lib/service/DateUtil";
 
     type Week = {
         days: Day[];
@@ -8,6 +8,7 @@
     type Day = {
         value: Date;
         selected: string;
+        inRange: string;
         outside: string;
     }
 
@@ -46,6 +47,20 @@
         }
     }
 
+    function selectedClass(dayIterator: Date, selected: Range<Date | undefined>) {
+        if (!(isoDateString(selected.from) === isoDateString(dayIterator) || isoDateString(selected.to) === isoDateString(dayIterator))) {
+            return '';
+        }
+        let selectedClass = 'bg-primary-500 font-bold';
+        if (dayIterator > selected.from) {
+            selectedClass += ' rounded-r-full';
+        } else if (dayIterator < selected.to) {
+            selectedClass += ' rounded-l-full';
+        }
+        return selectedClass;
+
+    }
+
     function weeksFrom(currentDate: Date, selected: Range<Date | undefined>) {
         const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         // that's some magic copied from stackoverflow
@@ -63,7 +78,8 @@
         while (dayIterator.getTime() <= lastDay.getTime()) {
             week.push({
                 value: dayIterator,
-                selected: isoDateString(selected.from) === isoDateString(dayIterator) || isoDateString(selected.to) === isoDateString(dayIterator) ? 'bg-primary-500 rounded-full font-bold' : '',
+                selected: selectedClass(dayIterator, selected),
+                inRange: (dayIterator > selected.from && dayIterator < selected.to) ? 'bg-primary-300 bg-opacity-25' : '',
                 outside: dayIterator.getMonth() !== currentDate.getMonth() ? 'opacity-25' : '',
             });
 
@@ -98,7 +114,7 @@
         {#each weeks as week}
             <tr>
                 {#each week.days as day}
-                    <td class="w-[32px] h-[32px] {day.outside} {day.selected} hover:bg-tertiary-800 hover:cursor-pointer hover:rounded-full"
+                    <td class="w-[32px] h-[32px] {day.outside} {day.selected} {day.inRange} hover:bg-tertiary-800 hover:cursor-pointer hover:rounded-full"
                         on:click={() => setValue(day)}>{day.value.getDate()}</td>
                 {/each}
             </tr>
