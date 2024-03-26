@@ -20,7 +20,6 @@ const config = {
         extend: {},
     },
     plugins: [
-        // 4. Append the Skeleton plugin (after other plugins)
         skeleton({
             themes: {
                 custom: [
@@ -32,4 +31,3 @@ const config = {
 } satisfies Config;
 
 export default config;
-
