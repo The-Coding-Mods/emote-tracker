@@ -14,7 +14,7 @@
     "generate dev api": "openapi-generator-cli generate --generator-key dev"
   },
   "dependencies": {
-    "@sveltejs/kit": "2.5.4",
+    "@sveltejs/kit": "2.5.5",
     "svelte": "4.2.12"
   },
   "devDependencies": {
