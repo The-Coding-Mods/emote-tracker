@@ -1,10 +1,7 @@
-import { Configuration, UserApi } from "$lib/api";
-import { BACKEND_URL } from "$lib/common/ApiHost";
 import type { PageServerLoad } from "./$types";
+import { UserApi } from "$lib/api/api";
 
-const userApi = new UserApi(new Configuration({ basePath: BACKEND_URL }));
-
-export const load: PageServerLoad = async () => {
-  const users = await userApi.getAllUsers();
+export const load: PageServerLoad = async ({ fetch }) => {
+  const { data: users } = await UserApi.getUsers(fetch);
   return { users };
 };

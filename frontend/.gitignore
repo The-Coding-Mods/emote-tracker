@@ -202,4 +202,4 @@ package
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,svelte,node,yarn,dotenv
-/src/lib/api/
+src/lib/api/generated.d.ts

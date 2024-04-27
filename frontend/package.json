@@ -10,16 +10,15 @@
     "lint": "gts lint && svelte-check",
     "clean": "gts clean",
     "fix": "gts fix",
-    "generate api": "openapi-generator-cli generate --generator-key prod",
-    "generate dev api": "openapi-generator-cli generate --generator-key dev"
+    "generate api": "openapi-typescript ../api/api.yaml --output src/lib/api/generated.d.ts"
   },
   "dependencies": {
     "@sveltejs/kit": "2.5.7",
+    "openapi-fetch": "^0.9.4",
     "svelte": "4.2.15"
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.3",
-    "@openapitools/openapi-generator-cli": "2.13.1",
     "@skeletonlabs/skeleton": "2.9.0",
     "@skeletonlabs/tw-plugin": "0.3.1",
     "@sveltejs/adapter-node": "5.0.1",
@@ -31,6 +30,7 @@
     "eslint-plugin-svelte": "2.37.0",
     "gts": "5.2.0",
     "luxon": "3.4.4",
+    "openapi-typescript": "^6.7.5",
     "postcss": "8.4.38",
     "postcss-load-config": "5.0.3",
     "prettier": "3.2.5",

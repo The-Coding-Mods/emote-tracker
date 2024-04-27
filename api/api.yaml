@@ -204,6 +204,9 @@ components:
       required:
         - id
         - name
+        - profilePicture
+        - registered
+        - lastUpdated
       properties:
         id:
           type: string

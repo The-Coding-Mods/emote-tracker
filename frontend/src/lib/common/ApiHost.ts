@@ -1,3 +1,1 @@
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
-
-export const BACKEND_URL: string = PUBLIC_BACKEND_URL!;
+export const BACKEND_URL = "/backend"; // use http://localhost:8080 for local development

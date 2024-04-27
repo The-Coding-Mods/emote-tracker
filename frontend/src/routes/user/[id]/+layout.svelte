@@ -13,11 +13,9 @@
     import { DateTime } from "luxon";
     import { dateTime } from "$lib/stores/time";
     import { invalidateAll } from "$app/navigation";
-    import { Configuration, UserApi } from "$lib/api";
-    import { BACKEND_URL } from "$lib/common/ApiHost";
+    import { UserApi } from "$lib/api/api";
 
     export let data;
-    const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}))
     const toastStore = getToastStore();
 
     const popupHover: PopupSettings = {
@@ -75,7 +73,7 @@
     }
 
     async function handleUpdateClick() {
-        const {added, removed, renamed} = await userApi.updateEmotesForUser({userId: data.user.id});
+        const {data: {added, removed, renamed}} = await UserApi.updateEmotes(data.user.id);
         const t: ToastSettings = {
             message: `Added: ${added?.length}, Removed: ${removed?.length}, Renamed: ${renamed?.length}`,
         };
@@ -130,7 +128,7 @@
                         <td>Last updated:</td>
                         <td class="text-right flex">
                             <div use:popup={popupHover}>
-                                {timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
+                                {timeAgo(DateTime.fromMillis(data.user.lastUpdated), $dateTime)}
                             </div>
                             <div class="bg-tertiary-100-800-token card p-1"
                                  data-popup="popupHover">{hourFormatter.format(data.user.lastUpdated)}
