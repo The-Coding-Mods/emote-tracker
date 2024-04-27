@@ -13,7 +13,7 @@
     import { DateTime } from "luxon";
     import { dateTime } from "$lib/stores/time";
     import { invalidateAll } from "$app/navigation";
-    import { UserApi } from "$lib/api/api";
+    import client from "$lib/api/api";
 
     export let data;
     const toastStore = getToastStore();
@@ -73,7 +73,11 @@
     }
 
     async function handleUpdateClick() {
-        const {data: {added, removed, renamed}} = await UserApi.updateEmotes(data.user.id);
+        const {data: {added, removed, renamed}} = await client.PATCH("/user/{userId}/emotes/update", {
+            params: {
+                userId: data.user.id
+            }
+        });
         const t: ToastSettings = {
             message: `Added: ${added?.length}, Removed: ${removed?.length}, Renamed: ${renamed?.length}`,
         };

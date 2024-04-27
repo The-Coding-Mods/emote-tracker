@@ -1,7 +1,7 @@
 import type { PageLoad } from "./$types";
-import { UserApi } from "$lib/api/api";
+import client, { UserApi } from "$lib/api/api";
 
 export const load: PageLoad = async ({ fetch }) => {
-  const { data: users } = await UserApi.getUsers(fetch);
+  const { data: users } = await client.GET("/user", { fetch });
   return { users };
 };

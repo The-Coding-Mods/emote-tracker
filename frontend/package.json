@@ -10,7 +10,7 @@
     "lint": "gts lint && svelte-check",
     "clean": "gts clean",
     "fix": "gts fix",
-    "generate api": "openapi-typescript ../api/api.yaml --output src/lib/api/generated.d.ts"
+    "generate api": "openapi-typescript ../api/api.yaml -t --output src/lib/api/generated.d.ts"
   },
   "dependencies": {
     "@sveltejs/kit": "2.5.7",

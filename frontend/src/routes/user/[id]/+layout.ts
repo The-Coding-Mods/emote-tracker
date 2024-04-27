@@ -1,9 +1,12 @@
 import type { LayoutLoad } from "./$types";
-import { UserApi } from "$lib/api/api";
+import client from "$lib/api/api";
 import { error } from "@sveltejs/kit";
 
 export const load: LayoutLoad = async ({ params, fetch }) => {
-  const { data: user, response } = await UserApi.getUser(params.id, fetch);
+  const { data: user, response } = await client.GET("/user/{userId}", {
+    params: { path: { userId: params.id } },
+    fetch,
+  });
   if (response?.status === 404) {
     return error(404, response?.statusText);
   }
