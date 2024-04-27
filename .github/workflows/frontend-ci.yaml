@@ -54,11 +54,11 @@ jobs:
         run: |
           echo "RELEASE_VERSION=$(npm pkg get version | tr -d \")" >> $GITHUB_ENV
 
-      - name: Add snapshot
+      - name: Add snapshot to version ${{ env.RELEASE_VERSION }}
         if: ${{ github.ref != 'refs/heads/master' }}
         run: |
-          echo ${{ env.RELEASE_VERSION }}
           echo "RELEASE_VERSION=${{ env.RELEASE_VERSION }}-SNAPSHOT" >> $GITHUB_ENV
+          echo ${{ env.RELEASE_VERSION }}
 
       - name: Docker meta
         uses: docker/metadata-action@v5

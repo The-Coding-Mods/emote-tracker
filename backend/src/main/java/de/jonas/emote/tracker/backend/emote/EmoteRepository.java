@@ -2,7 +2,6 @@ package de.jonas.emote.tracker.backend.emote;
 
 import de.jonas.emote.tracker.backend.database.Emote;
 import de.jonas.emote.tracker.backend.database.EmoteId;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
