@@ -1,3 +1,1 @@
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
-
-export const BACKEND_URL: string = PUBLIC_BACKEND_URL!;
+export const BACKEND_URL = "/api/v1"; // use http://localhost:8080/api/v1 for local development

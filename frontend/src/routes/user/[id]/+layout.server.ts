@@ -1,10 +1,13 @@
-import { BACKEND_URL } from "$lib/common/ApiHost";
 import { Configuration, ResponseError, UserApi } from "$lib/api";
 import type { LayoutServerLoad } from "./$types";
 import { error } from "@sveltejs/kit";
+import { BACKEND_URL } from "$lib/common/ApiHost";
 
-const userApi = new UserApi(new Configuration({ basePath: BACKEND_URL }));
-export const load: LayoutServerLoad = async ({ params }) => {
+export const load: LayoutServerLoad = async ({ params, fetch }) => {
+  const userApi = new UserApi(
+    new Configuration({ basePath: BACKEND_URL, fetchApi: fetch }),
+  );
+
   try {
     const user = await userApi.getUser({ userId: params.id });
     return { user: user };
