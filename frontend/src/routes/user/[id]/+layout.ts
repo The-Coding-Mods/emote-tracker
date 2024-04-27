@@ -1,8 +1,8 @@
-import type { LayoutServerLoad } from "./$types";
+import type { LayoutLoad } from "./$types";
 import { UserApi } from "$lib/api/api";
 import { error } from "@sveltejs/kit";
 
-export const load: LayoutServerLoad = async ({ params, fetch }) => {
+export const load: LayoutLoad = async ({ params, fetch }) => {
   const { data: user, response } = await UserApi.getUser(params.id, fetch);
   if (response?.status === 404) {
     return error(404, response?.statusText);

@@ -1,8 +1,8 @@
-import type { PageServerLoad } from "./$types";
+import type { PageLoad } from "./$types";
 import { error } from "@sveltejs/kit";
 import { UserApi } from "$lib/api/api";
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
   const { data: topEmotes, error: topEmotesError } = await UserApi.getTopEmotes(
     params.id,
     50,
