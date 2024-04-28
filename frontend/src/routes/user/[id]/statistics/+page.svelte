@@ -5,7 +5,6 @@
 
     let count: number = 10;
 
-
 </script>
 
 <div class="flex-col justify-center p-0 m-0">

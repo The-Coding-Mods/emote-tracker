@@ -1,17 +1,15 @@
 {
   "name": "emote-tracker",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "staging": "vite build --mode staging",
     "preview": "vite preview --host",
     "dev": "vite dev",
     "lint": "gts lint && svelte-check",
     "clean": "gts clean",
     "fix": "gts fix",
-    "generate api": "openapi-generator-cli generate --generator-key prod",
-    "generate dev api": "openapi-generator-cli generate --generator-key dev"
+    "generate api": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@sveltejs/kit": "2.5.7",

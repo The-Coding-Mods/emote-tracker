@@ -10,10 +10,12 @@ RUN pnpm run build
 
 FROM node:18-alpine
 WORKDIR /app
+RUN npm install -g pnpm
 
 COPY --from=BUILDER /app/build ./build
-COPY --from=BUILDER /app/node_modules ./node_modules
 COPY package.json .
+COPY pnpm-lock.yaml .
+RUN pnpm install --frozen-lockfile --prod
 
 EXPOSE 3000
 CMD ["node", "build"]

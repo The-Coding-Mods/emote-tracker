@@ -4,15 +4,6 @@
   "generator-cli": {
     "version": "7.2.0",
     "generators": {
-      "dev": {
-        "additionalProperties": {
-          "npmVersion": "9.6.6"
-        },
-        "serverVariables": "server=localhost",
-        "inputSpec": "../api/api.yaml",
-        "output": "#{cwd}/src/lib/#{name}",
-        "generatorName": "typescript-fetch"
-      },
       "prod": {
         "additionalProperties": {
           "npmVersion": "9.6.6"
