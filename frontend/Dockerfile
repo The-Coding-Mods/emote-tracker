@@ -5,7 +5,7 @@ RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
 RUN pnpm install --frozen-lockfile
-RUN pnpm run build
+RUN pnpm run build --prod
 
 
 FROM node:18-alpine

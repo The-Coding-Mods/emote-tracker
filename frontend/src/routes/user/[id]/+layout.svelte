@@ -14,10 +14,10 @@
     import { dateTime } from "$lib/stores/time";
     import { invalidateAll } from "$app/navigation";
     import { Configuration, UserApi } from "$lib/api";
-    import { BACKEND_URL } from "$lib/common/ApiHost";
+    import { BACKEND_BASE_PATH } from "$lib/common/ApiHost";
 
     export let data;
-    const userApi = new UserApi(new Configuration({basePath: BACKEND_URL}))
+    const userApi = new UserApi(new Configuration({basePath: BACKEND_BASE_PATH}))
     const toastStore = getToastStore();
 
     const popupHover: PopupSettings = {
