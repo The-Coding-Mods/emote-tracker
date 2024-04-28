@@ -18,7 +18,7 @@
   "devDependencies": {
     "@floating-ui/dom": "^1.6.3",
     "@openapitools/openapi-generator-cli": "2.13.1",
-    "@skeletonlabs/skeleton": "2.9.0",
+    "@skeletonlabs/skeleton": "2.9.1",
     "@skeletonlabs/tw-plugin": "0.3.1",
     "@sveltejs/adapter-node": "5.0.1",
     "@sveltejs/vite-plugin-svelte": "3.1.0",
