@@ -14,6 +14,7 @@ RUN npm install -g pnpm
 
 COPY --from=BUILDER /app/build ./build
 COPY package.json .
+COPY pnpm-lock.yaml .
 RUN pnpm install --frozen-lockfile --prod
 
 EXPOSE 3000
