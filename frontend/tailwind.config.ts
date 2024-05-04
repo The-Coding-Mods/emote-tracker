@@ -17,10 +17,13 @@ const config = {
         )
     ],
     theme: {
-        extend: {},
+        extend: {
+            gridTemplateColumns : {
+                'date': 'repeat(auto-fit, minmax(min(180px, 100%), 1fr));'
+            }
+        },
     },
     plugins: [
-        // 4. Append the Skeleton plugin (after other plugins)
         skeleton({
             themes: {
                 custom: [
@@ -32,4 +35,3 @@ const config = {
 } satisfies Config;
 
 export default config;
-
