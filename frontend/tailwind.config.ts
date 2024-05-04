@@ -17,7 +17,11 @@ const config = {
         )
     ],
     theme: {
-        extend: {},
+        extend: {
+            gridTemplateColumns : {
+                'date': 'repeat(auto-fit, minmax(min(180px, 100%), 1fr));'
+            }
+        },
     },
     plugins: [
         skeleton({
