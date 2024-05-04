@@ -7,9 +7,9 @@
     }
     type Day = {
         value: Date;
-        selected: string;
-        inRange: string;
-        outside: string;
+        selectedClass: string;
+        inRangeClass: string;
+        outsideClass: string;
     }
 
     let value: Date = new Date();
@@ -77,9 +77,9 @@
         while (dayIterator.getTime() <= lastDay.getTime()) {
             week.push({
                 value: dayIterator,
-                selected: selectedClass(dayIterator, selected),
-                inRange: (dayIterator > selected.from && dayIterator < selected.to) ? 'bg-primary-300 bg-opacity-25' : '',
-                outside: dayIterator.getMonth() !== currentDate.getMonth() ? 'opacity-25' : '',
+                selectedClass: selectedClass(dayIterator, selected),
+                inRangeClass: (dayIterator > selected.from && dayIterator < selected.to) ? 'bg-primary-300 bg-opacity-25' : '',
+                outsideClass: dayIterator.getMonth() !== currentDate.getMonth() ? 'opacity-25' : '',
             });
 
             dayIterator = new Date(dayIterator.getFullYear(), dayIterator.getMonth(), dayIterator.getDate() + 1);
@@ -89,11 +89,8 @@
                 week = [];
             }
         }
-
         return weeks;
     }
-
-
 </script>
 
 <div>
