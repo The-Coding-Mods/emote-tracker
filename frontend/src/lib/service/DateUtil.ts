@@ -5,3 +5,10 @@ export function isoDateString(date: Date | undefined): string {
     if (!date) return ""
     return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0]!;
 }
+
+export function shortVersion(date: Date | undefined, stringWhenUndefined = "Add date") {
+    if (date === undefined) {
+        return stringWhenUndefined;
+    }
+    return `${months[date.getMonth()]} ${date.getDate()}`
+}
