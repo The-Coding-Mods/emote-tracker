@@ -12,7 +12,7 @@
     "generate api": "openapi-generator-cli generate"
   },
   "dependencies": {
-    "@sveltejs/kit": "2.5.15",
+    "@sveltejs/kit": "2.5.16",
     "svelte": "4.2.18"
   },
   "devDependencies": {
@@ -20,13 +20,13 @@
     "@openapitools/openapi-generator-cli": "2.13.4",
     "@skeletonlabs/skeleton": "2.10.0",
     "@skeletonlabs/tw-plugin": "0.4.0",
-    "@sveltejs/adapter-node": "5.1.0",
+    "@sveltejs/adapter-node": "5.1.1",
     "@sveltejs/vite-plugin-svelte": "3.1.1",
     "@types/luxon": "^3.4.2",
     "@types/node": "20.14.2",
     "autoprefixer": "10.4.19",
     "eslint": "9.4.0",
-    "eslint-plugin-svelte": "2.39.3",
+    "eslint-plugin-svelte": "2.39.4",
     "gts": "5.3.0",
     "luxon": "3.4.4",
     "postcss": "8.4.38",
