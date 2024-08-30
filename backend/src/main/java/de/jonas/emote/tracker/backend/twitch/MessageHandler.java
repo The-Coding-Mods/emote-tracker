@@ -37,7 +37,9 @@ public class MessageHandler implements Consumer<ChannelMessageEvent> {
         final long startTime = System.currentTimeMillis();
         String message = event.getMessage();
         Streamer streamer = userRepository.getStreamerByTwitchUserId(event.getChannel().getId());
-        Map<String, Emote> emotes = streamer.getUserEmotes().stream().collect(Collectors.toMap(Emote::getName, e -> e));
+        Map<String, Emote> emotes = streamer.getUserEmotes()
+            .stream()
+            .collect(Collectors.toMap(Emote::getName, e -> e, (emote1, emote2) -> emote1));
         List<String> splitMessage = List.of(message.split(" "));
         for (final var part : splitMessage) {
             if (emotes.containsKey(part)) {
