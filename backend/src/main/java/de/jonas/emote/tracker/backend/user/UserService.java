@@ -67,9 +67,11 @@ public class UserService {
             .setTwitchUserId(users.get(0).getId())
             .setRegistered(Instant.now())
             .setProfilePictureUrl(users.get(0).getProfileImageUrl())
-            .setUserEmotes(emoteService.addEmotes(users.get(0).getId()));
+            .setUserEmotes(Collections.emptySet());
+        streamer = userRepository.saveAndFlush(streamer);
+        updateEmotes(streamer.getTwitchUserId());
 
-        return userRepository.saveAndFlush(streamer);
+        return streamer;
     }
 
     public EmoteUpdateLog updateEmotes(String userId) {
