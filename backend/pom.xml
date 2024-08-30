@@ -9,7 +9,7 @@
     </parent>
     <groupId>de.jonas</groupId>
     <artifactId>emote-tracker-backend</artifactId>
-    <version>0.0.10</version>
+    <version>0.0.11</version>   
     <name>emote-tracker-backend</name>
     <description>Tracks the usage of emotes in a defined twitch channel</description>
     <properties>
