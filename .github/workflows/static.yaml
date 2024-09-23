@@ -33,7 +33,7 @@ jobs:
 
       - name: Jacoco report
         id: jacoco
-        uses: madrapps/jacoco-report@v1.7.0
+        uses: madrapps/jacoco-report@v1.7.1
         with:
           paths: ./backend/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
