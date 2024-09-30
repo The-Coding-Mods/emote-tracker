@@ -28,7 +28,7 @@
     "eslint": "9.6.0",
     "eslint-plugin-svelte": "2.44.0",
     "gts": "5.3.0",
-    "luxon": "3.4.4",
+    "luxon": "3.5.0",
     "postcss": "8.4.41",
     "postcss-load-config": "6.0.1",
     "prettier": "3.3.2",
