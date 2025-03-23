@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vite build",
     "preview": "vite preview --host",
+    "prepare": "svelte-kit sync",
     "dev": "vite dev",
     "lint": "gts lint && svelte-check",
     "clean": "gts clean",
