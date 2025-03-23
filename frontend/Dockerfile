@@ -1,6 +1,6 @@
 FROM node:18-alpine AS BUILDER
 
-RUN npm install -g pnpm10.6.5
+RUN npm install -g pnpm@10.6.5
 
 WORKDIR /app
 COPY . .
@@ -10,7 +10,7 @@ RUN pnpm run build
 
 FROM node:18-alpine
 WORKDIR /app
-RUN npm install -g pnpm10.6.5
+RUN npm install -g pnpm@10.6.5
 
 COPY --from=BUILDER /app/build ./build
 COPY package.json .
