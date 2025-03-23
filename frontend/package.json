@@ -11,6 +11,7 @@
     "fix": "gts fix",
     "generate api": "openapi-generator-cli generate"
   },
+  "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@sveltejs/kit": "2.8.3",
     "svelte": "4.2.19"

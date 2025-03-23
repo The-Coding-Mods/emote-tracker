@@ -22,15 +22,13 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.14.0'
           cache: npm
           cache-dependency-path: ./frontend
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         id: pnpm-install
-        with:
-          version: 8.6.*
 
       - name: Install dependencies
         run: pnpm install
