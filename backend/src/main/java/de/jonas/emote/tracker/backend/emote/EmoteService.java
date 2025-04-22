@@ -1,7 +1,12 @@
 package de.jonas.emote.tracker.backend.emote;
 
 import de.jonas.emote.tracker.backend.activity.ActivityService;
-import de.jonas.emote.tracker.backend.database.*;
+import de.jonas.emote.tracker.backend.database.Emote;
+import de.jonas.emote.tracker.backend.database.EmoteId;
+import de.jonas.emote.tracker.backend.database.OriginalEmote;
+import de.jonas.emote.tracker.backend.database.Source;
+import de.jonas.emote.tracker.backend.database.Streamer;
+import de.jonas.emote.tracker.backend.database.UserEmote;
 import de.jonas.emote.tracker.backend.model.origin.EmoteSet;
 import de.jonas.emote.tracker.backend.model.origin.UserOverview7TV;
 import de.jonas.emote.tracker.backend.network.wrapper.SevenTVApiWrapper;
@@ -10,7 +15,6 @@ import de.jonas.emote.tracker.backend.user.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +50,8 @@ public class EmoteService {
         for (Emote emote : originals) {
             final EmoteId emoteId = new EmoteId(emote.getId(), emote.getName());
             if (emoteRepository.existsById(emoteId)) {
-                log.debug("Emote {} ({}, {}) already exists, getting reference", emoteId, emoteId.getId(), emote.getName());
+                log.debug("Emote {} ({}, {}) already exists, getting reference", emoteId, emoteId.getId(),
+                    emote.getName());
                 references.add(emoteRepository.getReferenceById(emoteId));
             } else {
                 log.debug("New Emote {} ({}, {})", emoteId, emoteId.getId(), emote.getName());
@@ -72,24 +77,14 @@ public class EmoteService {
     }
 
     private Set<Emote> collectOriginalEmotes(EmoteSet emotes) {
-        return emotes.getEmotes()
-            .stream()
-            .filter(emote -> emote.getData().getName().equals(emote.getName()))
-            .map(emote -> new OriginalEmote()
-                .setId(emote.getId())
-                .setName(emote.getData().getName())
-                .setSource(Source.SEVENTV))
-            .collect(Collectors.toSet());
+        return emotes.getEmotes().stream().filter(emote -> emote.getData().getName().equals(emote.getName())).map(
+            emote -> new OriginalEmote().setId(emote.getId()).setName(emote.getData().getName())
+                .setSource(Source.SEVENTV)).collect(Collectors.toSet());
     }
 
     private Set<Emote> collectUserEmotes(EmoteSet emotes) {
-        return emotes.getEmotes()
-            .stream()
-            .filter(emote -> !emote.getData().getName().equals(emote.getName()))
-            .map(emote -> new UserEmote()
-                .setId(emote.getId())
-                .setName(emote.getName())
-                .setSource(Source.SEVENTV))
+        return emotes.getEmotes().stream().filter(emote -> !emote.getData().getName().equals(emote.getName()))
+            .map(emote -> new UserEmote().setId(emote.getId()).setName(emote.getName()).setSource(Source.SEVENTV))
             .collect(Collectors.toSet());
     }
 
