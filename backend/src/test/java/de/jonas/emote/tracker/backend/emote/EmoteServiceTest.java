@@ -35,6 +35,7 @@ class EmoteServiceTest {
     private UserRepository userRepository;
     private ActivityService activityService;
     private EmoteService emoteService;
+    private EmoteRepository emoteRepository;
 
     private static List<de.jonas.emote.tracker.backend.model.origin.Emote> create7TVCustomEmote() {
         List<de.jonas.emote.tracker.backend.model.origin.Emote> emotes = new ArrayList<>();
@@ -110,7 +111,8 @@ class EmoteServiceTest {
         userRepository = mock(UserRepository.class);
         activityService = mock(ActivityService.class);
         MessageHandler messageHandler = mock(MessageHandler.class);
-        emoteService = new EmoteService(sevenTVApi, userRepository, activityService, messageHandler);
+        emoteRepository = mock(EmoteRepository.class);
+        emoteService = new EmoteService(sevenTVApi, userRepository, activityService, messageHandler, emoteRepository);
     }
 
     @Test

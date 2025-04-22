@@ -1,8 +1,11 @@
 package de.jonas.emote.tracker.backend.database;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +16,8 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @IdClass(EmoteId.class)
+@Table(indexes = {@Index(name = "idx_emote_id", columnList = "id"),
+    @Index(name = "idx_emote_name", columnList = "name")})
 public class Emote {
     @Id
     protected String id;
