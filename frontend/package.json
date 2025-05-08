@@ -14,7 +14,7 @@
   },
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
-    "@sveltejs/kit": "2.8.3",
+    "@sveltejs/kit": "2.20.6",
     "svelte": "4.2.19"
   },
   "devDependencies": {
