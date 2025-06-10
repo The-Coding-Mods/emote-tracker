@@ -11,11 +11,11 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
     }),
   );
   try {
-    const topEmotes = await userApi.getTopEmotes({
+    const topEmotes = userApi.getTopEmotes({
       userId: params.id,
       count: 50,
     });
-    const bottomEmotes = await userApi.getBottomEmotes({
+    const bottomEmotes = userApi.getBottomEmotes({
       userId: params.id,
       count: 50,
     });

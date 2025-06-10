@@ -12,8 +12,8 @@
         <input type="number" class="variant-filled-secondary rounded p-2 " bind:value={count} max="50" min="10"/>
     </div>
     <div class="flex justify-between">
-        <TopList emotes={data.topEmotes.slice(0, count)} isTop={true} {count}/>
-        <TopList emotes={data.bottomEmotes.slice(0, count)} isTop={false} {count}/>
+        <TopList emotePromise={data.topEmotes} isTop={true} bind:count={count}/>
+        <TopList emotePromise={data.bottomEmotes} isTop={false} bind:count={count}/>
     </div>
 </div>
 
