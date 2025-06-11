@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-	import { type PopupSettings, type ToastSettings, Navigation } from "@skeletonlabs/skeleton-svelte";
+	import { type PopupSettings, Navigation } from "@skeletonlabs/skeleton-svelte";
+	import { toaster} from "$lib/stores/toaster";
 	import { DateTime } from "luxon";
 	import { dateTime } from "$lib/stores/time";
 	import { invalidateAll } from "$app/navigation";
@@ -10,7 +11,6 @@
 
 	let { data, children } = $props();
 	const userApi = new UserApi(new Configuration({ basePath: BACKEND_BASE_PATH }));
-	const toastStore = getToastStore();
 
 	const popupHover: PopupSettings = {
 		event: "hover",
@@ -53,10 +53,9 @@
 
 	async function handleUpdateClick() {
 		const { added, removed, renamed } = await userApi.updateEmotesForUser({ userId: data.user.id });
-		const t: ToastSettings = {
-			message: `Added: ${added?.length}, Removed: ${removed?.length}, Renamed: ${renamed?.length}`,
-		};
-		toastStore.trigger(t);
+		toaster.success({
+			description: `Added: ${added?.length}, Removed: ${removed?.length}, Renamed: ${renamed?.length}`,
+		});
 		await invalidateAll();
 	}
 </script>
