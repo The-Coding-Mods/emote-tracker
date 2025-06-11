@@ -1,20 +1,20 @@
 <script lang="ts">
-    // Finally, your application's global stylesheet (sometimes labeled 'app.css')
-    import '../app.css';
+    import "../app.css";
     import Header from "$lib/components/Header.svelte";
-    import { AppShell, initializeStores, storePopup, Toast } from "@skeletonlabs/skeleton";
-    import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
+    import { Toaster } from "@skeletonlabs/skeleton-svelte";
+    import { toaster } from "$lib/stores/toaster";
 
+    interface Props {
+        children?: import("svelte").Snippet;
+    }
 
-    storePopup.set({computePosition, autoUpdate, offset, shift, flip, arrow});
-
-    initializeStores();
+    let { children }: Props = $props();
 </script>
-<Toast/>
-<AppShell>
-    <svelte:fragment slot="header">
-        <Header/>
-    </svelte:fragment>
 
-    <slot/>
-</AppShell>
+<Toaster {toaster}></Toaster>
+<div class="flex h-full w-full flex-col overflow-hidden">
+    <Header />
+    <div class="flex h-full w-full flex-auto overflow-hidden">
+        {@render children?.()}
+    </div>
+</div>

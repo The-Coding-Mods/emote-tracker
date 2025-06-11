@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+<!doctype html>
+<html lang="en" data-theme="mystyle">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Twitch chat emote tracker" />
+        <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://kit.fontawesome.com/1fe4546d6e.js" crossorigin="anonymous"></script>
+        <title>Emote Tracker</title>
+        %sveltekit.head%
+    </head>
 
-<head>
-    <meta charset="utf-8"/>
-    <meta name="description" content="Twitch chat emote tracker"/>
-    <link rel="icon" href="%sveltekit.assets%/favicon.png"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <script src="https://kit.fontawesome.com/1fe4546d6e.js" crossorigin="anonymous"></script>
-    %sveltekit.head%
-</head>
-
-<body data-theme="my-style">
-    <div style="display: contents" class="h-full overflow-hidden">
-        %sveltekit.body%
-    </div>
-</body>
-
+    <body class="dark:text-white text-black">
+        <div style="display: contents" class="h-full overflow-hidden">%sveltekit.body%</div>
+    </body>
 </html>

@@ -1,45 +1,49 @@
 <script lang="ts">
-
-    import type { Emote as ApiEmote } from "$lib/api";
+    import type { EmoteCount as ApiEmote } from "$lib/api";
     import Emote from "$lib/components/Emote.svelte";
     import { truncate } from "$lib/common/StringFormatting";
     import Spinner from "$lib/components/Spinner.svelte";
 
-    export let isTop!: boolean;
-    export let count!: number;
-    export let emotePromise!: Promise<ApiEmote[]>;
+    interface Props {
+        isTop: boolean;
+        count: number;
+        emotePromise: Promise<ApiEmote[]>;
+    }
+
+    let { isTop, count = $bindable(), emotePromise }: Props = $props();
 </script>
 
-<div class="flex flex-col min-w-[22rem] rounded-2xl bg-secondary-50-900-token border-2">
+<div class="bg-secondary-50-950 flex min-w-88 flex-col rounded-2xl border-2">
     {#await emotePromise}
-        <div class="flex justify-center items-center h-full">
-            <Spinner/>
+        <div class="flex h-full items-center justify-center">
+            <Spinner />
         </div>
     {:then emotes}
-        <h1 class="text-3xl flex justify-center p-1.5">
+        <h1 class="flex justify-center p-1.5 text-3xl">
             {#if isTop}
                 Top
             {:else}
                 Bottom
             {/if}
-            {count} emotes</h1>
+            {count} emotes
+        </h1>
 
         <table class="border-separate p-4">
-            <thead>
-            <th colspan="3" class="">Emote</th>
-            <th>Count</th>
-            </thead>
             <tbody>
-            {#each emotes.slice(0, count) as emote, i (emote.id)}
-                <tr class="">
-                    <td class="p-4">#{i + 1}</td>
-                    <td class="">{truncate(emote.name, 14)}</td>
-                    <td class="">
-                        <Emote emote={emote} size="2x"/>
-                    </td>
-                    <td class="">{emote.count}</td>
+                <tr>
+                    <th colspan="3" class="">Emote</th>
+                    <th>Count</th>
                 </tr>
-            {/each}
+                {#each emotes.slice(0, count) as emote, i (emote.id+emote.name)}
+                    <tr class="">
+                        <td class="p-4">#{i + 1}</td>
+                        <td class="">{truncate(emote.name, 14)}</td>
+                        <td class="">
+                            <Emote {emote} size="2x" />
+                        </td>
+                        <td class="">{emote.count}</td>
+                    </tr>
+                {/each}
             </tbody>
         </table>
     {/await}

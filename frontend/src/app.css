@@ -1,15 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&display=swap") layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@import "tailwindcss";
 
+@import "@skeletonlabs/skeleton";
 
-html, body, label {
-    font-family: 'Roboto', sans-serif;
+@import "@skeletonlabs/skeleton/optional/presets";
+
+/*
+  Add your theme import for your theme: "my-style" here
+*/
+@import "../my-style.css";
+
+@source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
+
+@custom-variant dark (&:where([data-mode=dark], [data-mode=dark] *));
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
 }
 
-html, body {
+@layer utilities {
+}
+
+html,
+body,
+label {
+    font-family: "Roboto", sans-serif;
+}
+
+html,
+body {
     @apply h-full overflow-hidden;
 }
