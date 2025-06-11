@@ -122,6 +122,7 @@
 
             <div class="card-body mx-2">
                 <table class="w-full">
+                    <tbody>
                     <tr>
                         <td>Tracking since:</td>
                         <td class="text-right">{dayFormatter.format(data.user.registered)}</td>
@@ -141,6 +142,7 @@
                             </button>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>

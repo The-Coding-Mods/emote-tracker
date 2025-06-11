@@ -25,11 +25,11 @@
             {count} emotes</h1>
 
         <table class="border-separate p-4">
-            <thead>
-            <th colspan="3" class="">Emote</th>
-            <th>Count</th>
-            </thead>
             <tbody>
+            <tr>
+                <th colspan="3" class="">Emote</th>
+                <th>Count</th>
+            </tr>
             {#each emotes.slice(0, count) as emote, i (emote.id)}
                 <tr class="">
                     <td class="p-4">#{i + 1}</td>
