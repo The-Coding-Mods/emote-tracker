@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-	import { type PopupSettings, Navigation } from "@skeletonlabs/skeleton-svelte";
-	import { toaster} from "$lib/stores/toaster";
+	import { type PopupSettings, Navigation, Tooltip } from "@skeletonlabs/skeleton-svelte";
+	import { toaster } from "$lib/stores/toaster";
 	import { DateTime } from "luxon";
 	import { dateTime } from "$lib/stores/time";
 	import { invalidateAll } from "$app/navigation";
@@ -10,6 +10,8 @@
 	import { BACKEND_BASE_PATH } from "$lib/common/ApiHost";
 
 	let { data, children } = $props();
+	let openState = $state(false);
+
 	const userApi = new UserApi(new Configuration({ basePath: BACKEND_BASE_PATH }));
 
 	const popupHover: PopupSettings = {
@@ -112,13 +114,19 @@
 						<tr>
 							<td>Last updated:</td>
 							<td class="flex text-right">
-								<div use:popup={popupHover}>
-									{timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
-								</div>
-								<div class="bg-tertiary-100-900 card p-1" data-popup="popupHover">
-									{hourFormatter.format(data.user.lastUpdated)}
-									<div class="arrow bg-tertiary-100-900"></div>
-								</div>
+								<Tooltip open={openState} onOpenChange={(e) => (openState = e.open)} positioning={{placement: "bottom"}} arrow>
+									{#snippet trigger()}
+										<div>
+											{timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
+										</div>
+									{/snippet}
+									{#snippet content()}
+										<div class="bg-tertiary-100-900 card p-1">
+											{hourFormatter.format(data.user.lastUpdated)}
+											<div class="arrow bg-tertiary-100-900"></div>
+										</div>
+									{/snippet}
+								</Tooltip>
 								<button class="btn-icon-sm -mx-1 -my-2" title="Update Emotes" onclick={handleUpdateClick}
 									><i class="fa-solid fa-rotate-right"></i>
 								</button>
