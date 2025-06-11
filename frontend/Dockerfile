@@ -1,4 +1,4 @@
-FROM node:18-alpine AS BUILDER
+FROM node:22-alpine AS BUILDER
 
 RUN npm install -g pnpm@10.6.5
 
@@ -8,7 +8,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
 
-FROM node:18-alpine
+FROM node:22-alpine
 WORKDIR /app
 RUN npm install -g pnpm@10.6.5
 
