@@ -20,14 +20,7 @@ const config = {
         extend: {},
     },
     plugins: [
-        // 4. Append the Skeleton plugin (after other plugins)
-        skeleton({
-            themes: {
-                custom: [
-                    myStyle
-                ]
-            }
-        })
+
     ]
 } satisfies Config;
 
