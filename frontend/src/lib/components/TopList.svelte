@@ -34,7 +34,7 @@
                     <th colspan="3" class="">Emote</th>
                     <th>Count</th>
                 </tr>
-                {#each emotes.slice(0, count) as emote, i (emote.id)}
+                {#each emotes.slice(0, count) as emote, i (emote.id+emote.name)}
                     <tr class="">
                         <td class="p-4">#{i + 1}</td>
                         <td class="">{truncate(emote.name, 14)}</td>
