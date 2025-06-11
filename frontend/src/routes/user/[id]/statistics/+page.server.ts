@@ -11,15 +11,15 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
         }),
     );
     try {
-        const topEmotes = userApi.getTopEmotes({
+        const topEmotes = async () => userApi.getTopEmotes({
             userId: params.id,
             count: 50,
         });
-        const bottomEmotes = userApi.getBottomEmotes({
+        const bottomEmotes = async () => userApi.getBottomEmotes({
             userId: params.id,
             count: 50,
         });
-        return { topEmotes, bottomEmotes };
+        return { topEmotes: topEmotes(), bottomEmotes: bottomEmotes() };
     } catch (exception) {
         return error(500, "Unknown error");
     }

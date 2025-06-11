@@ -70,7 +70,7 @@
                     <div class="flex items-center justify-center">
                         <ChartNoAxesColumn strokeWidth="5" color="#ffffff" />
                     </div>
-                    <div class="text-xs font-bold text-white">
+                    <div class="text-xs font-bold">
                         <span class="text-lg">Statistics</span>
                     </div>
                 </div>
