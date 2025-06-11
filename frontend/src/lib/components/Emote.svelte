@@ -1,8 +1,12 @@
 <script lang="ts">
     import type { Emote } from "$lib/api";
 
-    export let emote: Emote;
-    export let size: "2x" | "4x";
+   interface Props {
+      emote: Emote;
+      size: "2x" | "4x";
+   }
+
+   let { emote, size }: Props = $props();
 
     let imageUrl: string = `https://cdn.7tv.app/emote/${emote.id}/${size}.webp`;
     let emoteUrl: string = `https://7tv.app/emotes/${emote.id}`;

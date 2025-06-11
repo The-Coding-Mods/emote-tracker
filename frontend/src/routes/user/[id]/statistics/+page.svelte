@@ -1,9 +1,9 @@
 <script lang="ts">
     import TopList from "$lib/components/TopList.svelte";
 
-    export let data;
+    let { data } = $props();
 
-    let count: number = 10;
+    let count: number = $state(10);
 
 </script>
 

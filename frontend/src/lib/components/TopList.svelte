@@ -1,13 +1,17 @@
 <script lang="ts">
 
-    import type { Emote as ApiEmote } from "$lib/api";
+    import type { EmoteCount as ApiEmote } from "$lib/api";
     import Emote from "$lib/components/Emote.svelte";
     import { truncate } from "$lib/common/StringFormatting";
     import Spinner from "$lib/components/Spinner.svelte";
 
-    export let isTop!: boolean;
-    export let count!: number;
-    export let emotePromise!: Promise<ApiEmote[]>;
+    interface Props {
+        isTop: boolean;
+        count: number;
+        emotePromise: Promise<ApiEmote[]>;
+    }
+
+    let { isTop, count = $bindable(), emotePromise }: Props = $props();
 </script>
 
 <div class="flex flex-col min-w-[22rem] rounded-2xl bg-secondary-50-900-token border-2">

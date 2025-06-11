@@ -4,6 +4,11 @@
     import Header from "$lib/components/Header.svelte";
     import { AppShell, initializeStores, storePopup, Toast } from "@skeletonlabs/skeleton";
     import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
+    interface Props {
+        children?: import('svelte').Snippet;
+    }
+
+    let { children }: Props = $props();
 
 
     storePopup.set({computePosition, autoUpdate, offset, shift, flip, arrow});
@@ -12,9 +17,11 @@
 </script>
 <Toast/>
 <AppShell>
-    <svelte:fragment slot="header">
-        <Header/>
-    </svelte:fragment>
+    {#snippet header()}
+    
+            <Header/>
+        
+    {/snippet}
 
-    <slot/>
+    {@render children?.()}
 </AppShell>

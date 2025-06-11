@@ -16,7 +16,7 @@
     import { Configuration, UserApi } from "$lib/api";
     import { BACKEND_BASE_PATH } from "$lib/common/ApiHost";
 
-    export let data;
+    let {data, children} = $props();
     const userApi = new UserApi(new Configuration({basePath: BACKEND_BASE_PATH}))
     const toastStore = getToastStore();
 
@@ -88,14 +88,16 @@
     <title>{`Emote Tracker - ${capitalizeFirstLetter(data.user.name)}`}</title>
 </svelte:head>
 <AppShell>
-    <svelte:fragment slot="sidebarLeft">
+    {#snippet sidebarLeft()}
         <AppRail background="bg-secondary-50-900-token" border="border-r">
             <!--<AppRailAnchor href="{removeTrailingPath($page.url.toString())}">
                 <svelte:fragment slot="lead"><i class="fa-solid fa-user text-xl"/></svelte:fragment>
                 <span class="text-lg">Overview</span>
             </AppRailAnchor>-->
             <AppRailAnchor href="{removeTrailingPath($page.url.toString())}/statistics">
-                <svelte:fragment slot="lead"><i class="fa-solid fa-chart-simple text-xl"></i></svelte:fragment>
+                {#snippet lead()}
+                    <i class="fa-solid fa-chart-simple text-xl"></i>
+                {/snippet}
                 <span class="text-lg">Statistics</span>
             </AppRailAnchor>
             <!--<AppRailAnchor href="{removeTrailingPath($page.url.toString())}/emotes">
@@ -103,20 +105,22 @@
                 <span class="text-lg">Emotes</span>
             </AppRailAnchor>-->
         </AppRail>
-    </svelte:fragment>
+
+    {/snippet}
     <div class="flex justify-center mx-2">
         <div class="w-[100%] max-w-[400px] 2xl:max-w-[1200px] xl:max-w-[1000px] md:max-w-[800px]">
-            <slot/>
+            {@render children?.()}
         </div>
     </div>
-    <svelte:fragment slot="sidebarRight">
+    {#snippet sidebarRight()}
+
         <div class="card hidden lg:block bg-tertiary-200-700-token mt-2 mr-2">
             <div class="card-header flex items-center py-2 text-xl">
                 <img class="rounded-full w-16 square mr-2" src="{data.user.profilePicture}" alt="{data.user.name}"/>
                 {capitalizeFirstLetter(data.user.name)}
                 <a href="//twitch.tv/{data.user.name}" target="_blank" rel="noopener noreferrer"
                    title="twitch.tv/{data.user.name}"
-                   class="mx-2 hover:text-[#6441a5]"><i class="fa-brands fa-twitch"/></a>
+                   class="mx-2 hover:text-[#6441a5]"><i class="fa-brands fa-twitch"></i></a>
             </div>
             <hr class="!border-t-2 divide-tertiary-50-900-token mx-0.5"/>
 
@@ -135,10 +139,10 @@
                             </div>
                             <div class="bg-tertiary-100-800-token card p-1"
                                  data-popup="popupHover">{hourFormatter.format(data.user.lastUpdated)}
-                                <div class="arrow bg-tertiary-100-800-token"/>
+                                <div class="arrow bg-tertiary-100-800-token"></div>
                             </div>
                             <button class="btn-icon-sm mx-[-0.25rem] my-[-0.5rem]" title="Update Emotes"
-                                    on:click={handleUpdateClick}><i class="fa-solid fa-rotate-right"></i>
+                                    onclick={handleUpdateClick}><i class="fa-solid fa-rotate-right"></i>
                             </button>
                         </td>
                     </tr>
@@ -146,6 +150,7 @@
                 </table>
             </div>
         </div>
-    </svelte:fragment>
+
+    {/snippet}
 </AppShell>
 

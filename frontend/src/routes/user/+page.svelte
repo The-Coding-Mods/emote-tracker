@@ -1,7 +1,7 @@
 <script lang="ts">
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
 
-    export let data;
+    let { data } = $props();
 
 </script>
 <div class="flex justify-center pt-2">

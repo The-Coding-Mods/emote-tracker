@@ -15,7 +15,7 @@
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@sveltejs/kit": "2.8.3",
-    "svelte": "4.2.19"
+    "svelte": "^5.0.0"
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.3",
@@ -23,12 +23,12 @@
     "@skeletonlabs/skeleton": "2.10.3",
     "@skeletonlabs/tw-plugin": "0.4.0",
     "@sveltejs/adapter-node": "5.2.5",
-    "@sveltejs/vite-plugin-svelte": "3.1.2",
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@types/luxon": "^3.4.2",
     "@types/node": "22.13.12",
     "autoprefixer": "10.4.20",
     "eslint": "9.6.0",
-    "eslint-plugin-svelte": "2.44.1",
+    "eslint-plugin-svelte": "^2.45.1",
     "gts": "6.0.2",
     "luxon": "3.5.0",
     "postcss": "8.4.41",
