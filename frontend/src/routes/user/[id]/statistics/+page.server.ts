@@ -3,13 +3,16 @@ import { BACKEND_BASE_PATH } from "$lib/common/ApiHost";
 import { Configuration, UserApi } from "$lib/api";
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
     const userApi = new UserApi(
         new Configuration({
             basePath: BACKEND_BASE_PATH,
             fetchApi: fetch,
         }),
     );
+    setHeaders({
+        'X-Accel-Buffering': 'no'
+    });
     try {
         const topEmotes = async () => userApi.getTopEmotes({
             userId: params.id,
