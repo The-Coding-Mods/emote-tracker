@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/state";
     import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-    import { Navigation, Tooltip } from "@skeletonlabs/skeleton-svelte";
+    import { Tooltip } from "@skeletonlabs/skeleton-svelte";
     import { toaster } from "$lib/stores/toaster";
     import { DateTime } from "luxon";
     import { dateTime } from "$lib/stores/time";
