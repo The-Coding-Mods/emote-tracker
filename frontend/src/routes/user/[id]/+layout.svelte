@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { capitalizeFirstLetter } from "$lib/common/StringFormatting";
-	import { AppRail, AppRailAnchor, AppShell, getToastStore, popup, type PopupSettings, type ToastSettings } from "@skeletonlabs/skeleton";
+	import { type PopupSettings, type ToastSettings, Navigation } from "@skeletonlabs/skeleton-svelte";
 	import { DateTime } from "luxon";
 	import { dateTime } from "$lib/stores/time";
 	import { invalidateAll } from "$app/navigation";
@@ -66,7 +66,7 @@
 </svelte:head>
 <AppShell>
 	{#snippet sidebarLeft()}
-		<AppRail background="bg-secondary-50-900-token" border="border-r">
+		<Navigation background="bg-secondary-50-950" border="border-r">
 			<!--<AppRailAnchor href="{removeTrailingPath($page.url.toString())}">
                 <svelte:fragment slot="lead"><i class="fa-solid fa-user text-xl"/></svelte:fragment>
                 <span class="text-lg">Overview</span>
@@ -81,7 +81,7 @@
                 <svelte:fragment slot="lead"><i class="fa-solid fa-icons text-xl"></i></svelte:fragment>
                 <span class="text-lg">Emotes</span>
             </AppRailAnchor>-->
-		</AppRail>
+		</Navigation>
 	{/snippet}
 	<div class="mx-2 flex justify-center">
 		<div class="w-full max-w-[400px] md:max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">
@@ -89,7 +89,7 @@
 		</div>
 	</div>
 	{#snippet sidebarRight()}
-		<div class="card bg-tertiary-200-700-token mt-2 mr-2 hidden lg:block">
+		<div class="card bg-tertiary-200-800 mt-2 mr-2 hidden lg:block">
 			<div class="card-header flex items-center py-2 text-xl">
 				<img class="square mr-2 w-16 rounded-full" src={data.user.profilePicture} alt={data.user.name} />
 				{capitalizeFirstLetter(data.user.name)}
@@ -101,7 +101,7 @@
 					class="mx-2 hover:text-[#6441a5]"><i class="fa-brands fa-twitch"></i></a
 				>
 			</div>
-			<hr class="divide-tertiary-50-900-token mx-0.5 border-t-2!" />
+			<hr class="divide-tertiary-50-950 mx-0.5 border-t-2!" />
 
 			<div class="card-body mx-2">
 				<table class="w-full">
@@ -116,9 +116,9 @@
 								<div use:popup={popupHover}>
 									{timeAgo(DateTime.fromJSDate(data.user.lastUpdated), $dateTime)}
 								</div>
-								<div class="bg-tertiary-100-800-token card p-1" data-popup="popupHover">
+								<div class="bg-tertiary-100-900 card p-1" data-popup="popupHover">
 									{hourFormatter.format(data.user.lastUpdated)}
-									<div class="arrow bg-tertiary-100-800-token"></div>
+									<div class="arrow bg-tertiary-100-900"></div>
 								</div>
 								<button class="btn-icon-sm -mx-1 -my-2" title="Update Emotes" onclick={handleUpdateClick}
 									><i class="fa-solid fa-rotate-right"></i>

@@ -2,7 +2,7 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import "../app.css";
 	import Header from "$lib/components/Header.svelte";
-	import { AppShell, initializeStores, storePopup, Toast } from "@skeletonlabs/skeleton";
+	import { ToastProvider } from "@skeletonlabs/skeleton-svelte";
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 	interface Props {
 		children?: import("svelte").Snippet;
@@ -15,7 +15,7 @@
 	initializeStores();
 </script>
 
-<Toast />
+<ToastProvider />
 <AppShell>
 	{#snippet header()}
 		<Header />

@@ -13,7 +13,7 @@
 	let { isTop, count = $bindable(), emotePromise }: Props = $props();
 </script>
 
-<div class="bg-secondary-50-900-token flex min-w-88 flex-col rounded-2xl border-2">
+<div class="bg-secondary-50-950 flex min-w-88 flex-col rounded-2xl border-2">
 	{#await emotePromise}
 		<div class="flex h-full items-center justify-center">
 			<Spinner />

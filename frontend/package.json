@@ -20,8 +20,8 @@
 	"devDependencies": {
 		"@floating-ui/dom": "^1.6.3",
 		"@openapitools/openapi-generator-cli": "2.13.13",
-		"@skeletonlabs/skeleton": "2.10.3",
-		"@skeletonlabs/tw-plugin": "0.4.0",
+		"@skeletonlabs/skeleton": "^3.1.3",
+		"@skeletonlabs/skeleton-svelte": "^1.2.3",
 		"@sveltejs/adapter-node": "5.2.5",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"@types/luxon": "^3.4.2",
