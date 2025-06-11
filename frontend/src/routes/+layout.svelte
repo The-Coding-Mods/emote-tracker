@@ -8,13 +8,13 @@
         children?: import("svelte").Snippet;
     }
 
-    let {children}: Props = $props();
+    let { children }: Props = $props();
 </script>
 
 <Toaster {toaster}></Toaster>
-<div class="grid grid-rows-[auto_1fr_auto]">
-    <Header/>
-    <div class="container mx-auto grid grid-cols-1 xl:grid-cols-[200px_minmax(0px,_1fr)_200px]">
+<div class="flex h-full w-full flex-col overflow-hidden">
+    <Header />
+    <div class="flex h-full w-full flex-auto overflow-hidden">
         {@render children?.()}
     </div>
 </div>
