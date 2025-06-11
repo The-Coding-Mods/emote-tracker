@@ -8,6 +8,7 @@
     import { invalidateAll } from "$app/navigation";
     import { Configuration, UserApi } from "$lib/api";
     import { BACKEND_BASE_PATH } from "$lib/common/ApiHost";
+    import { ChartNoAxesColumn, RefreshCw, Twitch } from '@lucide/svelte';
 
     let { data, children } = $props();
 
@@ -67,9 +68,9 @@
             <a href="{removeTrailingPath(page.url.toString())}/statistics" class="bg-primary-hover aspect-square">
                 <div class=" bg-primary-hover flex aspect-square w-full flex-col items-stretch justify-center space-y-1 text-center">
                     <div class="flex items-center justify-center">
-                        <i class="fa-solid fa-chart-simple text-xl" aria-hidden="true"></i>
+                        <ChartNoAxesColumn strokeWidth="5" color="#ffffff" />
                     </div>
-                    <div class="text-xs font-bold">
+                    <div class="text-xs font-bold text-white">
                         <span class="text-lg">Statistics</span>
                     </div>
                 </div>
@@ -100,7 +101,7 @@
                 class="mx-2 hover:text-[#6441a5]"
                 aria-label="{data.user.name} twitch channel"
             >
-                <i class="fa-brands fa-twitch"></i>
+                <Twitch strokeWidth="3" absoluteStrokeWidth={false}/>
             </a>
         </div>
         <hr class="divide-tertiary-100-900 border-t-2!" />
@@ -132,11 +133,11 @@
                                 {/snippet}
                             </Tooltip>
                             <button
-                                class="btn-icon-sm -my-1"
+                                class="btn-icon-sm -my-0.5"
                                 title="Update Emotes"
                                 onclick={handleUpdateClick}
-                                aria-label="Update Emotes for user"
-                                ><i class="fa-solid fa-rotate-right"></i>
+                                aria-label="Update Emotes for user">
+                                <RefreshCw size="16"/>
                             </button>
                         </td>
                     </tr>

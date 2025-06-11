@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Switch } from "@skeletonlabs/skeleton-svelte";
-    import Moon from "@lucide/svelte/icons/moon";
-    import Sun from "@lucide/svelte/icons/sun";
+    import { Moon, Sun } from '@lucide/svelte';
     let checked = $state(true);
 
     $effect(() => {
