@@ -1,22 +1,20 @@
 <script lang="ts">
-	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	import "../app.css";
-	import Header from "$lib/components/Header.svelte";
-	import { Toaster } from "@skeletonlabs/skeleton-svelte";
-	import { toaster } from "$lib/stores/toaster";
-	import { arrow, autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
-	interface Props {
-		children?: import("svelte").Snippet;
-	}
+    import "../app.css";
+    import Header from "$lib/components/Header.svelte";
+    import { Toaster } from "@skeletonlabs/skeleton-svelte";
+    import { toaster } from "$lib/stores/toaster";
 
-	let { children }: Props = $props();
+    interface Props {
+        children?: import("svelte").Snippet;
+    }
+
+    let {children}: Props = $props();
 </script>
 
 <Toaster {toaster}></Toaster>
-<AppShell>
-	{#snippet header()}
-		<Header />
-	{/snippet}
-
-	{@render children?.()}
-</AppShell>
+<div class="grid grid-rows-[auto_1fr_auto]">
+    <Header/>
+    <div class="container mx-auto grid grid-cols-1 xl:grid-cols-[200px_minmax(0px,_1fr)_200px]">
+        {@render children?.()}
+    </div>
+</div>

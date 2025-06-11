@@ -9,10 +9,11 @@
 /*
   Add your theme import for your theme: "my-style" here
 */
+@import "../my-style.css";
 
 @source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-mode=dark], [data-mode=dark] *));
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,

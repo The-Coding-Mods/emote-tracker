@@ -4,7 +4,7 @@
 	let checked = $state(false);
 
 	$effect(() => {
-		const mode = localStorage.getItem("mode") || "light";
+		const mode = localStorage.getItem("mode") || "dark";
 		checked = mode === "dark";
 	});
 
@@ -18,7 +18,7 @@
 
 <svelte:head>
 	<script>
-		const mode = localStorage.getItem("mode") || "light";
+		const mode = localStorage.getItem("mode") || "dark";
 		document.documentElement.setAttribute("data-mode", mode);
 	</script>
 </svelte:head>

@@ -1,6 +1,7 @@
 import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
-export const BACKEND_BASE_PATH = "/api";
+// export const BACKEND_BASE_PATH = "/api";
+export const BACKEND_BASE_PATH = "https://tracker.pepega.chat/api";
 
 if (!PUBLIC_BACKEND_URL) {
 	throw new Error("PUBLIC_BACKEND_URL is required");
