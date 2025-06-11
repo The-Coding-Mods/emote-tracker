@@ -88,8 +88,8 @@
 </div>
 
 <aside class="w-auto flex-none overflow-x-hidden overflow-y-auto">
-    <div class="card preset-filled-tertiary-200-800 m-2 hidden w-fit lg:block p-2">
-        <div class="card-header flex items-center text-xl p-2">
+    <div class="card preset-filled-tertiary-200-800 m-2 hidden w-fit p-2 lg:block">
+        <div class="card-header flex items-center p-2 text-xl">
             <img class="square mr-2 w-16 rounded-full" src={data.user.profilePicture} alt={data.user.name} />
             {capitalizeFirstLetter(data.user.name)}
             <a
